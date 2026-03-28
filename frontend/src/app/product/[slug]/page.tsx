@@ -1,0 +1,50 @@
+"use client";
+
+import { use } from "react";
+import { products } from "@/data/products";
+import { ImageGallery } from "@/components/product/ImageGallery";
+import { ProductInfo } from "@/components/product/ProductInfo";
+import { StyledWith } from "@/components/product/StyledWith";
+import Link from "next/link";
+
+export default function ProductPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = use(params);
+  const product = products.find((p) => p.slug === slug);
+
+  if (!product) {
+    return (
+      <main className="max-w-[1440px] mx-auto px-8 py-32 text-center">
+        <h1 className="text-4xl font-bold uppercase tracking-[0.3rem] text-[#2d3435] mb-8">
+          Product Not Found
+        </h1>
+        <Link
+          href="/collections"
+          className="inline-block bg-[#2d3435] text-[#faf7f6] px-12 py-5 uppercase tracking-[0.3rem] text-sm hover:bg-[#535252] transition-all"
+        >
+          Browse Collections
+        </Link>
+      </main>
+    );
+  }
+
+  const relatedProducts = products
+    .filter((p) => p.id !== product.id && p.category === product.category)
+    .slice(0, 3);
+
+  return (
+    <main className="max-w-[1440px] mx-auto px-8 py-12 md:py-20">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
+        <ImageGallery images={product.images} name={product.name} />
+        <ProductInfo product={product} />
+      </div>
+
+      {relatedProducts.length > 0 && (
+        <StyledWith products={relatedProducts} />
+      )}
+    </main>
+  );
+}
