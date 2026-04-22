@@ -9,7 +9,7 @@ export function Footer() {
       {/* Decorative subtle background overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-primary-container)_0%,_transparent_40%)] opacity-20 pointer-events-none" />
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-14 px-6 sm:px-10 md:px-16 max-w-[1440px] mx-auto relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-14 px-4 sm:px-8 md:px-16 max-w-[1440px] mx-auto relative z-10">
         {/* Brand */}
         <div className="flex flex-col items-start lg:pr-8">
           <div className="relative h-[65px] w-[170px] mb-6 sm:mb-8 -ml-2 transition-transform duration-500 hover:scale-105">
@@ -91,7 +91,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mt-16 sm:mt-24 px-6 sm:px-10 md:px-16 max-w-[1440px] mx-auto text-center border-t border-white/10 pt-8 sm:pt-10">
+      <div className="mt-16 sm:mt-24 px-4 sm:px-8 md:px-16 max-w-[1440px] mx-auto text-center border-t border-white/10 pt-8 sm:pt-10">
         <span className="font-sans text-[0.55rem] sm:text-[0.6rem] tracking-[0.25rem] uppercase text-white/50">
           &copy; {new Date().getFullYear()} MISUNI JEWELS. ALL RIGHTS RESERVED.
         </span>
