@@ -9,7 +9,7 @@ export async function BestsellersSection() {
   return (
     <section className="py-10 sm:py-16 bg-surface-container-low relative">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
         <AnimatedSection>
           <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 sm:mb-12 gap-6">
             <div>

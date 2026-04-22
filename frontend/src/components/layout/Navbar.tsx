@@ -90,7 +90,7 @@ export function Navbar() {
             : "bg-surface/95 backdrop-blur-md border-b border-primary/10 shadow-sm"
         )}
       >
-        <nav className="relative flex items-center justify-between w-full px-4 sm:px-8 md:px-16 max-w-[1440px] mx-auto h-[85px]">
+        <nav className="relative flex items-center justify-between w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28 h-[85px]">
           {/* Left — hamburger (mobile) / nav links (desktop) */}
           <div className="flex items-center relative z-10">
             <button

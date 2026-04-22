@@ -34,7 +34,7 @@ const gridItems = [
 export function CollectionsGrid() {
   return (
     <section className="py-10 sm:py-16 bg-surface w-full">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
+      <div className="w-full px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10">
         {gridItems.map((item, i) => (
           <AnimatedSection key={item.title} delay={i * 0.15}>
