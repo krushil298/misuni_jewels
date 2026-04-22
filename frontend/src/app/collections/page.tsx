@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { products } from "@/data/products";
+import { useEffect, useState, useMemo } from "react";
+import { getProducts } from "@/data/api";
+import { Product } from "@/types";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FilterSidebar } from "@/components/collections/FilterSidebar";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -15,6 +16,15 @@ export default function CollectionsPage() {
   const [sortBy, setSortBy] = useState("featured");
   const [currentPage, setCurrentPage] = useState(1);
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getProducts().then((data) => {
+      setProducts(data);
+      setLoading(false);
+    });
+  }, []);
 
   const filteredProducts = useMemo(() => {
     let filtered = [...products];
@@ -123,16 +133,22 @@ export default function CollectionsPage() {
 
         {/* Product grid */}
         <section className="flex-grow">
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-8 gap-y-10 sm:gap-y-16">
-            {paginatedProducts.map((product, i) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                variant="collection"
-                index={i}
-              />
-            ))}
-          </div>
+          {loading ? (
+            <div className="flex justify-center py-24">
+              <span className="material-symbols-outlined max-w-[200px] animate-spin text-xl text-[#adb3b4]">autorenew</span>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 sm:gap-x-8 gap-y-10 sm:gap-y-16">
+              {paginatedProducts.map((product, i) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  variant="collection"
+                  index={i}
+                />
+              ))}
+            </div>
+          )}
 
           {filteredProducts.length === 0 && (
             <div className="text-center py-24">
