@@ -21,14 +21,7 @@ export async function BestsellersSection() {
                 Bestsellers
               </h2>
             </div>
-            <div className="hidden md:flex gap-3">
-              <button className="p-4 rounded-full border border-primary/20 text-primary hover:bg-primary hover:text-white hover:border-primary hover:scale-105 transition-all duration-300 shadow-sm">
-                <span className="material-symbols-outlined text-lg leading-none">chevron_left</span>
-              </button>
-              <button className="p-4 rounded-full border border-primary/20 text-primary hover:bg-primary hover:text-white hover:border-primary hover:scale-105 transition-all duration-300 shadow-sm">
-                <span className="material-symbols-outlined text-lg leading-none">chevron_right</span>
-              </button>
-            </div>
+
           </div>
         </AnimatedSection>
 
