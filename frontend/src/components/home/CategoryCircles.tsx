@@ -30,7 +30,7 @@ const categories = [
   {
     name: "Eternity Bands",
     slug: "eternity-bands",
-    image: "https://images.unsplash.com/photo-1573408301185-9519f94bf84b?w=300&h=300&fit=crop&crop=center",
+    image: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=300&h=300&fit=crop&crop=center",
   },
 ];
 
