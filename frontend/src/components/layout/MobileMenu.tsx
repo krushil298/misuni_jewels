@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const menuLinks = [
@@ -38,14 +39,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           >
             {/* Header */}
             <div className="flex justify-between items-center px-6 py-5 border-b border-white/10">
-              <span className="text-lg font-black tracking-[0.3rem] text-white uppercase">
-                MISUNI
-              </span>
+              <div className="relative h-[60px] w-[150px] -ml-2">
+                <Image src="/logo-white.png" alt="Misuni Jewels" fill className="object-contain" />
+              </div>
               <button
                 onClick={onClose}
                 className="text-white/70 hover:text-white transition-colors"
               >
-                <span className="material-symbols-outlined text-[22px]">close</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
               </button>
             </div>
 
