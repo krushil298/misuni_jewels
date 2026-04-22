@@ -130,8 +130,8 @@ export function Navbar() {
           </div>
 
           {/* Center — logo */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0">
-            <Link href="/" className="relative block h-[45px] w-[140px] sm:h-[65px] sm:w-[190px] flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[55%] z-0">
+            <Link href="/" className="relative block h-[55px] w-[165px] sm:h-[78px] sm:w-[220px] flex items-center justify-center transform transition-transform duration-500 hover:scale-105">
               {/* White logo for transparent/hero state */}
               <Image
                 src="/logo-white.png"
