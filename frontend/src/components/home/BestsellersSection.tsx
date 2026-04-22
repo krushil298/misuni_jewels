@@ -7,11 +7,11 @@ export async function BestsellersSection() {
   const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4);
 
   return (
-    <section className="py-20 sm:py-32 bg-surface-container-low relative">
+    <section className="py-10 sm:py-16 bg-surface-container-low relative">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       <div className="max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
         <AnimatedSection>
-          <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 sm:mb-20 gap-6">
+          <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-8 sm:mb-12 gap-6">
             <div>
               <span className="text-[0.6rem] sm:text-[0.65rem] tracking-[0.3rem] sm:tracking-[0.4rem] font-medium uppercase text-primary mb-3 sm:mb-4 block flex items-center gap-3">
                 <span className="w-8 h-px bg-primary" />

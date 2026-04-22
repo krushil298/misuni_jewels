@@ -11,18 +11,19 @@ const categories = [
   { name: "Earrings", slug: "earrings", image: collections[5].image },
   { name: "Bracelets", slug: "bracelets", image: collections[2].image },
   { name: "Bangles", slug: "bangles", image: collections[6].image },
+  { name: "Pendants", slug: "pendants", image: collections[3].image },
 ];
 
 export function CategoryCircles() {
   return (
-    <section className="py-16 sm:py-28 bg-surface max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
+    <section className="py-8 sm:py-14 bg-surface max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
       <AnimatedSection>
-        <div className="flex flex-nowrap md:justify-center overflow-x-auto gap-6 sm:gap-14 md:gap-24 hide-scrollbar pb-8 pt-4 px-2">
+        <div className="flex flex-nowrap justify-start overflow-x-auto snap-x snap-mandatory gap-6 sm:gap-14 md:gap-20 hide-scrollbar pb-8 pt-4 px-2">
           {categories.map((cat, i) => (
             <Link
               key={cat.slug}
               href={`/collections?category=${cat.slug}`}
-              className="flex flex-col items-center gap-6 min-w-[90px] sm:min-w-[130px] group cursor-pointer"
+              className="flex flex-col items-center gap-6 min-w-[90px] sm:min-w-[130px] group cursor-pointer snap-start"
             >
               <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full transition-transform duration-700 ease-out group-hover:scale-110 flex items-center justify-center">
                 {/* Decorative outer ring */}

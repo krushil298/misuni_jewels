@@ -6,20 +6,20 @@
 
   /* Brand sage green palette derived from the Misuni logo */
   --color-surface-tint: #798d8c;
-  --color-surface-bright: #faf9f7;
-  --color-surface: #faf9f7;
-  --color-surface-dim: #d2d8d5;
+  --color-surface-bright: #d2dddc;
+  --color-surface: #d2dddc;
+  --color-surface-dim: #b8c8c7;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f4f3f0;
-  --color-surface-container: #eeedea;
-  --color-surface-container-high: #e6e5e2;
-  --color-surface-container-highest: #deddd9;
-  --color-surface-variant: #deddd9;
+  --color-surface-container-low: #e8f0ef;
+  --color-surface-container: #dce7e6;
+  --color-surface-container-high: #c8d4d3;
+  --color-surface-container-highest: #bac6c5;
+  --color-surface-variant: #bac6c5;
 
   --color-on-surface: #1a2421;
   --color-on-surface-variant: #4a5553;
   --color-on-background: #1a2421;
-  --color-background: #faf9f7;
+  --color-background: #d2dddc;
 
   --color-primary: #798d8c;
   --color-primary-dim: #667a79;
@@ -76,7 +76,7 @@
 @layer base {
   body {
     font-family: "Inter", sans-serif;
-    background-color: #faf9f7;
+    background-color: #d2dddc;
     color: #1a2421;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -94,7 +94,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #faf9f7;
+    background: #d2dddc;
   }
 
   ::-webkit-scrollbar-thumb {
