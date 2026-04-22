@@ -33,25 +33,26 @@ const gridItems = [
 
 export function CollectionsGrid() {
   return (
-    <section className="py-16 sm:py-24 bg-[#faf9f7] max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8">
+    <section className="py-20 sm:py-32 bg-surface max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-10">
         {gridItems.map((item, i) => (
           <AnimatedSection key={item.title} delay={i * 0.15}>
             <Link
               href={item.href}
-              className="relative h-[380px] sm:h-[500px] md:h-[700px] overflow-hidden group cursor-pointer block"
+              className="relative h-[420px] sm:h-[550px] md:h-[750px] overflow-hidden group cursor-pointer block rounded-sm shadow-sm hover:shadow-xl transition-all duration-700"
             >
               <Image
                 src={item.image}
                 alt={item.alt}
                 fill
-                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                 sizes="(max-width: 640px) 100vw, 33vw"
               />
-              <div className="absolute inset-0 bg-black/10 transition-opacity group-hover:opacity-20" />
-              <div className="absolute bottom-8 sm:bottom-12 left-0 right-0 flex justify-center">
-                <span className="bg-white text-[#1a2421] px-7 sm:px-10 py-3.5 sm:py-5 uppercase tracking-[0.2rem] sm:tracking-[0.25rem] text-[0.65rem] sm:text-[0.7rem] font-bold group-hover:bg-[#1a2421] group-hover:text-white transition-all duration-300">
-                  {item.title}
+              <div className="absolute inset-0 bg-primary/0 transition-all duration-700 group-hover:bg-primary/20 mix-blend-multiply" />
+              <div className="absolute bottom-8 sm:bottom-12 left-0 right-0 flex justify-center z-10">
+                <span className="relative overflow-hidden bg-white/95 backdrop-blur-sm text-primary px-8 sm:px-12 py-4 sm:py-5 uppercase tracking-[0.2rem] sm:tracking-[0.25rem] text-[0.65rem] sm:text-[0.7rem] font-bold group-hover:text-white transition-colors duration-500 shadow-lg">
+                  <span className="relative z-10">{item.title}</span>
+                  <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out" />
                 </span>
               </div>
             </Link>

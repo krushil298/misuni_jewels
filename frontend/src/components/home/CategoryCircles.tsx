@@ -15,25 +15,31 @@ const categories = [
 
 export function CategoryCircles() {
   return (
-    <section className="py-12 sm:py-24 bg-[#faf9f7] max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
+    <section className="py-16 sm:py-28 bg-surface max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
       <AnimatedSection>
-        <div className="flex flex-nowrap md:justify-center overflow-x-auto gap-5 sm:gap-12 md:gap-20 hide-scrollbar pb-4">
-          {categories.map((cat) => (
+        <div className="flex flex-nowrap md:justify-center overflow-x-auto gap-6 sm:gap-14 md:gap-24 hide-scrollbar pb-8 pt-4 px-2">
+          {categories.map((cat, i) => (
             <Link
               key={cat.slug}
               href={`/collections?category=${cat.slug}`}
-              className="flex flex-col items-center gap-4 min-w-[80px] sm:min-w-[120px] group cursor-pointer"
+              className="flex flex-col items-center gap-6 min-w-[90px] sm:min-w-[130px] group cursor-pointer"
             >
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border border-[#2d3435]/10 p-1 bg-white transition-transform duration-500 group-hover:scale-105 overflow-hidden">
-                <Image
-                  src={cat.image}
-                  alt={cat.name}
-                  width={128}
-                  height={128}
-                  className="w-full h-full object-cover rounded-full"
-                />
+              <div className="relative w-28 h-28 md:w-36 md:h-36 rounded-full transition-transform duration-700 ease-out group-hover:scale-110 flex items-center justify-center">
+                {/* Decorative outer ring */}
+                <div className="absolute inset-0 rounded-full border border-primary/20 scale-110 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700 ease-out" />
+                <div className="absolute inset-0 rounded-full border border-primary/10 group-hover:border-primary/40 transition-colors duration-500 z-10 pointer-events-none" />
+                
+                <div className="w-full h-full rounded-full overflow-hidden bg-surface-container shadow-sm group-hover:shadow-lg transition-shadow duration-500">
+                  <Image
+                    src={cat.image}
+                    alt={cat.name}
+                    width={144}
+                    height={144}
+                    className="w-full h-full object-cover rounded-full scale-100 group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                  />
+                </div>
               </div>
-              <span className="text-[0.6875rem] tracking-[0.2rem] uppercase font-semibold text-[#2d3435] whitespace-nowrap">
+              <span className="text-[0.6875rem] tracking-[0.25rem] uppercase font-medium text-on-surface/80 group-hover:text-primary transition-colors duration-300 whitespace-nowrap">
                 {cat.name}
               </span>
             </Link>

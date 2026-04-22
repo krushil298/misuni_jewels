@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 const menuLinks = [
   { href: "/", label: "Home" },
   { href: "/collections", label: "Collections" },
-  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/cart", label: "Cart" },
   { href: "/wishlist", label: "Wishlist" },

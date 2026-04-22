@@ -33,7 +33,7 @@ export function EditorialSection() {
               atelier events.
             </p>
             <Link
-              href="/about"
+              href="/contact"
               className="border-b-2 border-[#2d3435] py-2 uppercase tracking-[0.3rem] text-sm font-bold hover:opacity-60 transition-opacity inline-block"
             >
               Join the Network
