@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 
-const metalOptions = ["Gold", "Silver", "Rose Gold", "White Gold", "Platinum"];
+const metalOptions = ["Yellow Gold", "White Gold", "Rose Gold", "Platinum"];
 const categoryOptions = [
-  "chains",
-  "bracelets",
-  "pendants",
+  "necklaces",
   "rings",
   "earrings",
-  "watches",
+  "bracelets",
+  "bangles",
+  "pendants",
 ];
 
 interface FilterSidebarProps {
@@ -62,9 +62,9 @@ export function FilterSidebar({
             <span className="font-['Inter'] text-[0.6875rem] tracking-widest uppercase">
               Category
             </span>
-            <span className="material-symbols-outlined text-sm">
-              {categoryOpen ? "expand_less" : "expand_more"}
-            </span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              {categoryOpen ? <polyline points="18 15 12 9 6 15"/> : <polyline points="6 9 12 15 18 9"/>}
+            </svg>
           </button>
           {categoryOpen && (
             <div className="mt-2 space-y-2 pl-2">
@@ -102,9 +102,9 @@ export function FilterSidebar({
             <span className="font-['Inter'] text-[0.6875rem] tracking-widest uppercase">
               Metal Type
             </span>
-            <span className="material-symbols-outlined text-sm">
-              {metalOpen ? "expand_less" : "expand_more"}
-            </span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              {metalOpen ? <polyline points="18 15 12 9 6 15"/> : <polyline points="6 9 12 15 18 9"/>}
+            </svg>
           </button>
           {metalOpen && (
             <div className="mt-2 space-y-2 pl-2">

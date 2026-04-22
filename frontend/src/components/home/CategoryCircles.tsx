@@ -6,16 +6,16 @@ import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { collections } from "@/data/collections";
 
 const categories = [
-  { name: "Best Sellers", slug: "best-sellers", image: collections[0].image },
-  { name: "Chains", slug: "chains", image: collections[1].image },
+  { name: "Necklaces", slug: "necklaces", image: collections[1].image },
+  { name: "Rings", slug: "rings", image: collections[4].image },
+  { name: "Earrings", slug: "earrings", image: collections[5].image },
   { name: "Bracelets", slug: "bracelets", image: collections[2].image },
-  { name: "Pendants", slug: "pendants", image: collections[3].image },
-  { name: "Watches", slug: "watches", image: collections[5].image },
+  { name: "Bangles", slug: "bangles", image: collections[6].image },
 ];
 
 export function CategoryCircles() {
   return (
-    <section className="py-12 sm:py-24 bg-[#f9f9f9] max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
+    <section className="py-12 sm:py-24 bg-[#faf9f7] max-w-[1440px] mx-auto px-4 sm:px-8 md:px-16">
       <AnimatedSection>
         <div className="flex flex-nowrap md:justify-center overflow-x-auto gap-5 sm:gap-12 md:gap-20 hide-scrollbar pb-4">
           {categories.map((cat) => (
