@@ -1,10 +1,9 @@
-"use client";
-
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
 import { ProductCard } from "@/components/product/ProductCard";
-import { products } from "@/data/products";
+import { getProducts } from "@/data/api";
 
-export function BestsellersSection() {
+export async function BestsellersSection() {
+  const products = await getProducts();
   const bestsellers = products.filter((p) => p.isBestseller).slice(0, 4);
 
   return (
