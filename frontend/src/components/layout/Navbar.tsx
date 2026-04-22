@@ -95,7 +95,7 @@ export function Navbar() {
           <div className="flex items-center relative z-10">
             <button
               className={cn(
-                "md:hidden transition-all duration-300 hover:opacity-60 p-1",
+                "md:hidden transition-all duration-500 hover:opacity-60 p-1",
                 isTransparent ? "text-white hover:text-primary-container" : "text-on-surface hover:text-primary"
               )}
               onClick={() => setMobileMenuOpen(true)}
@@ -109,7 +109,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "font-sans uppercase tracking-[0.15rem] lg:tracking-[0.2rem] text-[0.65rem] lg:text-[0.7rem] font-medium transition-all duration-300 relative group",
+                    "font-sans uppercase tracking-[0.15rem] lg:tracking-[0.2rem] text-[0.65rem] lg:text-[0.7rem] font-medium transition-all duration-500 relative group",
                     isTransparent
                       ? pathname === link.href
                         ? "text-white"
@@ -121,7 +121,7 @@ export function Navbar() {
                 >
                   {link.label}
                   <span className={cn(
-                    "absolute -bottom-1.5 left-0 h-[1px] bg-current transition-all duration-300",
+                    "absolute -bottom-1.5 left-0 h-[1px] bg-current transition-all duration-500",
                     pathname === link.href ? "w-full" : "w-0 group-hover:w-full"
                   )} />
                 </Link>
@@ -200,7 +200,7 @@ export function Navbar() {
             <Link
               href="/wishlist"
               className={cn(
-                "transition-all duration-300 hidden md:block hover:scale-110",
+                "transition-all duration-500 hidden md:block hover:scale-110",
                 isTransparent ? "text-white hover:text-primary-container" : "text-on-surface hover:text-primary"
               )}
             >
@@ -213,7 +213,7 @@ export function Navbar() {
             <button
               onClick={() => setSearchOpen(true)}
               className={cn(
-                "lg:hidden transition-all duration-300 hover:scale-110",
+                "lg:hidden transition-all duration-500 hover:scale-110",
                 isTransparent ? "text-white hover:text-primary-container" : "text-on-surface hover:text-primary"
               )}
               aria-label="Search"
@@ -227,7 +227,7 @@ export function Navbar() {
                 onClick={() => setProfileOpen((prev) => !prev)}
                 aria-label="Profile menu"
                 className={cn(
-                  "flex items-center justify-center transition-all duration-300 hover:scale-110",
+                  "flex items-center justify-center transition-all duration-500 hover:scale-110",
                   isTransparent ? "text-white hover:text-primary-container" : "text-on-surface hover:text-primary"
                 )}
               >
@@ -309,7 +309,7 @@ export function Navbar() {
             <Link
               href="/cart"
               className={cn(
-                "transition-all duration-300 hover:scale-110 relative hidden md:block",
+                "transition-all duration-500 hover:scale-110 relative hidden md:block",
                 isTransparent ? "text-white hover:text-primary-container" : "text-on-surface hover:text-primary"
               )}
               aria-label="Cart"
