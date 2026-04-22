@@ -1,53 +1,55 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-sans: "Inter", sans-serif;
+  --font-sans: var(--font-montserrat), sans-serif;
+  --font-serif: var(--font-cormorant), serif;
 
-  --color-surface-tint: #5f5e5e;
-  --color-surface-bright: #f9f9f9;
-  --color-surface: #f9f9f9;
-  --color-surface-dim: #d4dbdd;
+  /* Brand sage green palette derived from the Misuni logo */
+  --color-surface-tint: #798d8c;
+  --color-surface-bright: #faf9f7;
+  --color-surface: #faf9f7;
+  --color-surface-dim: #d2d8d5;
   --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #f2f4f4;
-  --color-surface-container: #ebeeef;
-  --color-surface-container-high: #e4e9ea;
-  --color-surface-container-highest: #dde4e5;
-  --color-surface-variant: #dde4e5;
+  --color-surface-container-low: #f4f3f0;
+  --color-surface-container: #eeedea;
+  --color-surface-container-high: #e6e5e2;
+  --color-surface-container-highest: #deddd9;
+  --color-surface-variant: #deddd9;
 
-  --color-on-surface: #2d3435;
-  --color-on-surface-variant: #5a6061;
-  --color-on-background: #2d3435;
-  --color-background: #f9f9f9;
+  --color-on-surface: #1a2421;
+  --color-on-surface-variant: #4a5553;
+  --color-on-background: #1a2421;
+  --color-background: #faf9f7;
 
-  --color-primary: #5f5e5e;
-  --color-primary-dim: #535252;
-  --color-primary-container: #e5e2e1;
-  --color-primary-fixed: #e5e2e1;
-  --color-primary-fixed-dim: #d6d4d3;
-  --color-on-primary: #faf7f6;
-  --color-on-primary-container: #525151;
-  --color-on-primary-fixed: #403f3f;
-  --color-on-primary-fixed-variant: #5c5b5b;
+  --color-primary: #798d8c;
+  --color-primary-dim: #667a79;
+  --color-primary-container: #dce8e7;
+  --color-primary-fixed: #dce8e7;
+  --color-primary-fixed-dim: #c8d6d5;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #4a5e5d;
+  --color-on-primary-fixed: #3a4e4d;
+  --color-on-primary-fixed-variant: #5e7271;
 
-  --color-secondary: #516170;
-  --color-secondary-dim: #455564;
-  --color-secondary-container: #d4e4f6;
-  --color-secondary-fixed: #d4e4f6;
-  --color-secondary-fixed-dim: #c6d6e8;
-  --color-on-secondary: #f6f9ff;
-  --color-on-secondary-container: #445362;
-  --color-on-secondary-fixed: #31414f;
-  --color-on-secondary-fixed-variant: #4d5d6c;
+  --color-secondary: #8b7355;
+  --color-secondary-dim: #7a6449;
+  --color-secondary-container: #f0e4d4;
+  --color-secondary-fixed: #f0e4d4;
+  --color-secondary-fixed-dim: #e2d4c2;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #6d5a40;
+  --color-on-secondary-fixed: #5a4832;
+  --color-on-secondary-fixed-variant: #7e6a50;
 
-  --color-tertiary: #5e5f60;
-  --color-tertiary-dim: #525354;
-  --color-tertiary-container: #f3f3f3;
-  --color-tertiary-fixed: #f3f3f3;
-  --color-tertiary-fixed-dim: #e5e5e5;
-  --color-on-tertiary: #f9f9f9;
-  --color-on-tertiary-container: #5a5c5c;
-  --color-on-tertiary-fixed: #484a4a;
-  --color-on-tertiary-fixed-variant: #656667;
+  --color-tertiary: #b8956a;
+  --color-tertiary-dim: #a68358;
+  --color-tertiary-container: #f5ead8;
+  --color-tertiary-fixed: #f5ead8;
+  --color-tertiary-fixed-dim: #e8dcc8;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #9a7d58;
+  --color-on-tertiary-fixed: #7a6040;
+  --color-on-tertiary-fixed-variant: #a8885e;
 
   --color-error: #9f403d;
   --color-error-dim: #4e0309;
@@ -55,10 +57,10 @@
   --color-on-error: #fff7f6;
   --color-on-error-container: #752121;
 
-  --color-outline: #757c7d;
-  --color-outline-variant: #adb3b4;
+  --color-outline: #6e7b79;
+  --color-outline-variant: #a8b3b1;
 
-  --color-inverse-surface: #0c0f0f;
+  --color-inverse-surface: #0e1412;
   --color-inverse-primary: #ffffff;
   --color-inverse-on-surface: #9c9d9d;
 
@@ -74,15 +76,15 @@
 @layer base {
   body {
     font-family: "Inter", sans-serif;
-    background-color: #f9f9f9;
-    color: #2d3435;
+    background-color: #faf9f7;
+    color: #1a2421;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background-color: #2d3435;
+    background-color: #798d8c;
     color: #ffffff;
   }
 
@@ -92,11 +94,11 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #f9f9f9;
+    background: #faf9f7;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #adb3b4;
+    background: #a8b3b1;
   }
 }
 
