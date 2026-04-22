@@ -1,19 +1,16 @@
-"use client";
-
-import { use } from "react";
-import { products } from "@/data/products";
+import { getProductBySlug, getProducts } from "@/data/api";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { StyledWith } from "@/components/product/StyledWith";
 import Link from "next/link";
 
-export default function ProductPage({
+export default async function ProductPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = use(params);
-  const product = products.find((p) => p.slug === slug);
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return (
@@ -31,7 +28,8 @@ export default function ProductPage({
     );
   }
 
-  const relatedProducts = products
+  const allProducts = await getProducts();
+  const relatedProducts = allProducts
     .filter((p) => p.id !== product.id && p.category === product.category)
     .slice(0, 3);
 
