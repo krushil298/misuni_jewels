@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/types";
@@ -23,14 +22,16 @@ const metalColors: Record<string, string> = {
 export function ProductInfo({ product }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes?.[0] || "");
   const [selectedMetal, setSelectedMetal] = useState(product.metal);
-  const [quantity, setQuantity] = useState(1);
   const [specsOpen, setSpecsOpen] = useState(true);
-  const { addItem } = useCart();
   const { isWishlisted, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlist();
   const wishlisted = isWishlisted(product.id);
 
-  const handleAddToCart = () => {
-    addItem(product, quantity, selectedSize, selectedMetal);
+  const handleWhatsApp = () => {
+    // Replace with the actual WhatsApp number of the owner (include country code, without + or 00)
+    const phoneNumber = "919999999999"; 
+    const message = `Hi Misuni Jewels, I'm interested in the ${product.name} (${selectedMetal}${selectedSize ? `, Size: ${selectedSize}` : ""}). Could you please share more details?`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const handleWishlistToggle = () => {
@@ -115,37 +116,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
           </div>
         )}
 
-        {/* Quantity */}
-        <div className="space-y-4">
-          <label className="text-[0.6875rem] tracking-widest uppercase font-bold text-[#2d3435]">
-            Quantity
-          </label>
-          <div className="flex items-center border border-[#adb3b4]/30 w-fit">
-            <button
-              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-              className="px-4 py-3 hover:bg-surface-container-low transition-colors"
-            >
-              <span className="material-symbols-outlined text-sm">remove</span>
-            </button>
-            <span className="px-6 py-3 text-[0.75rem] tracking-widest font-medium min-w-[60px] text-center">
-              {quantity}
-            </span>
-            <button
-              onClick={() => setQuantity((q) => q + 1)}
-              className="px-4 py-3 hover:bg-surface-container-low transition-colors"
-            >
-              <span className="material-symbols-outlined text-sm">add</span>
-            </button>
-          </div>
-        </div>
-
         {/* CTAs */}
         <div className="space-y-4 pt-6">
           <button
-            onClick={handleAddToCart}
-            className="w-full bg-[#2d3435] text-[#faf7f6] py-5 text-[0.75rem] font-bold tracking-[0.25rem] uppercase hover:bg-[#535252] transition-all active:scale-[0.98]"
+            onClick={handleWhatsApp}
+            className="w-full bg-[#25D366] text-white py-5 text-[0.75rem] font-bold tracking-[0.25rem] uppercase hover:bg-[#20bd5a] transition-all active:scale-[0.98] flex justify-center items-center gap-3"
           >
-            Add to Cart
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="css-i6dzq1"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            Enquire via WhatsApp
           </button>
           <button
             onClick={handleWishlistToggle}
