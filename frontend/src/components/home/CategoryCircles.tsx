@@ -114,7 +114,7 @@ export function CategoryCircles() {
         {/* Scrollable track — hide native scrollbar */}
         <div
           ref={trackRef}
-          className="flex overflow-x-auto xl:justify-center hide-scrollbar gap-6 sm:gap-10 py-4 px-2 scroll-smooth"
+          className="flex overflow-x-auto xl:justify-center hide-scrollbar gap-3 sm:gap-10 py-4 px-2 scroll-smooth"
           style={{ scrollBehavior: "auto" }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
@@ -130,22 +130,22 @@ export function CategoryCircles() {
               href={`/collections?category=${cat.slug}`}
               onClick={onLinkClick}
               draggable={false}
-              className="flex flex-col items-center gap-4 min-w-[100px] sm:min-w-[125px] group cursor-pointer shrink-0"
+              className="flex flex-col items-center gap-3 sm:gap-4 min-w-[70px] sm:min-w-[125px] group cursor-pointer shrink-0"
             >
               {/* Thicker grey border and padding as per the design */}
-              <div className="relative w-[100px] h-[100px] sm:w-[125px] sm:h-[125px] rounded-full p-[5px] sm:p-[6px] bg-gray-200 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
+              <div className="relative w-[70px] h-[70px] sm:w-[125px] sm:h-[125px] rounded-full p-[3px] sm:p-[6px] bg-gray-200 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
                 <div className="w-full h-full rounded-full overflow-hidden bg-white relative">
                   <Image
                     src={cat.image}
                     alt={cat.name}
                     fill
-                    sizes="(max-width: 640px) 100px, 125px"
+                    sizes="(max-width: 640px) 70px, 125px"
                     draggable={false}
                     className="object-cover pointer-events-none"
                   />
                 </div>
               </div>
-              <span className="text-[0.65rem] sm:text-[0.8rem] font-extrabold uppercase tracking-widest text-black whitespace-nowrap text-center">
+              <span className="text-[0.55rem] sm:text-[0.8rem] font-extrabold uppercase tracking-widest text-black whitespace-nowrap text-center">
                 {cat.name}
               </span>
             </Link>
