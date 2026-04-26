@@ -34,41 +34,43 @@ const categories = [
   },
 ];
 
+const loopedCategories = [...categories, ...categories, ...categories];
+
 export function CategoryCircles() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [orderedCategories, setOrderedCategories] = useState(categories);
-  const [isAnimating, setIsAnimating] = useState(false);
+  const [itemWidth, setItemWidth] = useState(0);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      if (trackRef.current && trackRef.current.children.length > 0) {
+        const firstChild = trackRef.current.children[0] as HTMLElement;
+        const gap = parseInt(window.getComputedStyle(trackRef.current).gap || '0');
+        setItemWidth(firstChild.offsetWidth + gap);
+      }
+    };
+    updateWidth();
+    // Use a small timeout to ensure DOM is fully rendered before measuring
+    setTimeout(updateWidth, 100);
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
 
   const scrollRight = () => {
-    if (isAnimating || !trackRef.current) return;
-    setIsAnimating(true);
+    setIsTransitioning(true);
+    setCurrentIndex(prev => prev + 1);
+  };
 
-    const track = trackRef.current;
-    const firstChild = track.children[0] as HTMLElement;
-    const gap = parseInt(window.getComputedStyle(track).gap || '0');
-    const itemWidth = firstChild.offsetWidth + gap;
-    
-    // Smooth scroll by translating left
-    track.style.transition = 'transform 300ms ease-in-out';
-    track.style.transform = `translateX(-${itemWidth}px)`;
-
-    // After animation, rotate array and instantly reset transform
-    setTimeout(() => {
-      track.style.transition = 'none';
-      track.style.transform = 'translateX(0)';
-
-      setOrderedCategories(prev => {
-        const next = [...prev];
-        const first = next.shift();
-        if (first) next.push(first);
-        return next;
-      });
-
-      // Small delay to unlock animation flag after React renders
-      requestAnimationFrame(() => {
-        setIsAnimating(false);
-      });
-    }, 300);
+  const handleTransitionEnd = () => {
+    // Once we've scrolled exactly one full original set (10 items),
+    // instantly and invisibly reset back to the beginning of the identical items.
+    if (currentIndex >= categories.length) {
+      setIsTransitioning(false);
+      setCurrentIndex(currentIndex - categories.length);
+      // Force a reflow so the 'transition: none' takes effect instantly before the next frame
+      if (trackRef.current) void trackRef.current.offsetWidth;
+    }
   };
 
   return (
@@ -80,9 +82,14 @@ export function CategoryCircles() {
           <div className="w-full max-w-[800px] mx-auto overflow-hidden">
           <div
             ref={trackRef}
+            onTransitionEnd={handleTransitionEnd}
             className="flex gap-4 sm:gap-8 py-4 px-2 justify-start"
+            style={{ 
+              transform: `translateX(-${currentIndex * itemWidth}px)`,
+              transition: isTransitioning ? 'transform 300ms ease-in-out' : 'none'
+            }}
           >
-          {orderedCategories.map((cat, i) => (
+          {loopedCategories.map((cat, i) => (
             <Link
               key={`${cat.slug}-${i}`}
               href={`/collections?category=${cat.slug}`}
