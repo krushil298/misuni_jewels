@@ -61,11 +61,12 @@ export function CategoryCircles() {
   };
 
   return (
-    <section className="py-12 sm:py-16 bg-white overflow-hidden select-none relative group/section">
+    <section className="py-6 sm:py-8 bg-white overflow-hidden select-none relative group/section">
       <div className="relative max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
         
-        {/* Scrollable track — hidden scrollbar, no drag */}
-        <div className="w-full max-w-[800px] mx-auto overflow-hidden">
+        <div className="relative w-full max-w-[900px] mx-auto">
+          {/* Scrollable track — hidden scrollbar, no drag */}
+          <div className="w-full max-w-[800px] mx-auto overflow-hidden">
           <div
             ref={trackRef}
             className="flex overflow-x-hidden hide-scrollbar gap-4 sm:gap-8 py-4 px-2 scroll-smooth justify-start"
@@ -97,18 +98,19 @@ export function CategoryCircles() {
             </Link>
           ))}
           </div>
-        </div>
+          </div>
 
-        {/* Right Arrow Button */}
-        <button
-          onClick={scrollRight}
-          className="absolute right-4 sm:right-8 lg:right-12 top-[45%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.1)] border border-gray-100 flex items-center justify-center text-black hover:bg-gray-50 transition-colors z-20 opacity-0 group-hover/section:opacity-100"
-          aria-label="Scroll right"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
+          {/* Right Arrow Button */}
+          <button
+            onClick={scrollRight}
+            className="absolute -right-2 sm:-right-4 lg:right-0 top-[45%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.1)] border border-gray-100 flex items-center justify-center text-black hover:bg-gray-50 transition-colors z-20 opacity-0 group-hover/section:opacity-100"
+            aria-label="Scroll right"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
       </div>
     </section>
   );
