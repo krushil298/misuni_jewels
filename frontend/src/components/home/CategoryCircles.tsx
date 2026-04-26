@@ -95,6 +95,7 @@ const loopedCategories = [...categories, ...categories, ...categories];
               </span>
             </Link>
           ))}
+          </div>
         </div>
 
         {/* Right Arrow Button */}
