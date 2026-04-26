@@ -34,30 +34,41 @@ const categories = [
   },
 ];
 
-const loopedCategories = [...categories, ...categories, ...categories];
-
 export function CategoryCircles() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const [orderedCategories, setOrderedCategories] = useState(categories);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const scrollRight = () => {
-    if (trackRef.current && trackRef.current.children.length > 0) {
-      const track = trackRef.current;
-      const firstChild = track.children[0] as HTMLElement;
-      const gap = parseInt(window.getComputedStyle(track).gap || '0');
-      const itemWidth = firstChild.offsetWidth + gap;
-      
-      // Smooth scroll by one item
-      track.scrollBy({ left: itemWidth, behavior: "smooth" });
+    if (isAnimating || !trackRef.current) return;
+    setIsAnimating(true);
 
-      // After the smooth scroll animation completes, check for loop boundary
-      setTimeout(() => {
-        const oneThird = track.scrollWidth / 3;
-        // If we've scrolled past the first set, instantly jump back
-        if (track.scrollLeft >= oneThird) {
-          track.scrollLeft -= oneThird;
-        }
-      }, 400); // 400ms is enough time for native smooth scroll to finish
-    }
+    const track = trackRef.current;
+    const firstChild = track.children[0] as HTMLElement;
+    const gap = parseInt(window.getComputedStyle(track).gap || '0');
+    const itemWidth = firstChild.offsetWidth + gap;
+    
+    // Smooth scroll by translating left
+    track.style.transition = 'transform 300ms ease-in-out';
+    track.style.transform = `translateX(-${itemWidth}px)`;
+
+    // After animation, rotate array and instantly reset transform
+    setTimeout(() => {
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(0)';
+
+      setOrderedCategories(prev => {
+        const next = [...prev];
+        const first = next.shift();
+        if (first) next.push(first);
+        return next;
+      });
+
+      // Small delay to unlock animation flag after React renders
+      requestAnimationFrame(() => {
+        setIsAnimating(false);
+      });
+    }, 300);
   };
 
   return (
@@ -69,10 +80,9 @@ export function CategoryCircles() {
           <div className="w-full max-w-[800px] mx-auto overflow-hidden">
           <div
             ref={trackRef}
-            className="flex overflow-x-hidden hide-scrollbar gap-4 sm:gap-8 py-4 px-2 scroll-smooth justify-start"
-            style={{ scrollBehavior: "smooth" }}
+            className="flex gap-4 sm:gap-8 py-4 px-2 justify-start"
           >
-          {loopedCategories.map((cat, i) => (
+          {orderedCategories.map((cat, i) => (
             <Link
               key={`${cat.slug}-${i}`}
               href={`/collections?category=${cat.slug}`}
