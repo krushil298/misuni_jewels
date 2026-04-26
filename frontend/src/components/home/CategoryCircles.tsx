@@ -40,14 +40,20 @@ export function CategoryCircles() {
   const trackRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
-    if (trackRef.current) {
-      trackRef.current.scrollBy({ left: -(trackRef.current.clientWidth / 2), behavior: "smooth" });
+    if (trackRef.current && trackRef.current.children.length > 0) {
+      const firstChild = trackRef.current.children[0] as HTMLElement;
+      const gap = parseInt(window.getComputedStyle(trackRef.current).gap || '0');
+      const itemWidth = firstChild.offsetWidth + gap;
+      trackRef.current.scrollBy({ left: -itemWidth, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
-    if (trackRef.current) {
-      trackRef.current.scrollBy({ left: trackRef.current.clientWidth / 2, behavior: "smooth" });
+    if (trackRef.current && trackRef.current.children.length > 0) {
+      const firstChild = trackRef.current.children[0] as HTMLElement;
+      const gap = parseInt(window.getComputedStyle(trackRef.current).gap || '0');
+      const itemWidth = firstChild.offsetWidth + gap;
+      trackRef.current.scrollBy({ left: itemWidth, behavior: "smooth" });
     }
   };
 
