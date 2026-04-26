@@ -39,21 +39,24 @@ const loopedCategories = [...categories, ...categories, ...categories];
 export function CategoryCircles() {
   const trackRef = useRef<HTMLDivElement>(null);
 
-  const scrollLeft = () => {
-    if (trackRef.current && trackRef.current.children.length > 0) {
-      const firstChild = trackRef.current.children[0] as HTMLElement;
-      const gap = parseInt(window.getComputedStyle(trackRef.current).gap || '0');
-      const itemWidth = firstChild.offsetWidth + gap;
-      trackRef.current.scrollBy({ left: -itemWidth, behavior: "smooth" });
-    }
-  };
-
   const scrollRight = () => {
     if (trackRef.current && trackRef.current.children.length > 0) {
-      const firstChild = trackRef.current.children[0] as HTMLElement;
-      const gap = parseInt(window.getComputedStyle(trackRef.current).gap || '0');
+      const track = trackRef.current;
+      const firstChild = track.children[0] as HTMLElement;
+      const gap = parseInt(window.getComputedStyle(track).gap || '0');
       const itemWidth = firstChild.offsetWidth + gap;
-      trackRef.current.scrollBy({ left: itemWidth, behavior: "smooth" });
+      
+      // Smooth scroll by one item
+      track.scrollBy({ left: itemWidth, behavior: "smooth" });
+
+      // After the smooth scroll animation completes, check for loop boundary
+      setTimeout(() => {
+        const oneThird = track.scrollWidth / 3;
+        // If we've scrolled past the first set, instantly jump back
+        if (track.scrollLeft >= oneThird) {
+          track.scrollLeft -= oneThird;
+        }
+      }, 400); // 400ms is enough time for native smooth scroll to finish
     }
   };
 
@@ -61,17 +64,6 @@ export function CategoryCircles() {
     <section className="py-12 sm:py-16 bg-white overflow-hidden select-none relative group/section">
       <div className="relative max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
         
-        {/* Left Arrow Button */}
-        <button
-          onClick={scrollLeft}
-          className="absolute left-4 sm:left-8 lg:left-12 top-[45%] -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.1)] border border-gray-100 flex items-center justify-center text-black hover:bg-gray-50 transition-colors z-20 opacity-0 group-hover/section:opacity-100"
-          aria-label="Scroll left"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-        </button>
-
         {/* Scrollable track — hidden scrollbar, no drag */}
         <div className="w-full max-w-[800px] mx-auto overflow-hidden">
           <div
@@ -79,7 +71,7 @@ export function CategoryCircles() {
             className="flex overflow-x-hidden hide-scrollbar gap-4 sm:gap-8 py-4 px-2 scroll-smooth justify-start"
             style={{ scrollBehavior: "smooth" }}
           >
-          {categories.map((cat, i) => (
+          {loopedCategories.map((cat, i) => (
             <Link
               key={`${cat.slug}-${i}`}
               href={`/collections?category=${cat.slug}`}
