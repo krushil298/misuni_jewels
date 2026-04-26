@@ -130,16 +130,16 @@ export function CategoryCircles() {
               href={`/collections?category=${cat.slug}`}
               onClick={onLinkClick}
               draggable={false}
-              className="flex flex-col items-center gap-4 min-w-[120px] sm:min-w-[150px] group cursor-pointer shrink-0"
+              className="flex flex-col items-center gap-4 min-w-[100px] sm:min-w-[125px] group cursor-pointer shrink-0"
             >
               {/* Thicker grey border and padding as per the design */}
-              <div className="relative w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full p-[6px] sm:p-[8px] bg-gray-200 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
+              <div className="relative w-[100px] h-[100px] sm:w-[125px] sm:h-[125px] rounded-full p-[5px] sm:p-[6px] bg-gray-200 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
                 <div className="w-full h-full rounded-full overflow-hidden bg-white relative">
                   <Image
                     src={cat.image}
                     alt={cat.name}
                     fill
-                    sizes="(max-width: 640px) 120px, 150px"
+                    sizes="(max-width: 640px) 100px, 125px"
                     draggable={false}
                     className="object-cover pointer-events-none"
                   />
