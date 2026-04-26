@@ -36,6 +36,9 @@ const categories = [
 
 const loopedCategories = [...categories, ...categories, ...categories];
 
+export function CategoryCircles() {
+  const trackRef = useRef<HTMLDivElement>(null);
+
   const scrollLeft = () => {
     if (trackRef.current) {
       trackRef.current.scrollBy({ left: -(trackRef.current.clientWidth / 2), behavior: "smooth" });
