@@ -45,35 +45,7 @@ export function CategoryCircles() {
   const [paused, setPaused] = useState(false);
   const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Auto-advance via requestAnimationFrame when not paused
-  const autoScrollPos = useRef(0);
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const SPEED = 0.6; // px per frame (~36px/s at 60fps)
-    const oneThird = track.scrollWidth / 3;
-
-    const tick = () => {
-      if (!isDragging.current && !paused) {
-        autoScrollPos.current += SPEED;
-        if (autoScrollPos.current >= oneThird) {
-          autoScrollPos.current -= oneThird;
-        }
-        track.scrollLeft = autoScrollPos.current;
-      } else {
-        // keep autoScrollPos in sync with manual scroll so resume is seamless
-        autoScrollPos.current = track.scrollLeft;
-        if (autoScrollPos.current >= oneThird) autoScrollPos.current -= oneThird;
-      }
-      rafRef.current = requestAnimationFrame(tick);
-    };
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [paused]);
+  // Removed auto-scroll for a static carousel experience
 
   /* ── Mouse drag ── */
   const onMouseDown = (e: React.MouseEvent) => {
@@ -129,17 +101,20 @@ export function CategoryCircles() {
     if (dragDistanceRef.current > 6) e.preventDefault();
   };
 
-  return (
-    <section className="py-8 sm:py-12 bg-surface overflow-hidden select-none">
-      <div className="relative">
-        {/* Fade edges */}
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-16 sm:w-24 z-10 bg-gradient-to-r from-surface to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-16 sm:w-24 z-10 bg-gradient-to-l from-surface to-transparent" />
+  const scrollRight = () => {
+    if (trackRef.current) {
+      trackRef.current.scrollBy({ left: trackRef.current.clientWidth / 2, behavior: "smooth" });
+    }
+  };
 
+  return (
+    <section className="py-12 sm:py-16 bg-white overflow-hidden select-none relative group/section">
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 2xl:px-28">
+        
         {/* Scrollable track — hide native scrollbar */}
         <div
           ref={trackRef}
-          className="flex overflow-x-scroll hide-scrollbar gap-4 sm:gap-6 py-4 px-4 cursor-grab active:cursor-grabbing"
+          className="flex overflow-x-auto xl:justify-center hide-scrollbar gap-6 sm:gap-10 py-4 px-2 scroll-smooth"
           style={{ scrollBehavior: "auto" }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
@@ -149,32 +124,44 @@ export function CategoryCircles() {
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          {loopedCategories.map((cat, i) => (
+          {categories.map((cat, i) => (
             <Link
               key={`${cat.slug}-${i}`}
               href={`/collections?category=${cat.slug}`}
               onClick={onLinkClick}
               draggable={false}
-              className="flex flex-col items-center gap-2 sm:gap-3 min-w-[72px] sm:min-w-[90px] group cursor-pointer shrink-0"
+              className="flex flex-col items-center gap-4 min-w-[120px] sm:min-w-[150px] group cursor-pointer shrink-0"
             >
-              <div className="relative w-[75px] h-[75px] sm:w-[95px] sm:h-[95px] rounded-full p-[3px] bg-white border border-black/10 shadow-sm transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
-                <div className="w-full h-full rounded-full overflow-hidden bg-white">
+              {/* Thicker grey border and padding as per the design */}
+              <div className="relative w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] rounded-full p-[6px] sm:p-[8px] bg-gray-200 transition-transform duration-300 group-hover:scale-105 flex items-center justify-center">
+                <div className="w-full h-full rounded-full overflow-hidden bg-white relative">
                   <Image
                     src={cat.image}
                     alt={cat.name}
-                    width={120}
-                    height={120}
+                    fill
+                    sizes="(max-width: 640px) 120px, 150px"
                     draggable={false}
-                    className="w-full h-full object-cover rounded-full pointer-events-none"
+                    className="object-cover pointer-events-none"
                   />
                 </div>
               </div>
-              <span className="text-[0.6rem] sm:text-[0.68rem] font-bold uppercase tracking-wide text-[#1a1a1a] whitespace-nowrap text-center">
+              <span className="text-[0.65rem] sm:text-[0.8rem] font-extrabold uppercase tracking-widest text-black whitespace-nowrap text-center">
                 {cat.name}
               </span>
             </Link>
           ))}
         </div>
+
+        {/* Right Arrow Button */}
+        <button
+          onClick={scrollRight}
+          className="hidden md:flex absolute right-4 sm:right-8 lg:right-12 top-[45%] -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-[0_2px_10px_rgba(0,0,0,0.1)] border border-gray-100 items-center justify-center text-black hover:bg-gray-50 transition-colors z-20 opacity-0 group-hover/section:opacity-100"
+          aria-label="Scroll right"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M9 18l6-6-6-6" />
+          </svg>
+        </button>
       </div>
     </section>
   );
