@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo } from "react";
 import { getProducts } from "@/data/api";
-import { Product } from "@/types";
+import { Product, SortOption } from "@/types";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FilterSidebar } from "@/components/collections/FilterSidebar";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
@@ -13,7 +13,7 @@ const ITEMS_PER_PAGE = 6;
 export default function CollectionsPage() {
   const [selectedMetals, setSelectedMetals] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [sortBy, setSortBy] = useState("featured");
+  const [sortBy, setSortBy] = useState<SortOption>("featured");
   const [currentPage, setCurrentPage] = useState(1);
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
