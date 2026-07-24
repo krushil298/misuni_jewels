@@ -6,6 +6,7 @@ import { WishlistProvider } from "@/context/WishlistContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+import { BackToTop } from "@/components/ui/BackToTop";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -67,6 +68,7 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
             <WhatsAppButton />
+            <BackToTop />
           </WishlistProvider>
         </CartProvider>
       </body>
