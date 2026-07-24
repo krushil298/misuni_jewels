@@ -1,8 +1,34 @@
+import type { Metadata } from "next";
 import { getProductBySlug, getProducts } from "@/data/api";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
 import { StyledWith } from "@/components/product/StyledWith";
 import Link from "next/link";
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: "Product Not Found — MISUNI JEWELS",
+    };
+  }
+
+  return {
+    title: `${product.name} — MISUNI JEWELS`,
+    description: product.description,
+    openGraph: {
+      title: `${product.name} — MISUNI JEWELS`,
+      description: product.description,
+      images: product.images.length > 0 ? [product.images[0]] : [],
+    },
+  };
+}
 
 export default async function ProductPage({
   params,

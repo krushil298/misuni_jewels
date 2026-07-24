@@ -18,9 +18,38 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "MISUNI JEWELS — Real Diamond Jewellery in Gold",
+  title: {
+    default: "MISUNI JEWELS — Real Diamond Jewellery in Gold",
+    template: "%s | MISUNI JEWELS",
+  },
   description:
     "Real diamond jewellery crafted in gold, white gold & rose gold. Purity. Integrity. Brilliance. Shop necklaces, rings, earrings, bracelets & bangles.",
+  keywords: [
+    "diamond jewellery",
+    "gold jewellery",
+    "rose gold",
+    "white gold",
+    "necklaces",
+    "rings",
+    "earrings",
+    "bracelets",
+    "bangles",
+    "BIS hallmarked",
+    "IGI certified",
+    "Indian jewellery",
+  ],
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    siteName: "MISUNI JEWELS",
+    title: "MISUNI JEWELS — Real Diamond Jewellery in Gold",
+    description:
+      "Real diamond jewellery crafted in gold, white gold & rose gold. Purity. Integrity. Brilliance.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
