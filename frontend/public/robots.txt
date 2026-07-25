@@ -1,0 +1,10 @@
+# MISUNI JEWELS — robots.txt
+User-agent: *
+Allow: /
+
+# Block internal/admin paths
+Disallow: /api/
+Disallow: /_next/
+
+# Sitemap
+Sitemap: https://misunijewels.com/sitemap.xml
