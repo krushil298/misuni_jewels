@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { BackToTop } from "@/components/ui/BackToTop";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -64,6 +65,10 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <CartProvider>
           <WishlistProvider>
+            <AnnouncementBar
+              message="Complimentary shipping on all orders"
+              link={{ href: "/collections", label: "Shop Now" }}
+            />
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
