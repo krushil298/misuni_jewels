@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/Footer";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -62,6 +63,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${montserrat.variable} ${cormorant.variable} antialiased`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getOrganizationSchema()),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(getWebsiteSchema()),
+          }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col">
         <CartProvider>
           <WishlistProvider>
