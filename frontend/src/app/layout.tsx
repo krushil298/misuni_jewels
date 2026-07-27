@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "@/context/CartContext";
-import { WishlistProvider } from "@/context/WishlistContext";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
-import { BackToTop } from "@/components/ui/BackToTop";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
 
 const montserrat = Montserrat({
@@ -78,19 +72,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col">
-        <CartProvider>
-          <WishlistProvider>
-            <AnnouncementBar
-              message="Complimentary shipping on all orders"
-              link={{ href: "/collections", label: "Shop Now" }}
-            />
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <WhatsAppButton />
-            <BackToTop />
-          </WishlistProvider>
-        </CartProvider>
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );

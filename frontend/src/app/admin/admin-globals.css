@@ -1,0 +1,372 @@
+/* ═══════════════════════════════════════════════════════════════
+   Admin Panel — Dark Theme Styles
+   Scoped to the /admin route group
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Admin-specific CSS custom properties */
+:root {
+  --admin-bg: #0e1412;
+  --admin-surface: #1a2421;
+  --admin-surface-hover: #1f2d29;
+  --admin-border: rgba(255, 255, 255, 0.05);
+  --admin-border-strong: rgba(255, 255, 255, 0.1);
+  --admin-accent: #798d8c;
+  --admin-accent-hover: #667a79;
+  --admin-accent-soft: rgba(121, 141, 140, 0.15);
+  --admin-text: #ffffff;
+  --admin-text-muted: rgba(255, 255, 255, 0.5);
+  --admin-text-faint: rgba(255, 255, 255, 0.25);
+  --admin-danger: #ef4444;
+  --admin-danger-soft: rgba(239, 68, 68, 0.1);
+  --admin-success: #22c55e;
+  --admin-success-soft: rgba(34, 197, 94, 0.1);
+  --admin-warning: #f59e0b;
+  --admin-warning-soft: rgba(245, 158, 11, 0.1);
+  --admin-sidebar-width: 260px;
+}
+
+/* ── Admin layout shell ─────────────────────────────────────── */
+
+.admin-layout {
+  min-height: 100vh;
+  background: var(--admin-bg);
+  color: var(--admin-text);
+}
+
+.admin-main {
+  margin-left: var(--admin-sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1023px) {
+  .admin-main {
+    margin-left: 0;
+  }
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+@media (max-width: 640px) {
+  .admin-content {
+    padding: 1.25rem;
+  }
+}
+
+/* ── Common admin card ──────────────────────────────────────── */
+
+.admin-card {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.admin-card:hover {
+  border-color: var(--admin-border-strong);
+}
+
+/* ── Admin table ────────────────────────────────────────────── */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  border-bottom: 1px solid var(--admin-border);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.admin-table th:hover {
+  color: var(--admin-text);
+}
+
+.admin-table th.sorted {
+  color: var(--admin-accent);
+}
+
+.admin-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--admin-text-muted);
+  border-bottom: 1px solid var(--admin-border);
+  vertical-align: middle;
+}
+
+.admin-table tr:hover td {
+  background: var(--admin-surface-hover);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Admin form elements ────────────────────────────────────── */
+
+.admin-input {
+  width: 100%;
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border-strong);
+  color: var(--admin-text);
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  border-radius: 6px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.admin-input:focus {
+  outline: none;
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 3px var(--admin-accent-soft);
+}
+
+.admin-input::placeholder {
+  color: var(--admin-text-faint);
+}
+
+.admin-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  margin-bottom: 0.5rem;
+}
+
+.admin-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* ── Admin buttons ──────────────────────────────────────────── */
+
+.admin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-btn-primary {
+  background: var(--admin-accent);
+  color: white;
+}
+
+.admin-btn-primary:hover:not(:disabled) {
+  background: var(--admin-accent-hover);
+}
+
+.admin-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--admin-border-strong);
+  color: var(--admin-text-muted);
+}
+
+.admin-btn-secondary:hover:not(:disabled) {
+  border-color: var(--admin-text-muted);
+  color: var(--admin-text);
+}
+
+.admin-btn-danger {
+  background: var(--admin-danger-soft);
+  color: var(--admin-danger);
+}
+
+.admin-btn-danger:hover:not(:disabled) {
+  background: var(--admin-danger);
+  color: white;
+}
+
+.admin-btn-sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.55rem;
+}
+
+/* ── Badge ──────────────────────────────────────────────────── */
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 4px;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+}
+
+.admin-badge-accent {
+  background: var(--admin-accent-soft);
+  color: var(--admin-accent);
+}
+
+.admin-badge-success {
+  background: var(--admin-success-soft);
+  color: var(--admin-success);
+}
+
+.admin-badge-warning {
+  background: var(--admin-warning-soft);
+  color: var(--admin-warning);
+}
+
+/* ── Checkbox toggle ────────────────────────────────────────── */
+
+.admin-toggle {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: var(--admin-border-strong);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.admin-toggle.active {
+  background: var(--admin-accent);
+}
+
+.admin-toggle::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.admin-toggle.active::after {
+  transform: translateX(18px);
+}
+
+/* ── Empty state ────────────────────────────────────────────── */
+
+.admin-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.admin-empty-icon {
+  color: var(--admin-text-faint);
+  margin-bottom: 1rem;
+}
+
+.admin-empty-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--admin-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.admin-empty-desc {
+  font-size: 0.75rem;
+  color: var(--admin-text-faint);
+  max-width: 300px;
+}
+
+/* ── Loading skeleton ───────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.admin-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--admin-surface) 25%,
+    var(--admin-surface-hover) 50%,
+    var(--admin-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+  border-radius: 4px;
+}
+
+/* ── Fade-in animation ──────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.admin-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* ── Delete confirmation modal ──────────────────────────────── */
+
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+
+.admin-modal {
+  background: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
