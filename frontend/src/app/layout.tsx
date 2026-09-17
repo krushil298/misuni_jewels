@@ -1,30 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Serif, Inter_Tight } from "next/font/google";
+import { Cormorant_Garamond, Jost } from "next/font/google";
 import "./globals.css";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
-/**
- * Instrument Serif for display. High-contrast and genuinely editorial, with
- * a real italic — it replaces Cormorant Garamond, which is the default
- * "luxury" Google font and reads as a template on sight.
- */
-const instrument = Instrument_Serif({
+/** Cormorant Garamond for display — its italic carries the second line of
+ *  every heading, which is the signature move of this style. */
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
-  variable: "--font-instrument",
+  variable: "--font-cormorant",
   display: "swap",
 });
 
-/**
- * Inter Tight for everything else. Tighter than Inter, with proper tabular
- * figures — the reference codes, carat weights and price columns line up.
- */
-const interTight = Inter_Tight({
+/** Jost for tracked caps and UI — a geometric sans whose proportions echo
+ *  the Misuni wordmark. */
+const jost = Jost({
   subsets: ["latin"],
-  variable: "--font-inter-tight",
+  weight: ["300", "400", "500"],
+  variable: "--font-jost",
   display: "swap",
 });
 
@@ -65,9 +61,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/** Ivory ground, so the browser chrome on mobile matches the page. */
+/** Forest ground, so mobile browser chrome matches the header. */
 export const viewport: Viewport = {
-  themeColor: "#f6f4ef",
+  themeColor: "#0e2a22",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -79,9 +75,9 @@ export default function RootLayout({
   return (
     <html
       lang="en-IN"
-      className={`${instrument.variable} ${interTight.variable}`}
+      className={`${cormorant.variable} ${jost.variable}`}
     >
-      <body className="flex min-h-dvh flex-col bg-paper text-ink antialiased">
+      <body className="flex min-h-dvh flex-col bg-cream text-ink antialiased">
         <LayoutShell>{children}</LayoutShell>
         <script
           type="application/ld+json"

@@ -3,53 +3,46 @@
 /* ==========================================================================
    MISUNI JEWELS — design system
 
-   Concept: an atelier's register. Misuni holds no stock and sells nothing
-   online — every piece is made to order and shown by appointment. So the
-   site is built as a curated index rather than a shop: numbered entries,
-   reference codes, hairline rules, specifications set as real tables, and
-   an asymmetric editorial grid with deliberate negative space.
+   Deep green and antique gold alternating against warm cream.
 
-   Colour is sampled from the logo artwork (#639284) and spent sparingly.
-   Diamonds read truest against warm paper, so photography sits on white and
-   the page carries the warmth.
+   The green is derived from the logo's own sage (#639284, hue 163°) taken
+   down to 11% lightness, so the brand mark belongs on it rather than sitting
+   on a borrowed emerald. Gold is an accent only: eyebrows, hairlines, one
+   filled button per view, and the logo on dark ground. Diamonds photograph
+   best against dark velvet, so the green bands carry the imagery and the
+   cream bands carry the reading.
    ========================================================================== */
 
 @theme inline {
-  /* Instrument Serif — editorial display with a genuine italic.
-     Inter Tight — tight modern grotesque with real tabular figures, which
-     the reference codes and price columns depend on. */
-  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
-  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-sans: var(--font-jost), ui-sans-serif, system-ui, sans-serif;
 
-  /* ── Ground ─────────────────────────────────────────────────────────── */
-  --color-paper: #f6f4ef; /* page — warm, slightly toothy */
-  --color-paper-deep: #edeae3; /* alternating bands, wells */
-  --color-surface: #ffffff; /* product plates */
+  /* ── Green ───────────────────────────────────────────────────────────── */
+  --color-forest: #0e2a22; /* deepest — bands, header, footer */
+  --color-forest-2: #143a30; /* raised panels, image wells */
+  --color-forest-3: #1d4b3f; /* hover, borders */
 
-  /* ── Ink ────────────────────────────────────────────────────────────── */
-  --color-ink: #14201c; /* headings — a green-black, tied to the mark */
-  --color-ink-2: #46524e; /* body */
-  --color-ink-3: #79827e; /* meta, captions */
-  --color-ink-4: #a8afab; /* placeholders, disabled, index numerals */
+  /* ── Cream ───────────────────────────────────────────────────────────── */
+  --color-cream: #fbf6ec;
+  --color-cream-2: #f4ecdc;
 
-  /* ── Rules ──────────────────────────────────────────────────────────── */
-  --color-rule: #e0dcd3;
-  --color-rule-strong: #cbc5b9;
+  /* ── Gold ────────────────────────────────────────────────────────────── */
+  --color-gold: #c6a44e;
+  --color-gold-soft: #ddc68c;
+  --color-gold-pale: #f0e4c4;
 
-  /* ── Sage — the logo green ──────────────────────────────────────────── */
-  --color-sage: #639284;
-  --color-sage-deep: #4c7367;
-  --color-sage-pale: #e6efeb;
+  /* ── Ink, on cream ───────────────────────────────────────────────────── */
+  --color-ink: #16241f;
+  --color-ink-2: #4a5852;
+  --color-ink-3: #7b857f;
 
-  /* Warm metal, for certification and gold cues only */
-  --color-brass: #b08a52;
-  --color-brass-pale: #f2eade;
+  --color-rule: #e3dac8; /* hairline on cream */
+  --color-rule-dark: #27503f; /* hairline on forest */
 
   --color-whatsapp: #25d366;
   --color-whatsapp-deep: #1da851;
-  --color-danger: #9c3f3c;
+  --color-danger: #a4433f;
 
-  /* Square by default — the register has no rounded corners. */
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
@@ -60,7 +53,6 @@
 }
 
 @theme {
-  /* Fixed z-index scale — never an arbitrary z-* */
   --z-index-base: 0;
   --z-index-raised: 10;
   --z-index-sticky: 20;
@@ -73,34 +65,31 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Anchor targets clear the sticky header instead of hiding under it. */
+    scroll-padding-top: 7rem;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--color-paper);
+    background-color: var(--color-cream);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-weight: 400;
-    font-synthesis-weight: none;
+    font-weight: 300;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Display face carries no synthetic bold — Instrument Serif has one weight,
-     and faking a heavier cut muddies its high-contrast strokes. */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    color: var(--color-ink);
-    letter-spacing: -0.015em;
-    line-height: 1.02;
+    font-weight: 300;
+    line-height: 1.08;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-sage);
+    outline: 2px solid var(--color-gold);
     outline-offset: 3px;
   }
 
@@ -109,8 +98,8 @@
   }
 
   ::selection {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+    background-color: var(--color-gold);
+    color: var(--color-forest);
   }
 
   input,
@@ -123,28 +112,25 @@
   input,
   textarea,
   select {
-    accent-color: var(--color-sage);
+    accent-color: var(--color-gold);
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 9px;
+    height: 9px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--color-paper-deep);
+    background: var(--color-cream-2);
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-rule-strong);
+    background: var(--color-gold-soft);
   }
 }
 
 @layer components {
-  /* ── Page shell ─────────────────────────────────────────────────────
-     One container, one set of gutters. Every section uses this so the
-     left rule line is unbroken down the whole page. */
   .shell {
     width: 100%;
-    max-width: 1560px;
+    max-width: 1400px;
     margin-inline: auto;
     padding-inline: 1.25rem;
   }
@@ -161,44 +147,48 @@
     }
   }
 
-  /* ── Register label: the small tracked caps used throughout ───────── */
+  /* ── Eyebrow ──────────────────────────────────────────────────────── */
+  .eyebrow {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  /* Eyebrow with a hairline running out either side */
+  .eyebrow-ruled {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .eyebrow-ruled::before,
+  .eyebrow-ruled::after {
+    content: "";
+    width: 2.25rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.55;
+  }
+
   .label {
     font-family: var(--font-sans);
     font-size: 0.6875rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.14em;
+    font-weight: 400;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    font-variant-numeric: tabular-nums;
   }
 
   .label-sm {
     font-family: var(--font-sans);
     font-size: 0.5625rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.18em;
+    font-weight: 400;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* Index numeral — "01", "02". Sits beside a heading or a product. */
-  .index-num {
-    font-family: var(--font-sans);
-    font-size: 0.625rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    font-variant-numeric: tabular-nums;
-    color: var(--color-ink-4);
-  }
-
-  /* ── Rule with a label sitting on it — the page's main divider ────── */
-  .rule-row {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    padding-block: 0.75rem;
-    border-top: 1px solid var(--color-ink);
   }
 
   /* ── Buttons ──────────────────────────────────────────────────────── */
@@ -206,45 +196,55 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     min-height: 3rem;
-    padding: 0.875rem 1.5rem;
+    padding: 0.9rem 1.75rem;
     font-family: var(--font-sans);
     font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-weight: 400;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     text-align: center;
     transition:
-      background-color 150ms ease-out,
-      color 150ms ease-out,
-      border-color 150ms ease-out;
+      background-color 160ms ease-out,
+      color 160ms ease-out,
+      border-color 160ms ease-out;
   }
 
-  .btn-ink {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+  .btn-gold {
+    background-color: var(--color-gold);
+    color: var(--color-forest);
   }
-  .btn-ink:hover {
-    background-color: var(--color-sage-deep);
-  }
-
-  .btn-sage {
-    background-color: var(--color-sage);
-    color: #ffffff;
-  }
-  .btn-sage:hover {
-    background-color: var(--color-sage-deep);
+  .btn-gold:hover {
+    background-color: var(--color-gold-soft);
   }
 
-  .btn-line {
+  .btn-gold-line {
     background-color: transparent;
-    color: var(--color-ink);
-    border: 1px solid var(--color-ink);
+    color: var(--color-gold);
+    border: 1px solid var(--color-gold);
   }
-  .btn-line:hover {
-    background-color: var(--color-ink);
-    color: var(--color-paper);
+  .btn-gold-line:hover {
+    background-color: var(--color-gold);
+    color: var(--color-forest);
+  }
+
+  .btn-forest {
+    background-color: var(--color-forest);
+    color: var(--color-cream);
+  }
+  .btn-forest:hover {
+    background-color: var(--color-forest-2);
+  }
+
+  .btn-forest-line {
+    background-color: transparent;
+    color: var(--color-forest);
+    border: 1px solid var(--color-forest);
+  }
+  .btn-forest-line:hover {
+    background-color: var(--color-forest);
+    color: var(--color-cream);
   }
 
   .btn-whatsapp {
@@ -255,37 +255,66 @@
     background-color: var(--color-whatsapp-deep);
   }
 
-  /* Text link that underlines from the baseline rule */
-  .link-rule {
+  /* Text link with a trailing arrow that eases outward on hover */
+  .link-arrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding-bottom: 0.3rem;
+    gap: 0.55rem;
     font-family: var(--font-sans);
     font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-weight: 400;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    border-bottom: 1px solid currentColor;
-    transition: color 150ms ease-out;
+    transition:
+      gap 160ms ease-out,
+      color 160ms ease-out;
+  }
+  .link-arrow:hover {
+    gap: 0.9rem;
   }
 
-  /* ── Specification table — used on product, atelier and hero ───────
-     The term column is proportional with a ceiling, so the row still works
-     inside a narrow grid column. Values break anywhere as a last resort:
-     an email address is a single unbreakable token and will otherwise
-     push the whole page into horizontal scroll. */
+  /* ── Framed plate: a gold outline offset behind an image ───────────
+     The breakpoint lives inside this rule rather than on the element as
+     `md:plate-frame` — Tailwind variants only apply to utilities it
+     generates, so a variant prefix on a custom component class is silently
+     dropped and the frame never renders at all.
+
+     The offset is up-and-right, so the two visible edges sit outside the
+     photograph. The inner edges are covered by the image, which is what
+     gives the frame its depth. */
+  .plate-frame {
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .plate-frame::before {
+      content: "";
+      position: absolute;
+      inset: -1.5rem -1.5rem 1.5rem 1.5rem;
+      border: 1px solid var(--color-gold);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+  }
+
+  /* ── Specification row ────────────────────────────────────────────── */
   .spec-row {
     display: grid;
-    grid-template-columns: minmax(0, clamp(4rem, 34%, 7rem)) minmax(0, 1fr);
+    grid-template-columns: minmax(0, clamp(4rem, 34%, 7.5rem)) minmax(0, 1fr);
     gap: 0.75rem 1rem;
-    padding-block: 0.75rem;
+    padding-block: 0.8rem;
     border-top: 1px solid var(--color-rule);
     align-items: baseline;
   }
 
+  /* An email address is one unbreakable token; without this it forces the
+     whole page into horizontal scroll inside a narrow column. */
   .spec-row > :last-child {
     overflow-wrap: anywhere;
+  }
+
+  .spec-row-dark {
+    border-top-color: var(--color-rule-dark);
   }
 }
 
@@ -314,9 +343,25 @@
     padding-top: env(safe-area-inset-top, 0px);
   }
 
-  /* Display type that should sit optically flush with a rule above it */
-  .optical-flush {
-    margin-top: -0.12em;
+  /* Marquee. The track holds two identical copies and translates by exactly
+     -50%, so the loop is seamless at any viewport width. */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 55s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
@@ -324,6 +369,11 @@
   html {
     scroll-behavior: auto;
   }
+
+  .marquee-track {
+    animation: none;
+  }
+
   *,
   *::before,
   *::after {

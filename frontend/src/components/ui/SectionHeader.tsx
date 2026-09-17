@@ -1,58 +1,70 @@
-import Link from "next/link";
-import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  /** Two-digit register index, e.g. "02". */
-  index: string;
+  eyebrow: string;
+  /** First line, set roman. */
   title: string;
-  /** Short line set beside the title, in the right-hand columns. */
-  note?: string;
-  action?: { href: string; label: string };
+  /** Second line, set italic — the signature of this style. */
+  titleItalic?: string;
+  description?: string;
+  /** Switches the palette for a forest-ground section. */
+  onDark?: boolean;
+  align?: "center" | "start";
   className?: string;
 }
 
-/**
- * Section masthead.
- *
- * A heavy rule with the index and label sitting on it, then the title
- * hanging beneath in the left columns and an optional note in the right.
- * This replaces five visually identical eyebrow / title / "view all"
- * blocks — the repetition was a large part of why the page read as
- * generated rather than composed.
- */
+/** Section masthead: gold eyebrow, roman line, italic line. */
 export function SectionHeader({
-  index,
+  eyebrow,
   title,
-  note,
-  action,
+  titleItalic,
+  description,
+  onDark = false,
+  align = "center",
   className,
 }: SectionHeaderProps) {
   return (
-    <header className={cn("border-t border-ink pt-3", className)}>
-      <div className="flex items-baseline justify-between gap-4">
-        <span className="index-num text-ink">{index}</span>
-        {action && (
-          <Link
-            href={action.href}
-            className="link-rule border-b-0 text-ink-3 transition-colors duration-150 hover:text-ink"
-          >
-            {action.label}
-            <Icon name="arrow-right" size={13} />
-          </Link>
-        )}
-      </div>
+    <header
+      className={cn(
+        align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl",
+        className
+      )}
+    >
+      <span className="eyebrow">{eyebrow}</span>
 
-      <div className="mt-5 grid gap-4 md:grid-cols-12 md:gap-10">
-        <h2 className="optical-flush font-display text-4xl leading-[0.98] text-ink text-balance md:col-span-7 md:text-5xl lg:text-6xl">
-          {title}
-        </h2>
-        {note && (
-          <p className="max-w-sm self-end text-[0.875rem] leading-relaxed text-ink-2 text-pretty md:col-span-4 md:col-start-9">
-            {note}
-          </p>
+      <h2
+        className={cn(
+          "mt-5 font-display text-4xl leading-[1.1] text-balance md:text-5xl",
+          onDark ? "text-cream" : "text-forest"
         )}
-      </div>
+      >
+        {title}
+        {titleItalic && (
+          <>
+            {" "}
+            <em
+              className={cn(
+                "font-normal italic",
+                onDark ? "text-gold" : "text-forest/75"
+              )}
+            >
+              {titleItalic}
+            </em>
+          </>
+        )}
+      </h2>
+
+      {description && (
+        <p
+          className={cn(
+            "mt-5 text-sm leading-relaxed text-pretty",
+            onDark ? "text-cream/60" : "text-ink-2",
+            align === "center" && "mx-auto max-w-lg"
+          )}
+        >
+          {description}
+        </p>
+      )}
     </header>
   );
 }

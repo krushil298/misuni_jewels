@@ -1,26 +1,35 @@
+import { Suspense } from "react";
 import { HeroSection } from "@/components/home/HeroSection";
-import { CategoryIndex } from "@/components/home/CategoryIndex";
-import { FeaturedSection } from "@/components/home/FeaturedSection";
-import { MetalStory } from "@/components/home/MetalStory";
-import { CraftSection } from "@/components/home/CraftSection";
-import { ClosingPanel } from "@/components/home/ClosingPanel";
+import { Ticker } from "@/components/home/Ticker";
+import { Catalogue } from "@/components/home/Catalogue";
+import { PromiseSection } from "@/components/home/PromiseSection";
+import { AtelierSection } from "@/components/home/AtelierSection";
+import { VisitSection } from "@/components/home/VisitSection";
+import { getProducts } from "@/data/api";
 
 /**
- * Homepage, read as a numbered register:
- * masthead → 01 forms → 02 pieces → 03 metals → 04 atelier → 05 visit.
+ * The site — a single page.
  *
- * Section 04 breaks to a full-width tinted band deliberately; five ruled
- * sections in a row would flatten into wallpaper.
+ * Forest and cream bands alternate down the page so each section reads as
+ * its own chapter. Products are fetched on the server and handed to the
+ * catalogue, which owns the collection filter and opens each piece in a
+ * modal rather than navigating away.
  */
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await getProducts();
+
   return (
     <>
       <HeroSection />
-      <CategoryIndex />
-      <FeaturedSection />
-      <MetalStory />
-      <CraftSection />
-      <ClosingPanel />
+      <Ticker />
+      {/* Catalogue reads `?piece=` via useSearchParams, which needs a
+          Suspense boundary on a statically rendered page. */}
+      <Suspense fallback={null}>
+        <Catalogue products={products} />
+      </Suspense>
+      <PromiseSection />
+      <AtelierSection />
+      <VisitSection />
     </>
   );
 }
