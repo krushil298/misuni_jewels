@@ -24,7 +24,7 @@ export function ImageGallery({ images, name }: ImageGalleryProps) {
     return (
       <div className="lg:col-span-7">
         <div className="flex aspect-4/5 items-center justify-center bg-surface">
-          <p className="meta">Image coming soon</p>
+          <p className="label-sm text-ink-3">Image coming soon</p>
         </div>
       </div>
     );
@@ -104,7 +104,7 @@ export function ImageGallery({ images, name }: ImageGalleryProps) {
                     "relative block aspect-square w-full overflow-hidden border bg-surface transition-colors duration-150",
                     active === i
                       ? "border-ink"
-                      : "border-transparent hover:border-hairline-strong"
+                      : "border-transparent hover:border-rule-strong"
                   )}
                 >
                   <Image

@@ -53,7 +53,7 @@ export function FilterPanel({
         <button
           type="button"
           onClick={onClear}
-          className="flex items-center gap-2 font-sans text-[0.6875rem] uppercase tracking-[0.16em] text-ink-muted transition-colors duration-150 hover:text-ink"
+          className="flex items-center gap-2 font-sans text-[0.6875rem] uppercase tracking-[0.16em] text-ink-3 transition-colors duration-150 hover:text-ink"
         >
           <Icon name="close" size={13} />
           Clear {active} {active === 1 ? "filter" : "filters"}
@@ -101,16 +101,16 @@ function Group({ label, options, selected, onToggle }: GroupProps) {
                   className={cn(
                     "flex size-4 shrink-0 items-center justify-center border transition-colors duration-150",
                     checked
-                      ? "border-brand bg-brand text-white"
-                      : "border-hairline-strong"
+                      ? "border-sage bg-sage text-white"
+                      : "border-rule-strong"
                   )}
                 >
                   {checked && <Icon name="check" size={11} />}
                 </span>
-                <span className="flex-1 font-sans text-[0.8125rem] font-light text-ink-soft">
+                <span className="flex-1 font-sans text-[0.8125rem] text-ink-2">
                   {option.label}
                 </span>
-                <span className="font-sans text-[0.6875rem] tabular-nums text-ink-faint">
+                <span className="font-sans text-[0.6875rem] tabular-nums text-ink-4">
                   {option.count}
                 </span>
               </label>

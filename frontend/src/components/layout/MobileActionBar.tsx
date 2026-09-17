@@ -29,7 +29,7 @@ export function MobileActionBar() {
   return (
     <nav
       aria-label="Quick actions"
-      className="fixed inset-x-0 bottom-0 z-sticky border-t border-hairline bg-canvas/95 pb-safe backdrop-blur-md md:hidden"
+      className="fixed inset-x-0 bottom-0 z-sticky border-t border-rule bg-paper/95 pb-safe backdrop-blur-md md:hidden"
     >
       <ul className="flex items-stretch">
         {TABS.map((tab) => {
@@ -44,7 +44,7 @@ export function MobileActionBar() {
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative flex h-14 flex-col items-center justify-center gap-1 transition-colors duration-150",
-                  active ? "text-brand" : "text-ink-muted"
+                  active ? "text-sage" : "text-ink-3"
                 )}
               >
                 <span className="relative">
@@ -53,7 +53,7 @@ export function MobileActionBar() {
                     size={19}
                   />
                   {showBadge && (
-                    <span className="absolute -right-2 -top-1 flex size-3.5 items-center justify-center rounded-full bg-brand text-[0.5rem] font-semibold tabular-nums text-white">
+                    <span className="absolute -right-2 -top-1 flex size-3.5 items-center justify-center rounded-full bg-sage text-[0.5rem] font-semibold tabular-nums text-white">
                       {count > 9 ? "9+" : count}
                     </span>
                   )}

@@ -4,71 +4,99 @@ import { Icon } from "@/components/ui/Icon";
 import { appointmentLink } from "@/lib/whatsapp";
 
 /**
- * Homepage hero.
+ * Homepage opening.
  *
- * Uses the local brand photograph rather than the previous hotlinked
- * Unsplash URL — that was an uncached third-party request in the critical
- * path, and the stock image had nothing to do with the collection.
+ * Type-led rather than photo-led: the headline sits on paper in the left
+ * columns and the photograph occupies a tall offset plate on the right,
+ * with a specification strip ruled beneath. The previous full-bleed image
+ * with a gradient scrim and two centred buttons is the default template for
+ * this kind of site — and it forced a dark scrim over the jewellery, which
+ * is the one thing the picture exists to show.
  *
- * Sized in dvh so mobile browser chrome collapsing doesn't clip the CTAs.
+ * On phones the order inverts: plate first, then type, so the piece is the
+ * first thing seen without any overlay fighting it.
  */
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[88dvh] w-full items-end overflow-hidden md:min-h-[92dvh] md:items-center">
-      <div className="absolute inset-0">
-        <Image
-          src="/images/hero_image.png"
-          alt="A Misuni diamond necklace worn with an emerald silk gown"
-          fill
-          priority
-          sizes="100vw"
-          /*
-           * Biased upward on phones so the necklace sits above the headline
-           * rather than behind it — the piece is the point of the photograph.
-           */
-          className="object-cover object-[58%_22%] md:object-center"
-        />
-        {/*
-          Two stacked scrims: a strong one at the foot for text legibility on
-          phones, and a gentle side wash so the desktop copy column reads
-          without dulling the jewellery itself.
-        */}
-        <div className="absolute inset-0 bg-linear-to-t from-ink/85 via-ink/30 to-ink/10 md:from-ink/70 md:via-ink/20 md:to-transparent" />
-        <div className="absolute inset-0 hidden bg-linear-to-r from-ink/60 via-transparent to-transparent md:block" />
+    <section className="shell pt-6 md:pt-10">
+      {/* Masthead rule */}
+      <div className="flex items-baseline justify-between border-t border-ink pt-3">
+        <p className="label text-ink">Misuni Jewels</p>
+        <p className="label text-ink-3">Est. Mumbai</p>
       </div>
 
-      <div className="relative z-raised mx-auto w-full max-w-[1600px] px-5 pb-16 pt-28 md:px-8 md:py-24 lg:px-12">
-        <div className="max-w-xl">
-          <p className="font-sans text-[0.625rem] font-medium uppercase tracking-[0.32em] text-white/80">
-            Bandra Kurla Complex · Mumbai
-          </p>
-
-          <h1 className="mt-5 font-serif text-[2.75rem] leading-[1.05] text-white text-balance sm:text-6xl lg:text-7xl">
-            Diamonds worth
-            <span className="block italic text-sage-200">keeping</span>
+      <div className="grid gap-8 pt-8 md:grid-cols-12 md:gap-10 md:pt-14">
+        {/* Type column */}
+        <div className="order-2 flex flex-col md:order-1 md:col-span-6 lg:col-span-5">
+          <h1 className="optical-flush font-display text-[3.5rem] leading-[0.92] tracking-[-0.02em] text-ink sm:text-7xl lg:text-[5.5rem]">
+            A register of
+            <br />
+            diamonds
+            <br />
+            <em className="italic text-sage">worth keeping</em>
           </h1>
 
-          <p className="mt-5 max-w-md font-sans text-sm font-light leading-relaxed text-white/85 text-pretty md:text-base">
-            Natural, certified stones set in 14k and 18k gold. Every piece is
-            made to order and shown to you in person — or over WhatsApp,
-            wherever you are.
+          <p className="mt-7 max-w-sm text-[0.9375rem] leading-relaxed text-ink-2 text-pretty">
+            We hold no stock and keep no shop floor. Each piece in this index
+            is made to order — your stone, your metal, your size — and shown to
+            you in person at Bandra Kurla Complex.
           </p>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link href="/collections" className="btn btn-sage w-full sm:w-auto">
-              View the collection
+          {/*
+            Stacked until `lg`: from `md` the type column is only six of
+            twelve tracks, and two side-by-side buttons overflow it at
+            tablet widths.
+          */}
+          <div className="mt-9 flex flex-col gap-2.5 lg:flex-row">
+            <Link href="/collections" className="btn btn-ink lg:flex-none">
+              View the register
             </Link>
             <a
               href={appointmentLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn w-full border border-white/40 text-white transition-colors duration-150 hover:bg-white hover:text-ink sm:w-auto"
+              className="btn btn-line lg:flex-none"
             >
-              <Icon name="whatsapp" size={16} />
+              <Icon name="whatsapp" size={15} />
               Book a viewing
             </a>
           </div>
+
+          {/* Specification strip — ledger detail, and all of it verifiable */}
+          <dl className="mt-12 md:mt-14">
+            {[
+              ["Stones", "Natural, IGI / GIA certified"],
+              ["Metal", "BIS-hallmarked 14k · 18k · 950 Pt"],
+              ["Made", "To order, 2–3 weeks"],
+              ["Shown", "By appointment, BKC Mumbai"],
+            ].map(([term, detail]) => (
+              <div key={term} className="spec-row">
+                <dt className="label-sm text-ink-3">{term}</dt>
+                <dd className="text-[0.8125rem] text-ink-2 text-pretty">
+                  {detail}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </div>
+
+        {/* Image plate — offset, and taller than it is wide */}
+        <figure className="order-1 md:order-2 md:col-span-6 md:col-start-7 lg:col-span-6 lg:col-start-7">
+          <div className="relative aspect-4/5 w-full overflow-hidden bg-surface md:aspect-3/4">
+            <Image
+              src="/images/hero_image.png"
+              alt="A Misuni diamond collar necklace worn with a sage silk gown"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover object-[58%_18%] md:object-center"
+            />
+          </div>
+          <figcaption className="mt-2.5 flex items-baseline justify-between border-t border-rule pt-2.5">
+            <span className="label-sm text-ink-3">Pear &amp; round collar</span>
+            <span className="label-sm text-ink-4">18k White Gold</span>
+          </figcaption>
+        </figure>
       </div>
     </section>
   );

@@ -14,8 +14,11 @@ import { cn } from "@/lib/utils";
 /**
  * Site header.
  *
- * On the homepage it starts transparent over the hero and resolves to an
- * ivory bar once scrolled. Everywhere else it is solid from the start.
+ * Sticky rather than fixed-and-transparent: the homepage no longer runs a
+ * photograph under the chrome, so the bar simply sits on paper and gains a
+ * rule once you scroll past the masthead. The logo is left-aligned — a
+ * centred lockup is the luxury-template default and it wastes the strongest
+ * position on the page.
  */
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,21 +28,17 @@ export function Navbar() {
   const router = useRouter();
   const { count, isHydrated } = useSelection();
 
-  const isHome = pathname === "/";
-  const overHero = isHome && !scrolled;
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   /*
-   * Close the drawer and search when the route changes — including on
-   * browser back/forward, which no click handler sees. Adjusting state
-   * during render is React's documented alternative to a `[pathname]`
-   * effect, and avoids the extra commit that effect would cost.
+   * Close transient UI when the route changes — including on browser
+   * back/forward, which no click handler sees. Adjusting state during
+   * render is React's documented alternative to a `[pathname]` effect.
    */
   const [lastPath, setLastPath] = useState(pathname);
   if (pathname !== lastPath) {
@@ -52,82 +51,59 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-header inset-x-safe transition-colors duration-200 ease-out",
-          overHero
-            ? // A soft top scrim keeps the white lockup and icons legible
-              // regardless of what the hero photograph is doing behind them.
-              "bg-transparent before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-24 before:bg-linear-to-b before:from-ink/45 before:to-transparent"
-            : "border-b border-hairline bg-canvas/95 backdrop-blur-md"
+          "sticky top-0 z-header bg-paper/92 backdrop-blur-md transition-shadow duration-150",
+          scrolled && "border-b border-rule"
         )}
       >
         <nav
           aria-label="Primary"
-          className={cn(
-            "relative mx-auto flex h-14 w-full max-w-[1600px] items-center justify-between gap-2 px-4 md:h-20 md:px-8 lg:px-12",
-            overHero ? "text-white" : "text-ink"
-          )}
+          className="shell flex h-16 items-center justify-between gap-3 md:h-20"
         >
-          {/* Left — menu (mobile) / links (desktop) */}
-          <div className="flex flex-1 items-center gap-7">
-            <button
-              type="button"
-              onClick={() => setMenuOpen(true)}
-              aria-label="Open menu"
-              className="-ml-2 p-2 md:hidden"
-            >
-              <Icon name="menu" size={22} />
-            </button>
-
-            <div className="hidden items-center gap-7 md:flex">
-              {NAV_LINKS.map((link) => {
-                const active = pathname.startsWith(link.href);
-                return (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                      "relative py-1 font-sans text-[0.6875rem] font-medium uppercase tracking-[0.18em] transition-opacity duration-150 hover:opacity-70",
-                      active && "after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-current"
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Centre — logo */}
+          {/* Left — logo */}
           <Link
             href="/"
             aria-label="Misuni Jewels — home"
-            className="shrink-0 transition-opacity duration-150 hover:opacity-80"
+            className="shrink-0 transition-opacity duration-150 hover:opacity-70"
           >
+            <Logo variant="lockup" height={30} priority className="md:hidden" />
             <Logo
               variant="lockup"
-              tone={overHero ? "white" : "sage"}
-              height={34}
-              priority
-              className="md:hidden"
-            />
-            <Logo
-              variant="lockup"
-              tone={overHero ? "white" : "sage"}
-              height={48}
+              height={38}
               priority
               className="hidden md:block"
             />
           </Link>
 
-          {/* Right — search + saved */}
-          <div className="flex flex-1 items-center justify-end gap-1 md:gap-3">
+          {/* Centre — links */}
+          <div className="hidden items-center gap-8 md:flex">
+            {NAV_LINKS.map((link) => {
+              const active = pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "label relative py-1 transition-colors duration-150",
+                    active
+                      ? "text-ink after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-ink"
+                      : "text-ink-3 hover:text-ink"
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Right — search, selection, enquire */}
+          <div className="flex shrink-0 items-center gap-1 md:gap-2">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
               aria-label="Search the collection"
-              className="p-2 transition-opacity duration-150 hover:opacity-70"
+              className="p-2 text-ink transition-opacity duration-150 hover:opacity-60"
             >
-              <Icon name="search" size={20} />
+              <Icon name="search" size={19} />
             </button>
 
             <Link
@@ -137,26 +113,27 @@ export function Navbar() {
                   ? `Your selection, ${count} ${count === 1 ? "piece" : "pieces"}`
                   : "Your selection"
               }
-              className="relative p-2 transition-opacity duration-150 hover:opacity-70"
+              className="relative p-2 text-ink transition-opacity duration-150 hover:opacity-60"
             >
-              <Icon name={count > 0 ? "heart-filled" : "heart"} size={20} />
+              <Icon name={count > 0 ? "heart-filled" : "heart"} size={19} />
               {isHydrated && count > 0 && (
-                <span
-                  className={cn(
-                    "absolute right-0 top-0 flex size-4 items-center justify-center rounded-full text-[0.5625rem] font-semibold tabular-nums",
-                    overHero ? "bg-white text-ink" : "bg-brand text-white"
-                  )}
-                >
+                <span className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center bg-sage text-[0.5625rem] font-medium tabular-nums text-white">
                   {count > 9 ? "9+" : count}
                 </span>
               )}
             </Link>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen(true)}
+              aria-label="Open menu"
+              className="-mr-2 p-2 text-ink md:hidden"
+            >
+              <Icon name="menu" size={21} />
+            </button>
           </div>
         </nav>
       </header>
-
-      {/* Reserve the header's height on pages that don't run under it. */}
-      {!isHome && <div aria-hidden className="h-14 md:h-20" />}
 
       <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <SearchOverlay

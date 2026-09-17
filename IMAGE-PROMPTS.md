@@ -1,233 +1,259 @@
-# Misuni Jewels — image brief
+# Misuni Jewels — photography brief
 
-Prompts for Gemini (Nano Banana / Imagen). Generate in the order below; the
-house style block is the most important part and should be pasted into
-**every** prompt so the set looks like one brand rather than twelve stock photos.
+Prompts for Gemini (Nano Banana / Imagen).
 
----
-
-## The problem these solve
-
-The 12 product photos currently in Supabase were seeded with wildly
-inconsistent backgrounds — glossy black, gold foil, teal, marble, white.
-On an ivory page they read as a jumble, and the eye goes to the backdrops
-instead of the diamonds. Consistency matters more here than any single
-image being beautiful.
+The goal is **photographs that look photographed** — not "AI luxury jewellery",
+which has a very specific and very recognisable look. Read the next section
+before generating anything; it's the difference between output you can ship and
+output that will quietly tell every visitor the brand isn't real.
 
 ---
 
-## House style — paste into every prompt
+## Why generated jewellery photography usually looks fake
+
+Six tells, in the order people notice them:
+
+1. **Impossible light.** Perfectly symmetrical highlights on both sides, no
+   single identifiable light source, no falloff. Real studio light comes from
+   *somewhere* and dies off across the frame.
+2. **Plastic surfaces.** Metal with no micro-scratches, skin with no pores,
+   fabric with no slubs. Real 18k gold at macro distance is covered in fine
+   polishing swirl.
+3. **Zero imperfection.** No dust, no lint, no fingerprint on the display
+   surface, every prong identical. Real product photography has a retoucher's
+   *decisions* in it, not machine perfection.
+4. **Physically wrong diamonds.** Rainbow glare sprayed everywhere, facets that
+   don't converge on a culet, stones that glow from inside. Diamonds reflect —
+   they don't emit.
+5. **Dead-centre everything.** Subject centred, horizon centred, symmetrical
+   composition. Photographers compose off-centre constantly.
+6. **The staring model.** A flawless woman gazing past the lens into the middle
+   distance. It reads as a stock library instantly.
+
+The blocks below are written to defeat all six. **Don't trim them** — the
+specificity is what's doing the work.
+
+---
+
+## Block A — paste into every product prompt
 
 ```
-STYLE: Editorial fine-jewellery photography for a luxury Mumbai atelier.
-Shot on a medium-format camera, 100mm macro, f/8, focus-stacked so the
-whole piece is tack sharp. Soft, large, diffused key light from the upper
-left with a subtle silver fill to the right — the light that makes diamond
-facets flash without blowing highlights. No harsh specular hotspots.
+CAMERA: Shot on a Hasselblad X2D with a 120mm macro, f/11, focus-stacked.
+Tripod-mounted, dead-level. Raw file, minimally retouched.
 
-BACKGROUND: Warm ivory seamless (#FBFAF8) with a very soft natural shadow
-beneath the piece. No props, no flowers, no fabric bunching, no gradients,
-no vignette, no text, no watermark, no logo.
+LIGHT: ONE large softbox high and to the camera-left, roughly 45 degrees,
+plus a single white bounce card low on the right. The light falls off
+visibly toward the right edge of the frame — the right side of the piece
+is a stop darker than the left. One dominant specular highlight, not a
+ring of them. Shadow beneath the piece is soft-edged but clearly
+directional, falling to the lower right.
 
-COLOUR: Neutral-warm white balance. Metals must read true — yellow gold
-warm and buttery, rose gold pink-copper (NOT purple or lilac), white gold
-and platinum cool silver-white. Diamonds are colourless with cool blue-white
-fire, never yellow or grey.
+SURFACE: Warm off-white paper sweep, slightly uneven in tone, with a
+faint natural texture. Not a seamless digital gradient. A few almost
+invisible specks of dust on the paper.
 
-MOOD: Restrained, expensive, calm. Modern and classy, not flashy.
-Absolutely no hip-hop / iced-out styling.
+MATERIAL REALISM: The gold shows fine polishing swirl and faint micro
+-scratches under macro magnification. Prongs are hand-set and very
+slightly irregular — not machine-identical. Diamonds behave optically
+like real stones: facets converge cleanly on the culet, reflections are
+mostly white and grey with only occasional small spectral flashes, and
+the stone reads dark where it reflects the unlit side of the room.
 
-AVOID: plastic or CGI look, over-sharpening, fake rainbow glare, visible
-prongs that look bent, lopsided symmetry, extra or malformed stones,
-text of any kind.
+COLOUR: Neutral-warm white balance, as if shot on daylight film.
+Yellow gold is warm but not orange. Rose gold is pink-copper, NOT purple
+or lilac. White gold and platinum are cool silver-grey, NOT blue.
+Restrained contrast — the shadows keep detail.
+
+GRAIN: Very fine, natural film-like grain. Not clean digital.
+
+AVOID: CGI or 3D-render look, ray-traced perfection, rainbow lens flare,
+glowing stones, symmetrical twin highlights, plastic-smooth metal,
+vignetting, HDR, over-sharpening, watermark, text, logo, extra stones,
+malformed or bent prongs, floating objects with no shadow.
+```
+
+## Block B — paste into every prompt with a person in it
+
+```
+CASTING: A real-looking South Asian woman, 30s, Mumbai. Ordinary
+attractive, not a model composite — slight facial asymmetry, visible
+skin texture, pores, fine lines at the eyes, a few flyaway hairs escaping
+her bun. Natural eyebrows. Minimal makeup with skin still reading as
+skin. NOT airbrushed.
+
+DIRECTION: She is mid-action and unaware of the camera — adjusting a
+clasp, glancing down, half-turning away. NOT posed facing the lens. NOT
+gazing serenely into the middle distance.
+
+FRAMING: Composed off-centre. Crop into her — it's fine to cut the top of
+the head or an edge of the shoulder. Slight, natural handheld tilt.
+
+AVOID: symmetrical beauty-shot framing, airbrushed plastic skin,
+perfectly even teeth, the vacant stock-photo stare, hands with wrong
+finger counts, jewellery that melts into the skin.
 ```
 
 ---
 
-## 1. Hero — mobile (HIGHEST PRIORITY)
+## 1. Hero (HIGHEST PRIORITY)
 
-**Why:** `hero_image.png` is 1024×1024. Most of your visitors are on phones,
-where the hero crops to roughly 9:16 — a square source means the necklace
-gets cropped into the headline. A native portrait frame fixes it.
+The current `hero_image.png` is doing a decent job and the redesign no longer
+crops it badly — the homepage now places the photograph in its own plate rather
+than putting text over it. So this is an **upgrade, not a rescue**.
 
-**Save as:** `frontend/public/images/hero-portrait.png` — **aspect ratio 9:16**,
-at least 1440×2560.
-
-```
-[HOUSE STYLE BLOCK]
-
-A South Asian woman in her early thirties, photographed from collarbone to
-just above the hairline, three-quarter turn, chin slightly lifted, serene
-and confident — not smiling at camera. She wears a sage-green silk gown with
-a clean neckline.
-
-She wears an elaborate pear-and-round diamond collar necklace in white gold —
-the piece is the subject of the photograph and must sit in the UPPER THIRD
-of the frame, fully visible and unobstructed.
-
-The LOWER 45% of the frame is soft, dark, uncluttered background — a
-deliberately quiet area for white headline text to sit over. Depth of field
-falls off gently behind her into a muted sage-and-shadow interior.
-
-Vertical portrait composition, 9:16.
-```
-
-> After generating, see **"Wiring in the portrait hero"** at the bottom.
-
-## 2. Hero — desktop (optional refinement)
-
-The existing square image already works well on desktop. Only regenerate if
-you want a wider frame.
-
-**Save as:** `frontend/public/images/hero-wide.png` — **16:9**, ≥2560×1440.
-Same prompt as above, but: *"Horizontal composition, 16:9. The subject sits
-in the RIGHT half of the frame; the LEFT half is quiet, softly shadowed
-background for headline text."*
-
----
-
-## 3. Category tiles (six images)
-
-**Why:** `src/data/categories.ts` currently points at Google-hosted seed URLs
-that can expire and don't match each other.
-
-**Save as:** `frontend/public/images/categories/<slug>.png` — **1:1 square**,
-≥1200×1200. Slugs: `rings`, `necklaces`, `earrings`, `pendants`,
-`bracelets`, `bangles`.
-
-Use the **same** framing and light for all six so the rail reads as a set.
+**Save as:** `frontend/public/images/hero.png` — **3:4 portrait**, ≥1800×2400.
 
 ```
-[HOUSE STYLE BLOCK]
+[BLOCK A] [BLOCK B]
 
-A single {PIECE} presented alone on warm ivory seamless, centred, shot
-slightly from above at a 30-degree angle. The piece occupies about 65% of
-the frame with generous even margins. Soft shadow directly beneath.
-Square 1:1 composition.
+A woman in a deep sage-green silk slip dress, photographed from the waist
+up in a quiet Mumbai apartment in late afternoon. She is turned three
+-quarters away from the lens, one hand lifted to the back of her neck as
+if fastening or adjusting the clasp of her necklace. Her attention is on
+what her hands are doing, not on the camera.
+
+She wears an elaborate pear-and-round diamond collar necklace in white
+gold. It catches the window light across her collarbone.
+
+The light is a single large window out of frame to the left — warm, low,
+directional, with real falloff into shadow on the right side of the
+frame. Behind her, an interior in soft focus: a plastered wall, the edge
+of a wooden shutter, one out-of-focus plant. Depth of field is shallow
+but not artificial — the background is soft, not blurred to mush.
+
+Portrait 3:4.
 ```
 
-Swap `{PIECE}` for:
+## 2. Category plates (six)
+
+**Save as:** `frontend/public/images/categories/<slug>.png` — **1:1**, ≥1400×1400.
+Slugs: `rings`, `necklaces`, `earrings`, `pendants`, `bracelets`, `bangles`.
+
+Two of these appear as tall plates in the homepage mosaic, so keep the piece
+comfortably inside the frame with room to crop.
+
+```
+[BLOCK A]
+
+A single {PIECE}, photographed alone on the paper sweep, composed slightly
+LEFT of centre and slightly below the midline — not dead centre. The piece
+fills about 60% of the frame. Shot from a 35-degree elevated angle, not
+flat-on. Square 1:1.
+```
 
 | Slug | `{PIECE}` |
 |---|---|
-| `rings` | round brilliant solitaire diamond ring in 18k yellow gold, four-prong setting, slim band |
-| `necklaces` | fine diamond tennis necklace in 18k white gold, laid in a soft open curve |
-| `earrings` | pair of round diamond halo stud earrings in 18k white gold, side by side |
-| `pendants` | single pear-cut diamond solitaire pendant on a fine rose gold chain |
-| `bracelets` | diamond tennis bracelet in 18k white gold, arranged in a relaxed oval |
-| `bangles` | slim pavé-set diamond bangle in 18k rose gold, standing upright |
+| `rings` | round brilliant solitaire ring in 18k yellow gold, four claws, slim band, resting on its side |
+| `necklaces` | diamond tennis necklace in 18k white gold, laid in a loose irregular curve, one end trailing out of frame |
+| `earrings` | pair of round diamond halo studs in 18k white gold, not perfectly aligned with each other |
+| `pendants` | pear-cut solitaire pendant on a fine rose gold chain, chain pooled naturally beside it |
+| `bracelets` | diamond tennis bracelet in 18k white gold, relaxed into an uneven oval |
+| `bangles` | slim pavé diamond bangle in 18k rose gold, resting at a slight angle |
 
----
+> Note the "not perfectly aligned", "loose irregular", "uneven" instructions —
+> these are deliberate. Perfect arrangement is one of the strongest AI tells.
 
-## 4. Product photography — the real win
+## 3. Product photography — three per piece
 
-Each product wants **3 images** in this order. Consistency across all 12
-products matters far more than any individual shot.
+Consistency across all 12 products matters far more than any single shot. The
+seeded images currently mix glossy black, gold foil, teal and marble
+backgrounds, which is why the grid looks restless.
 
-**Save as:** upload to Supabase Storage, then paste URLs into the admin form
-(one per line, in this order).
-
-**4a — Hero, on ivory**
+**3a — On paper**
 ```
-[HOUSE STYLE BLOCK]
-{PRODUCT DESCRIPTION} presented alone on warm ivory seamless, centred,
-30-degree elevated angle, piece filling ~70% of frame. Square 1:1.
-```
-
-**4b — Macro detail**
-```
-[HOUSE STYLE BLOCK]
-Extreme macro of the setting on {PRODUCT DESCRIPTION} — individual diamond
-facets, prong work and the metal's polish clearly visible. Shallow depth of
-field falling off at the edges. Warm ivory background. Square 1:1.
+[BLOCK A]
+{PRODUCT}, alone on the paper sweep, composed off-centre, 35-degree
+elevated angle, filling ~65% of frame. Square 1:1.
 ```
 
-**4c — Worn, for scale**
+**3b — Macro**
 ```
-[HOUSE STYLE BLOCK]
-{PRODUCT DESCRIPTION} worn on a South Asian woman with warm mid-tone skin and
-a neat manicure. Cropped tight to {the hand and wrist / the neck and collarbone
-/ the ear and jawline}. Natural skin texture, no heavy retouching. Soft ivory
-background, gently out of focus. Square 1:1.
-```
-
-For `{PRODUCT DESCRIPTION}`, use the product name and metal from your
-catalogue, e.g. *"a pavé diamond eternity band bracelet in 18k yellow gold
-with a box clasp"*.
-
----
-
-## 5. Atelier / craftsmanship
-
-`craftsmanship.png` already works. If you want a matching second frame for
-the About page:
-
-**Save as:** `frontend/public/images/atelier-bench.png` — **4:5 portrait**, ≥1600×2000.
-
-```
-[HOUSE STYLE BLOCK]
-
-An Indian master goldsmith's hands setting a small diamond into a gold ring
-with a fine steel graver, photographed close over a well-used wooden
-jeweller's bench pin. Warm directional window light from the left. Hands
-show real age and skill — weathered knuckles, short clean nails. Shallow
-depth of field; the tools behind fall softly out of focus.
-
-Face not visible. Portrait 4:5.
+[BLOCK A]
+Extreme macro of the setting on {PRODUCT}. Frame is filled by three or
+four stones and the metal around them. Individual facets, the claw tips,
+and the fine polishing marks on the gold are all visible. Focus falls off
+sharply at the frame edges — only the central stone is critically sharp.
+Square 1:1.
 ```
 
----
-
-## 6. Open Graph / WhatsApp share card
-
-**Why:** when someone forwards a link on WhatsApp, this is the preview.
-Currently it falls back to the logo on transparency, which renders badly
-on WhatsApp's dark bubbles.
-
-**Save as:** `frontend/public/images/og-card.png` — **1.91:1**, exactly 1200×630.
-
+**3c — Worn**
 ```
-[HOUSE STYLE BLOCK]
-
-A diamond solitaire ring and a fine diamond tennis necklace arranged
-together on warm ivory seamless, shot from directly above, composed in the
-RIGHT two-thirds of the frame. The LEFT third is clean empty ivory with
-nothing in it — space for a logo to be placed afterwards.
-
-Horizontal 1.91:1 composition, no text.
+[BLOCK A] [BLOCK B]
+{PRODUCT} worn, photographed close. Crop tight to {the hand and wrist /
+the base of the neck / the ear and jaw}. Real skin: visible texture,
+faint veins, a knuckle crease, a short unpolished nail. She is mid
+-movement. Daylight from one side. Background is the soft out-of-focus
+interior, not a studio sweep. Square 1:1.
 ```
 
-Then place `/public/brand/lockup.png` into that empty left third, and add
+Use the product name and metal from your catalogue for `{PRODUCT}`, e.g.
+*"a pavé diamond eternity band bracelet in 18k yellow gold with a box clasp"*.
+
+## 4. Atelier
+
+`craftsmanship.png` is the strongest image you already have — real hands, real
+bench, real directional light. Keep it. If you want a companion frame:
+
+**Save as:** `frontend/public/images/atelier-2.png` — **4:5**, ≥1600×2000.
+
+```
+[BLOCK A — but override SURFACE and LIGHT as below]
+
+Reportage, not studio. A cluttered goldsmith's bench in a small Mumbai
+workshop: a bench pin worn concave from use, scattered gravers, a tin of
+polishing compound with the label rubbed off, gold dust in the tray, a
+mug. An older craftsman's hands rest mid-task, holding a half-set ring.
+
+Light is a bare workshop window plus the yellow pool of an angled desk
+lamp — two sources, different colour temperatures, mixed and uncorrected.
+Deep shadows in the corners of the frame.
+
+Handheld, very slightly tilted. Shot at f/2.8 so the far end of the bench
+falls out of focus. Fine grain. His face is not in frame.
+
+Portrait 4:5.
+```
+
+## 5. WhatsApp / Open Graph share card
+
+**Save as:** `frontend/public/images/og-card.png` — exactly **1200×630**.
+
+```
+[BLOCK A]
+
+A diamond solitaire ring and a fine tennis necklace resting together on
+the paper sweep, arranged casually rather than styled — the necklace
+curls naturally, the ring sits where it was set down. Composed in the
+RIGHT two-thirds of the frame.
+
+The LEFT third is empty paper, lit slightly darker than the right, with
+nothing in it. Horizontal 1.91:1. No text.
+```
+
+Place `/public/brand/lockup.png` into that empty left third afterwards, then add
 the file to `openGraph.images` in `src/app/layout.tsx`.
 
 ---
 
-## Wiring in the portrait hero
+## Wiring the results in
 
-Once `hero-portrait.png` exists, open
-`src/components/home/HeroSection.tsx` and replace the single `<Image>` with
-an art-directed pair:
+**Hero** — in `src/components/home/HeroSection.tsx`, change the `src` on the
+single `<Image>` to `/images/hero.png`. The plate is already `aspect-4/5` on
+phones and `aspect-3/4` from `md`, so a 3:4 source needs no art direction.
 
-```tsx
-{/* Phones — native 9:16 frame */}
-<Image
-  src="/images/hero-portrait.png"
-  alt="A Misuni diamond collar necklace worn with a sage silk gown"
-  fill priority sizes="100vw"
-  className="object-cover md:hidden"
-/>
-{/* Tablet and up */}
-<Image
-  src="/images/hero_image.png"
-  alt=""
-  fill priority sizes="100vw"
-  className="hidden object-cover object-center md:block"
-/>
-```
+**Categories** — in `src/data/categories.ts`, replace each `image:` with its
+local path, e.g. `image: "/images/categories/rings.png"`. Nothing else
+references those URLs.
 
-## Wiring in the category tiles
+**Products** — upload to Supabase Storage and paste the URLs into the admin
+form, one per line, in the order 3a → 3b → 3c. `next.config.ts` already allows
+`*.supabase.co` storage URLs.
 
-In `src/data/categories.ts`, replace each `image:` value with its local path,
-e.g. `image: "/images/categories/rings.png"`. Nothing else references those
-URLs. Once all six are local you can delete the `lh3.googleusercontent.com`
-entry from `remotePatterns` in `next.config.ts`.
+Once every category and product image is local or on Supabase, delete the
+`lh3.googleusercontent.com` entry from `remotePatterns` in `next.config.ts`.
+
+## One thing generation won't fix
+
+Your catalogue prices read as US dollars converted to rupee symbols — ₹420 for
+a diamond ring, ₹850 for an 18k gold bracelet, ₹14,500 for a VVS1 cuban link.
+No photograph will make those look right next to the pieces.

@@ -3,68 +3,94 @@ import Link from "next/link";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 
 /**
- * Metal chooser.
+ * Metal chooser, set as a comparison row.
  *
- * Uses the three ring photographs already in /public/images, which were
- * shot as a matched set and had never been referenced anywhere.
+ * Each column carries its own specification list under the plate, so this
+ * reads as a spec sheet you can compare across rather than three
+ * interchangeable marketing cards. Uses the three matched ring photographs
+ * that were sitting unreferenced in /public/images.
  */
 const METALS = [
   {
     name: "Yellow Gold",
-    detail: "14k & 18k · warm, classic",
+    number: "01",
     image: "/images/ring_yellow_gold.png",
     query: "Yellow Gold",
+    specs: [
+      ["Purity", "14k · 18k"],
+      ["Tone", "Warm, buttery"],
+      ["Wears", "Softens with age"],
+    ],
   },
   {
     name: "Rose Gold",
-    detail: "14k & 18k · soft, contemporary",
+    number: "02",
     image: "/images/ring_rose_gold.png",
     query: "Rose Gold",
+    specs: [
+      ["Purity", "14k · 18k"],
+      ["Tone", "Pink-copper"],
+      ["Wears", "Hardest of the three"],
+    ],
   },
   {
     name: "White Gold & Platinum",
-    detail: "18k & 950 Pt · cool, brilliant",
+    number: "03",
     image: "/images/ring_platinum.png",
     query: "White Gold",
+    specs: [
+      ["Purity", "18k · 950 Pt"],
+      ["Tone", "Cool silver-white"],
+      ["Wears", "Rhodium, re-plated"],
+    ],
   },
 ];
 
 export function MetalStory() {
   return (
-    <section className="bg-canvas py-14 md:py-20">
-      <div className="mx-auto w-full max-w-[1600px] px-5 md:px-8 lg:px-12">
-        <SectionHeader
-          eyebrow="Made to order"
-          title="Choose your metal"
-          description="Every design can be set in any of our metals. Tell us which you prefer and we'll make it to your size."
-          align="center"
-        />
+    <section className="shell pt-20 md:pt-28">
+      <SectionHeader
+        index="03"
+        title="Three metals, one design"
+        note="Nothing here is fixed to a single metal. Choose the one you actually wear and we set the piece in it."
+      />
 
-        <ul className="grid gap-6 sm:grid-cols-3 sm:gap-4 lg:gap-8">
-          {METALS.map((metal) => (
-            <li key={metal.name}>
-              <Link
-                href={`/collections?metal=${encodeURIComponent(metal.query)}`}
-                className="group block"
-              >
-                <div className="relative mb-4 aspect-4/3 overflow-hidden bg-surface">
-                  <Image
-                    src={metal.image}
-                    alt={`A Misuni solitaire ring in ${metal.name.toLowerCase()}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    className="object-cover transition-opacity duration-200 ease-out group-hover:opacity-90"
-                  />
-                </div>
-                <h3 className="font-serif text-xl text-ink">{metal.name}</h3>
-                <p className="meta mt-1 text-[0.625rem] normal-case tracking-[0.1em]">
-                  {metal.detail}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="mt-12 grid gap-10 sm:grid-cols-3 sm:gap-6 lg:gap-10">
+        {METALS.map((metal) => (
+          <li key={metal.name}>
+            <Link
+              href={`/collections?metal=${encodeURIComponent(metal.query)}`}
+              className="group block"
+            >
+              <div className="relative aspect-4/3 overflow-hidden bg-surface">
+                <Image
+                  src={metal.image}
+                  alt={`A Misuni solitaire ring in ${metal.name.toLowerCase()}`}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.02]"
+                />
+              </div>
+
+              <div className="mt-3 flex items-baseline gap-3 border-t border-ink pt-3">
+                <span className="index-num text-ink">{metal.number}</span>
+                <h3 className="font-display text-2xl leading-none text-ink text-balance">
+                  {metal.name}
+                </h3>
+              </div>
+
+              <dl className="mt-2">
+                {metal.specs.map(([term, detail]) => (
+                  <div key={term} className="spec-row">
+                    <dt className="label-sm text-ink-3">{term}</dt>
+                    <dd className="text-[0.8125rem] text-ink-2">{detail}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

@@ -1,25 +1,26 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { AssuranceStrip } from "@/components/home/AssuranceStrip";
-import { CategoryRail } from "@/components/home/CategoryRail";
+import { CategoryIndex } from "@/components/home/CategoryIndex";
 import { FeaturedSection } from "@/components/home/FeaturedSection";
 import { MetalStory } from "@/components/home/MetalStory";
 import { CraftSection } from "@/components/home/CraftSection";
+import { ClosingPanel } from "@/components/home/ClosingPanel";
 
 /**
- * Homepage.
+ * Homepage, read as a numbered register:
+ * masthead → 01 forms → 02 pieces → 03 metals → 04 atelier → 05 visit.
  *
- * Ordered as a first-time visitor reads it: what this is → why trust it →
- * what's available → the pieces themselves → how it's made → come and see.
+ * Section 04 breaks to a full-width tinted band deliberately; five ruled
+ * sections in a row would flatten into wallpaper.
  */
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <AssuranceStrip />
-      <CategoryRail />
+      <CategoryIndex />
       <FeaturedSection />
       <MetalStory />
       <CraftSection />
+      <ClosingPanel />
     </>
   );
 }

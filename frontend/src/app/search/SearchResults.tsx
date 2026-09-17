@@ -51,7 +51,7 @@ export function SearchResults({ products }: { products: Product[] }) {
   return (
     <main className="mx-auto w-full max-w-[1600px] px-5 py-8 md:px-8 md:py-12 lg:px-12">
       <div className="mx-auto max-w-2xl">
-        <h1 className="mb-6 font-serif text-3xl text-ink md:text-4xl">
+        <h1 className="mb-6 font-display text-3xl text-ink md:text-4xl">
           Search
         </h1>
 
@@ -59,7 +59,7 @@ export function SearchResults({ products }: { products: Product[] }) {
           <Icon
             name="search"
             size={19}
-            className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-ink-faint"
+            className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-ink-4"
           />
           <input
             type="search"
@@ -68,14 +68,14 @@ export function SearchResults({ products }: { products: Product[] }) {
             placeholder="Solitaire, tennis, rose gold…"
             enterKeyHint="search"
             autoComplete="off"
-            className="w-full border-b border-hairline-strong bg-transparent py-3.5 pl-8 pr-10 font-serif text-xl text-ink outline-none transition-colors duration-150 placeholder:text-ink-faint focus:border-brand md:text-2xl"
+            className="w-full border-b border-rule-strong bg-transparent py-3.5 pl-8 pr-10 font-display text-xl text-ink outline-none transition-colors duration-150 placeholder:text-ink-4 focus:border-sage md:text-2xl"
           />
           {query && (
             <button
               type="button"
               onClick={() => setQuery("")}
               aria-label="Clear search"
-              className="absolute right-0 top-1/2 size-11 -translate-y-1/2 text-ink-faint"
+              className="absolute right-0 top-1/2 size-11 -translate-y-1/2 text-ink-4"
             >
               <Icon name="close" size={17} className="mx-auto" />
             </button>
@@ -84,14 +84,14 @@ export function SearchResults({ products }: { products: Product[] }) {
 
         {!hasQuery && (
           <div className="mt-8">
-            <p className="meta mb-3">Try a category</p>
+            <p className="label-sm text-ink-3 mb-3">Try a category</p>
             <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((category) => (
                 <button
                   key={category}
                   type="button"
                   onClick={() => setQuery(category)}
-                  className="border border-hairline-strong px-3.5 py-2 font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-ink-soft transition-colors duration-150 hover:border-brand hover:text-brand"
+                  className="border border-rule-strong px-3.5 py-2 font-sans text-[0.6875rem] uppercase tracking-[0.14em] text-ink-2 transition-colors duration-150 hover:border-sage hover:text-sage"
                 >
                   {titleCase(category)}
                 </button>
@@ -103,7 +103,7 @@ export function SearchResults({ products }: { products: Product[] }) {
 
       {hasQuery && (
         <div className="mt-12">
-          <p className="meta mb-6" role="status" aria-live="polite">
+          <p className="label-sm text-ink-3 mb-6" role="status" aria-live="polite">
             {results.length} {results.length === 1 ? "result" : "results"} for
             &ldquo;{debounced.trim()}&rdquo;
           </p>
@@ -120,13 +120,13 @@ export function SearchResults({ products }: { products: Product[] }) {
               ))}
             </div>
           ) : (
-            <div className="border border-hairline bg-surface px-6 py-16 text-center">
-              <p className="font-serif text-2xl text-ink">No matches</p>
-              <p className="mx-auto mt-2 max-w-sm font-sans text-sm font-light text-ink-muted text-pretty">
+            <div className="border border-rule bg-surface px-6 py-16 text-center">
+              <p className="font-display text-2xl text-ink">No matches</p>
+              <p className="mx-auto mt-2 max-w-sm font-sans text-sm text-ink-3 text-pretty">
                 We may still be able to make what you&apos;re after — most of
                 our work is bespoke.
               </p>
-              <Link href="/collections" className="btn btn-primary mt-7">
+              <Link href="/collections" className="btn btn-ink mt-7">
                 Browse everything
               </Link>
             </div>

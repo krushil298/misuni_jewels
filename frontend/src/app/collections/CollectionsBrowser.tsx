@@ -114,20 +114,31 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
     categories.length === 1 ? titleCase(categories[0]) : "The collection";
 
   return (
-    <main className="mx-auto w-full max-w-[1600px] px-5 py-8 md:px-8 md:py-12 lg:px-12">
-      <header className="mb-8 md:mb-12">
-        <p className="eyebrow mb-3">Misuni Jewels</p>
-        <h1 className="font-serif text-4xl leading-tight text-ink text-balance md:text-5xl">
-          {heading}
-        </h1>
-        <p className="mt-3 max-w-lg font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty">
-          Every piece is made to order in your choice of metal and size.
-          Save what you like and send us the list on WhatsApp.
-        </p>
+    <main className="shell py-6 md:py-10">
+      {/* Masthead, ruled like the homepage sections */}
+      <header className="border-t border-ink pt-3">
+        <div className="flex items-baseline justify-between">
+          <span className="index-num text-ink">
+            {String(results.length).padStart(2, "0")}
+          </span>
+          <span className="label text-ink-3">
+            {results.length === 1 ? "Piece" : "Pieces"} in the register
+          </span>
+        </div>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-12 md:gap-10">
+          <h1 className="optical-flush font-display text-5xl leading-[0.96] text-ink text-balance md:col-span-7 md:text-6xl lg:text-7xl">
+            {heading}
+          </h1>
+          <p className="max-w-sm self-end text-[0.875rem] leading-relaxed text-ink-2 text-pretty md:col-span-4 md:col-start-9">
+            Every piece is made to order in your choice of metal and size.
+            Save what you like and send the list on WhatsApp.
+          </p>
+        </div>
       </header>
 
       {/* Toolbar */}
-      <div className="sticky top-14 z-sticky -mx-5 mb-6 flex items-center justify-between gap-3 border-y border-hairline bg-canvas/95 px-5 py-2.5 backdrop-blur-md md:static md:mx-0 md:rounded-none md:border-x-0 md:px-0">
+      <div className="sticky top-16 z-sticky mb-8 mt-10 flex items-center justify-between gap-3 border-y border-rule bg-paper/95 py-2.5 backdrop-blur-md md:static">
         <button
           type="button"
           onClick={() => setSheetOpen(true)}
@@ -136,13 +147,13 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
           <Icon name="sliders" size={16} />
           Filter
           {activeCount > 0 && (
-            <span className="flex size-4 items-center justify-center rounded-full bg-brand text-[0.5625rem] font-semibold tabular-nums text-white">
+            <span className="flex size-4 items-center justify-center bg-sage text-[0.5625rem] font-semibold tabular-nums text-white">
               {activeCount}
             </span>
           )}
         </button>
 
-        <p className="meta hidden lg:block">
+        <p className="label hidden text-ink-3 lg:block">
           {results.length} {results.length === 1 ? "piece" : "pieces"}
         </p>
 
@@ -190,7 +201,7 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
                         ? toggle(value, categories, setCategories)
                         : toggle(value, metals, setMetals)
                     }
-                    className="flex items-center gap-1.5 border border-hairline-strong px-3 py-1.5 font-sans text-[0.6875rem] tracking-[0.1em] text-ink-soft transition-colors duration-150 hover:border-ink"
+                    className="flex items-center gap-1.5 border border-rule-strong px-3 py-1.5 font-sans text-[0.6875rem] tracking-[0.1em] text-ink-2 transition-colors duration-150 hover:border-ink"
                   >
                     {titleCase(value)}
                     <Icon name="close" size={12} />
@@ -201,7 +212,7 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
           )}
 
           {results.length > 0 ? (
-            <div className="grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-3 md:gap-x-6 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 md:gap-x-6 md:gap-y-14 xl:grid-cols-4">
               {results.map((product, i) => (
                 <ProductCard
                   key={product.id}
@@ -212,18 +223,18 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
               ))}
             </div>
           ) : (
-            <div className="border border-hairline bg-surface px-6 py-16 text-center">
-              <p className="font-serif text-2xl text-ink">
+            <div className="border-t border-ink py-16 text-center">
+              <p className="font-display text-3xl text-ink">
                 Nothing matches those filters
               </p>
-              <p className="mx-auto mt-2 max-w-sm font-sans text-sm font-light text-ink-muted text-pretty">
+              <p className="mx-auto mt-2 max-w-sm font-sans text-sm text-ink-3 text-pretty">
                 Try removing a filter, or tell us what you&apos;re looking for
                 and we&apos;ll make it.
               </p>
               <button
                 type="button"
                 onClick={clear}
-                className="btn btn-primary mt-7"
+                className="btn btn-ink mt-7"
               >
                 Clear filters
               </button>
@@ -253,10 +264,10 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
               exit={{ y: "100%" }}
               transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "fixed inset-x-0 bottom-0 z-modal flex max-h-[85dvh] flex-col bg-canvas lg:hidden"
+                "fixed inset-x-0 bottom-0 z-modal flex max-h-[85dvh] flex-col bg-paper lg:hidden"
               )}
             >
-              <div className="flex items-center justify-between border-b border-hairline px-5 py-4">
+              <div className="flex items-center justify-between border-b border-rule px-5 py-4">
                 <h2 className="font-sans text-[0.75rem] font-semibold uppercase tracking-[0.18em] text-ink">
                   Filter
                 </h2>
@@ -264,7 +275,7 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
                   type="button"
                   onClick={() => setSheetOpen(false)}
                   aria-label="Close filters"
-                  className="-mr-2 p-2 text-ink-muted"
+                  className="-mr-2 p-2 text-ink-3"
                 >
                   <Icon name="close" size={20} />
                 </button>
@@ -281,11 +292,11 @@ export function CollectionsBrowser({ products }: { products: Product[] }) {
                 />
               </div>
 
-              <div className="border-t border-hairline px-5 py-4 pb-safe">
+              <div className="border-t border-rule px-5 py-4 pb-safe">
                 <button
                   type="button"
                   onClick={() => setSheetOpen(false)}
-                  className="btn btn-primary w-full"
+                  className="btn btn-ink w-full"
                 >
                   Show {results.length}{" "}
                   {results.length === 1 ? "piece" : "pieces"}

@@ -25,17 +25,17 @@ export default function AboutPage() {
     <main>
       <section className="mx-auto w-full max-w-3xl px-5 py-14 text-center md:py-20">
         <Logo variant="mark" height={56} className="mx-auto" />
-        <h1 className="mt-8 font-serif text-4xl leading-tight text-ink text-balance md:text-5xl">
+        <h1 className="mt-8 font-display text-4xl leading-tight text-ink text-balance md:text-5xl">
           {SITE_TAGLINE}
         </h1>
-        <p className="mx-auto mt-5 max-w-xl font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty md:text-base">
+        <p className="mx-auto mt-5 max-w-xl font-sans text-sm leading-relaxed text-ink-2 text-pretty md:text-base">
           Misuni Jewels is a diamond atelier in Bandra Kurla Complex, Mumbai.
           We make a small number of pieces properly, for people who intend to
           keep them.
         </p>
       </section>
 
-      <section className="bg-canvas-sunk py-14 md:py-20">
+      <section className="bg-paper-deep py-14 md:py-20">
         <div className="mx-auto grid w-full max-w-[1400px] items-center gap-10 px-5 md:grid-cols-2 md:gap-16 md:px-8">
           <div className="relative aspect-4/5 overflow-hidden bg-surface">
             <Image
@@ -48,11 +48,11 @@ export default function AboutPage() {
           </div>
 
           <div className="max-w-md">
-            <p className="eyebrow mb-3">How we work</p>
-            <h2 className="font-serif text-3xl leading-[1.15] text-ink text-balance md:text-4xl">
+            <p className="label text-sage mb-3">How we work</p>
+            <h2 className="font-display text-3xl leading-[1.15] text-ink text-balance md:text-4xl">
               No shop window, by design
             </h2>
-            <div className="mt-5 space-y-4 font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty">
+            <div className="mt-5 space-y-4 font-sans text-sm leading-relaxed text-ink-2 text-pretty">
               <p>
                 A retail counter means holding stock, and holding stock means
                 making what sells rather than what&apos;s worth making. We
@@ -83,12 +83,12 @@ export default function AboutPage() {
                 },
               ].map((item) => (
                 <li key={item.title} className="flex gap-3">
-                  <Icon name="check" size={17} className="mt-0.5 text-brand" />
+                  <Icon name="check" size={17} className="mt-0.5 text-sage" />
                   <div>
                     <p className="font-sans text-[0.8125rem] font-medium text-ink">
                       {item.title}
                     </p>
-                    <p className="mt-1 font-sans text-[0.8125rem] font-light text-ink-muted text-pretty">
+                    <p className="mt-1 font-sans text-[0.8125rem] text-ink-3 text-pretty">
                       {item.body}
                     </p>
                   </div>
@@ -100,11 +100,11 @@ export default function AboutPage() {
       </section>
 
       <section className="mx-auto w-full max-w-2xl px-5 py-16 text-center md:py-24">
-        <p className="eyebrow mb-3">Come and see</p>
-        <h2 className="font-serif text-3xl text-ink text-balance md:text-4xl">
+        <p className="label text-sage mb-3">Come and see</p>
+        <h2 className="font-display text-3xl text-ink text-balance md:text-4xl">
           Pieces look different in person
         </h2>
-        <p className="mx-auto mt-4 max-w-md font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty">
+        <p className="mx-auto mt-4 max-w-md font-sans text-sm leading-relaxed text-ink-2 text-pretty">
           Photographs only go so far with diamonds. Book a viewing at{" "}
           {LOCATION.label} and see the difference light makes.
         </p>
@@ -119,7 +119,7 @@ export default function AboutPage() {
             <Icon name="whatsapp" size={16} />
             Book a viewing
           </a>
-          <Link href="/collections" className="btn btn-outline w-full sm:w-auto">
+          <Link href="/collections" className="btn btn-line w-full sm:w-auto">
             Browse the collection
           </Link>
         </div>

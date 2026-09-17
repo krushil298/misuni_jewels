@@ -49,3 +49,18 @@ export function slugify(str: string): string {
 export function titleCase(str: string): string {
   return str.replace(/\b\w/g, (c) => c.toUpperCase());
 }
+
+/**
+ * A stable three-digit register code for a piece, e.g. "MJ 214".
+ *
+ * Derived from the slug so it never changes for a given product and needs
+ * no extra column. It is a presentational reference for the catalogue —
+ * not an inventory SKU, and not shown as one.
+ */
+export function referenceCode(slug: string): string {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i++) {
+    hash = (hash * 31 + slug.charCodeAt(i)) % 900;
+  }
+  return `MJ ${String(hash + 100)}`;
+}

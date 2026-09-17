@@ -50,24 +50,24 @@ export default async function ProductPage({ params }: Props) {
         }}
       />
 
-      <main className="mx-auto w-full max-w-[1600px] px-5 py-6 md:px-8 md:py-10 lg:px-12">
+      <main className="shell py-6 md:py-10">
         <nav aria-label="Breadcrumb" className="mb-6 md:mb-10">
           <ol className="flex items-center gap-2">
             <li>
               <Link
                 href="/collections"
-                className="meta transition-colors duration-150 hover:text-brand"
+                className="label-sm text-ink-3 transition-colors duration-150 hover:text-sage"
               >
                 Collection
               </Link>
             </li>
-            <li aria-hidden className="text-ink-faint">
+            <li aria-hidden className="text-ink-4">
               <Icon name="chevron-right" size={12} />
             </li>
             <li>
               <Link
                 href={`/collections?category=${product.category}`}
-                className="meta transition-colors duration-150 hover:text-brand"
+                className="label-sm text-ink-3 transition-colors duration-150 hover:text-sage"
               >
                 {titleCase(product.category)}
               </Link>

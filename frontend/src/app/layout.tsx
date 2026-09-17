@@ -1,21 +1,30 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat, Cormorant_Garamond } from "next/font/google";
+import { Instrument_Serif, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
-const montserrat = Montserrat({
+/**
+ * Instrument Serif for display. High-contrast and genuinely editorial, with
+ * a real italic — it replaces Cormorant Garamond, which is the default
+ * "luxury" Google font and reads as a template on sight.
+ */
+const instrument = Instrument_Serif({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-montserrat",
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
+/**
+ * Inter Tight for everything else. Tighter than Inter, with proper tabular
+ * figures — the reference codes, carat weights and price columns line up.
+ */
+const interTight = Inter_Tight({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-cormorant",
+  variable: "--font-inter-tight",
   display: "swap",
 });
 
@@ -58,7 +67,7 @@ export const metadata: Metadata = {
 
 /** Ivory ground, so the browser chrome on mobile matches the page. */
 export const viewport: Viewport = {
-  themeColor: "#fbfaf8",
+  themeColor: "#f6f4ef",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -70,9 +79,9 @@ export default function RootLayout({
   return (
     <html
       lang="en-IN"
-      className={`${montserrat.variable} ${cormorant.variable}`}
+      className={`${instrument.variable} ${interTight.variable}`}
     >
-      <body className="flex min-h-dvh flex-col bg-canvas text-ink antialiased">
+      <body className="flex min-h-dvh flex-col bg-paper text-ink antialiased">
         <LayoutShell>{children}</LayoutShell>
         <script
           type="application/ld+json"

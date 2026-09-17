@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { useSelection } from "@/context/SelectionContext";
 import { productEnquiryLink } from "@/lib/whatsapp";
-import { cn, formatPrice, titleCase } from "@/lib/utils";
+import { cn, formatPrice, referenceCode, titleCase } from "@/lib/utils";
 import { METAL_FILTERS } from "@/lib/constants";
 import type { Product } from "@/types";
 
@@ -39,22 +39,29 @@ export function ProductInfo({ product }: ProductInfoProps) {
   return (
     <div className="lg:col-span-5">
       <div className="lg:sticky lg:top-28">
-        <p className="meta mb-3">{titleCase(product.category)}</p>
+        <div className="flex items-baseline justify-between border-t border-ink pt-3">
+          <span className="index-num text-ink">
+            {referenceCode(product.slug)}
+          </span>
+          <span className="label text-ink-3">
+            {titleCase(product.category)}
+          </span>
+        </div>
 
-        <h1 className="font-serif text-3xl leading-[1.12] text-ink text-balance md:text-4xl">
+        <h1 className="optical-flush mt-5 font-display text-4xl leading-[1.02] text-ink text-balance md:text-5xl">
           {product.name}
         </h1>
 
-        <p className="mt-4 font-sans text-xl font-light tabular-nums text-ink">
+        <p className="mt-4 font-sans text-xl tabular-nums text-ink">
           {formatPrice(product.price)}
         </p>
-        <p className="meta mt-1 text-[0.625rem] normal-case tracking-[0.08em]">
-          Indicative price · final quote depends on stone and size
+        <p className="mt-1 text-[0.75rem] text-ink-3">
+          Indicative · the final quote follows your stone and sizing
         </p>
 
         {/* Metal */}
         <fieldset className="mt-9">
-          <legend className="font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-ink">
+          <legend className="label border-t border-rule pt-3 text-ink">
             Metal
           </legend>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -70,7 +77,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                     "flex min-h-11 items-center gap-2.5 border px-3 py-2 font-sans text-[0.6875rem] tracking-[0.1em] transition-colors duration-150",
                     active
                       ? "border-ink text-ink"
-                      : "border-hairline-strong text-ink-muted hover:border-ink-faint"
+                      : "border-rule-strong text-ink-3 hover:border-ink-4"
                   )}
                 >
                   <span
@@ -88,7 +95,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {/* Size */}
         {product.sizes && product.sizes.length > 0 && (
           <fieldset className="mt-7">
-            <legend className="font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-ink">
+            <legend className="label border-t border-rule pt-3 text-ink">
               {product.category === "necklaces" || product.category === "pendants"
                 ? "Chain length"
                 : "Size"}
@@ -106,7 +113,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                       "min-h-11 min-w-14 border px-4 font-sans text-[0.75rem] tabular-nums transition-colors duration-150",
                       active
                         ? "border-ink bg-ink text-white"
-                        : "border-hairline-strong text-ink-soft hover:border-ink-faint"
+                        : "border-rule-strong text-ink-2 hover:border-ink-4"
                     )}
                   >
                     {option}
@@ -114,7 +121,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 );
               })}
             </div>
-            <p className="mt-2 font-sans text-[0.6875rem] font-light text-ink-muted">
+            <p className="mt-2 font-sans text-[0.6875rem] text-ink-3">
               Not sure of your size? Ask us — we&apos;ll guide you.
             </p>
           </fieldset>
@@ -136,7 +143,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
             type="button"
             onClick={() => toggle(product)}
             aria-pressed={saved}
-            className="btn btn-outline w-full"
+            className="btn btn-line w-full"
           >
             <Icon name={saved ? "heart-filled" : "heart"} size={16} />
             {saved ? "Saved to selection" : "Save to selection"}
@@ -144,20 +151,23 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </div>
 
         {/* Specification */}
-        <div className="mt-10 border-t border-hairline pt-7">
-          <h2 className="font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.16em] text-ink">
-            Details
+        <div className="mt-10">
+          <h2 className="label border-t border-ink pt-3 text-ink">
+            Specification
           </h2>
-          <p className="mt-3 font-sans text-[0.8125rem] font-light leading-relaxed text-ink-soft text-pretty">
+          <p className="mt-3 font-sans text-[0.8125rem] leading-relaxed text-ink-2 text-pretty">
             {product.description}
           </p>
 
           {product.details.length > 0 && (
-            <ul className="mt-5 space-y-2.5">
+            <ul className="mt-5">
               {product.details.map((detail) => (
-                <li key={detail} className="flex gap-3">
-                  <Icon name="check" size={15} className="mt-0.5 text-brand" />
-                  <span className="font-sans text-[0.8125rem] font-light text-ink-soft text-pretty">
+                <li
+                  key={detail}
+                  className="flex gap-3 border-t border-rule py-2.5"
+                >
+                  <Icon name="check" size={14} className="mt-0.5 text-sage" />
+                  <span className="font-sans text-[0.8125rem] text-ink-2 text-pretty">
                     {detail}
                   </span>
                 </li>

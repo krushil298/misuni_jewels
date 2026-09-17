@@ -1,57 +1,55 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   MISUNI JEWELS — design tokens
-   Ivory canvas, sage accent. Sage is sampled from the logo artwork (#639284).
-   Diamonds read truest against near-white, so colour is spent on structure
-   (rules, CTAs, active states) and never on the ground behind a product photo.
+   MISUNI JEWELS — design system
+
+   Concept: an atelier's register. Misuni holds no stock and sells nothing
+   online — every piece is made to order and shown by appointment. So the
+   site is built as a curated index rather than a shop: numbered entries,
+   reference codes, hairline rules, specifications set as real tables, and
+   an asymmetric editorial grid with deliberate negative space.
+
+   Colour is sampled from the logo artwork (#639284) and spent sparingly.
+   Diamonds read truest against warm paper, so photography sits on white and
+   the page carries the warmth.
    ========================================================================== */
 
 @theme inline {
-  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
+  /* Instrument Serif — editorial display with a genuine italic.
+     Inter Tight — tight modern grotesque with real tabular figures, which
+     the reference codes and price columns depend on. */
+  --font-display: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter-tight), ui-sans-serif, system-ui, sans-serif;
 
-  /* ── Sage — the logo green and its scale ────────────────────────────── */
-  --color-sage-50: #f3f8f6;
-  --color-sage-100: #e3efeb;
-  --color-sage-200: #c6ded6;
-  --color-sage-300: #a1c7bb;
-  --color-sage-400: #81ad9f;
-  --color-sage-500: #639284; /* brand */
-  --color-sage-600: #4f786c;
-  --color-sage-700: #3f6057;
-  --color-sage-800: #334c45;
-  --color-sage-900: #22332e;
+  /* ── Ground ─────────────────────────────────────────────────────────── */
+  --color-paper: #f6f4ef; /* page — warm, slightly toothy */
+  --color-paper-deep: #edeae3; /* alternating bands, wells */
+  --color-surface: #ffffff; /* product plates */
 
-  /* ── Ground & ink ───────────────────────────────────────────────────── */
-  --color-canvas: #fbfaf8; /* page ground, warm ivory */
-  --color-canvas-sunk: #f4f2ee; /* alternating bands, inset wells */
-  --color-surface: #ffffff; /* cards, product tiles, sheets */
+  /* ── Ink ────────────────────────────────────────────────────────────── */
+  --color-ink: #14201c; /* headings — a green-black, tied to the mark */
+  --color-ink-2: #46524e; /* body */
+  --color-ink-3: #79827e; /* meta, captions */
+  --color-ink-4: #a8afab; /* placeholders, disabled, index numerals */
 
-  --color-ink: #16211d; /* headings, primary text */
-  --color-ink-soft: #46524e; /* body copy */
-  --color-ink-muted: #6b7572; /* meta, captions, labels */
-  --color-ink-faint: #9aa3a0; /* placeholders, disabled */
+  /* ── Rules ──────────────────────────────────────────────────────────── */
+  --color-rule: #e0dcd3;
+  --color-rule-strong: #cbc5b9;
 
-  --color-hairline: #e7e4df; /* default 1px rule */
-  --color-hairline-strong: #d4d0c9;
+  /* ── Sage — the logo green ──────────────────────────────────────────── */
+  --color-sage: #639284;
+  --color-sage-deep: #4c7367;
+  --color-sage-pale: #e6efeb;
 
-  /* ── Accent aliases — semantic names used across components ─────────── */
-  --color-brand: #639284;
-  --color-brand-deep: #4f786c;
-  --color-brand-tint: #f3f8f6;
-
-  /* Warm metal, used sparingly for certification / gold cues */
-  --color-gold: #a98650;
-  --color-gold-tint: #f6efe3;
+  /* Warm metal, for certification and gold cues only */
+  --color-brass: #b08a52;
+  --color-brass-pale: #f2eade;
 
   --color-whatsapp: #25d366;
   --color-whatsapp-deep: #1da851;
+  --color-danger: #9c3f3c;
 
-  --color-danger: #9f403d;
-  --color-danger-tint: #fdf1f0;
-
-  /* ── Radius — the brand is editorial and square-cornered ───────────── */
+  /* Square by default — the register has no rounded corners. */
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
@@ -61,8 +59,8 @@
   --radius-4xl: 0px;
 }
 
-/* ── Fixed z-index scale — never use an arbitrary z-* ────────────────── */
 @theme {
+  /* Fixed z-index scale — never an arbitrary z-* */
   --z-index-base: 0;
   --z-index-raised: 10;
   --z-index-sticky: 20;
@@ -70,7 +68,6 @@
   --z-index-overlay: 50;
   --z-index-drawer: 60;
   --z-index-modal: 70;
-  --z-index-toast: 80;
 }
 
 @layer base {
@@ -80,28 +77,31 @@
   }
 
   body {
-    background-color: var(--color-canvas);
+    background-color: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-weight: 300;
+    font-weight: 400;
+    font-synthesis-weight: none;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Display face for editorial headings */
+  /* Display face carries no synthetic bold — Instrument Serif has one weight,
+     and faking a heavier cut muddies its high-contrast strokes. */
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
-    font-weight: 300;
+    font-family: var(--font-display);
+    font-weight: 400;
     color: var(--color-ink);
+    letter-spacing: -0.015em;
+    line-height: 1.02;
   }
 
-  /* Keyboard-only focus ring */
   :focus-visible {
-    outline: 2px solid var(--color-brand);
-    outline-offset: 2px;
+    outline: 2px solid var(--color-sage);
+    outline-offset: 3px;
   }
 
   :focus:not(:focus-visible) {
@@ -109,11 +109,10 @@
   }
 
   ::selection {
-    background-color: var(--color-brand);
-    color: #ffffff;
+    background-color: var(--color-ink);
+    color: var(--color-paper);
   }
 
-  /* Native form controls inherit the brand */
   input,
   textarea,
   select,
@@ -124,93 +123,128 @@
   input,
   textarea,
   select {
-    accent-color: var(--color-brand);
+    accent-color: var(--color-sage);
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
   }
-
   ::-webkit-scrollbar-track {
-    background: var(--color-canvas-sunk);
+    background: var(--color-paper-deep);
   }
-
   ::-webkit-scrollbar-thumb {
-    background: var(--color-hairline-strong);
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-ink-faint);
+    background: var(--color-rule-strong);
   }
 }
 
 @layer components {
-  /* ── Eyebrow: the small tracked label above a section heading ──────── */
-  .eyebrow {
+  /* ── Page shell ─────────────────────────────────────────────────────
+     One container, one set of gutters. Every section uses this so the
+     left rule line is unbroken down the whole page. */
+  .shell {
+    width: 100%;
+    max-width: 1560px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .shell {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .shell {
+      padding-inline: 4rem;
+    }
+  }
+
+  /* ── Register label: the small tracked caps used throughout ───────── */
+  .label {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .label-sm {
+    font-family: var(--font-sans);
+    font-size: 0.5625rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Index numeral — "01", "02". Sits beside a heading or a product. */
+  .index-num {
     font-family: var(--font-sans);
     font-size: 0.625rem;
     font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--color-brand);
+    letter-spacing: 0.1em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink-4);
   }
 
-  /* ── Meta: product category, spec labels, nav items ────────────────── */
-  .meta {
-    font-family: var(--font-sans);
-    font-size: 0.6875rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-ink-muted);
+  /* ── Rule with a label sitting on it — the page's main divider ────── */
+  .rule-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding-block: 0.75rem;
+    border-top: 1px solid var(--color-ink);
   }
 
-  /* ── Buttons ───────────────────────────────────────────────────────── */
+  /* ── Buttons ──────────────────────────────────────────────────────── */
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.625rem;
+    gap: 0.5rem;
     min-height: 3rem;
-    padding: 0.875rem 1.75rem;
+    padding: 0.875rem 1.5rem;
     font-family: var(--font-sans);
     font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-weight: 500;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-align: center;
     transition:
       background-color 150ms ease-out,
       color 150ms ease-out,
-      border-color 150ms ease-out,
-      opacity 150ms ease-out;
+      border-color 150ms ease-out;
   }
 
-  .btn-primary {
+  .btn-ink {
     background-color: var(--color-ink);
-    color: #ffffff;
+    color: var(--color-paper);
   }
-  .btn-primary:hover {
-    background-color: var(--color-brand-deep);
+  .btn-ink:hover {
+    background-color: var(--color-sage-deep);
   }
 
   .btn-sage {
-    background-color: var(--color-brand);
+    background-color: var(--color-sage);
     color: #ffffff;
   }
   .btn-sage:hover {
-    background-color: var(--color-brand-deep);
+    background-color: var(--color-sage-deep);
   }
 
-  .btn-outline {
+  .btn-line {
     background-color: transparent;
     color: var(--color-ink);
-    border: 1px solid var(--color-hairline-strong);
+    border: 1px solid var(--color-ink);
   }
-  .btn-outline:hover {
-    border-color: var(--color-ink);
+  .btn-line:hover {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
   }
 
   .btn-whatsapp {
@@ -221,16 +255,37 @@
     background-color: var(--color-whatsapp-deep);
   }
 
-  /* Underlined text link, editorial style */
+  /* Text link that underlines from the baseline rule */
   .link-rule {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.3rem;
     font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 500;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding-bottom: 0.25rem;
     border-bottom: 1px solid currentColor;
     transition: color 150ms ease-out;
+  }
+
+  /* ── Specification table — used on product, atelier and hero ───────
+     The term column is proportional with a ceiling, so the row still works
+     inside a narrow grid column. Values break anywhere as a last resort:
+     an email address is a single unbreakable token and will otherwise
+     push the whole page into horizontal scroll. */
+  .spec-row {
+    display: grid;
+    grid-template-columns: minmax(0, clamp(4rem, 34%, 7rem)) minmax(0, 1fr);
+    gap: 0.75rem 1rem;
+    padding-block: 0.75rem;
+    border-top: 1px solid var(--color-rule);
+    align-items: baseline;
+  }
+
+  .spec-row > :last-child {
+    overflow-wrap: anywhere;
   }
 }
 
@@ -238,44 +293,37 @@
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
-
   .hide-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 
-  /* Horizontal snap rail — the primary mobile browse pattern */
   .snap-rail {
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-x: contain;
   }
-
   .snap-item {
     scroll-snap-align: start;
   }
 
-  /* Respect the notch / home indicator on fixed chrome */
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-
   .pt-safe {
     padding-top: env(safe-area-inset-top, 0px);
   }
 
-  .inset-x-safe {
-    padding-left: env(safe-area-inset-left, 0px);
-    padding-right: env(safe-area-inset-right, 0px);
+  /* Display type that should sit optically flush with a rule above it */
+  .optical-flush {
+    margin-top: -0.12em;
   }
 }
 
-/* Motion is opt-in: anything that moves must still be usable when disabled. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-
   *,
   *::before,
   *::after {

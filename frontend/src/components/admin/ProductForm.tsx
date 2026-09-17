@@ -342,7 +342,7 @@ export function ProductForm({ initialData, onSubmit, submitting }: ProductFormPr
         <button
           type="submit"
           disabled={submitting}
-          className="admin-btn admin-btn-primary"
+          className="admin-btn admin-btn-ink"
         >
           {submitting
             ? isEdit

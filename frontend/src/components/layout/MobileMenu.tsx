@@ -66,42 +66,42 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-y-0 left-0 z-modal flex w-[86%] max-w-sm flex-col bg-canvas pt-safe outline-none md:hidden"
+            className="fixed inset-y-0 left-0 z-modal flex w-[86%] max-w-sm flex-col bg-paper pt-safe outline-none md:hidden"
           >
-            <div className="flex items-center justify-between border-b border-hairline px-5 py-4">
+            <div className="flex items-center justify-between border-b border-rule px-5 py-4">
               <Logo variant="lockup" height={34} />
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="-mr-2 p-2 text-ink-muted"
+                className="-mr-2 p-2 text-ink-3"
               >
                 <Icon name="close" size={22} />
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-6">
-              <p className="eyebrow mb-4">Collection</p>
+              <p className="label text-sage mb-4">Collection</p>
               <ul className="mb-8 space-y-0.5">
                 {CATEGORIES.map((category) => (
                   <li key={category}>
                     <Link
                       href={`/collections?category=${category}`}
                       onClick={onClose}
-                      className="flex items-center justify-between border-b border-hairline py-3.5 font-serif text-xl text-ink"
+                      className="flex items-center justify-between border-b border-rule py-3.5 font-display text-xl text-ink"
                     >
                       {titleCase(category)}
                       <Icon
                         name="arrow-right"
                         size={16}
-                        className="text-ink-faint"
+                        className="text-ink-4"
                       />
                     </Link>
                   </li>
                 ))}
               </ul>
 
-              <p className="eyebrow mb-4">Atelier</p>
+              <p className="label text-sage mb-4">Atelier</p>
               <ul className="space-y-0.5">
                 {[
                   { href: "/collections", label: "All Pieces" },
@@ -113,7 +113,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                     <Link
                       href={link.href}
                       onClick={onClose}
-                      className="block border-b border-hairline py-3 font-sans text-[0.75rem] uppercase tracking-[0.16em] text-ink-soft"
+                      className="block border-b border-rule py-3 font-sans text-[0.75rem] uppercase tracking-[0.16em] text-ink-2"
                     >
                       {link.label}
                     </Link>
@@ -122,7 +122,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
               </ul>
             </div>
 
-            <div className="border-t border-hairline px-5 py-5 pb-safe">
+            <div className="border-t border-rule px-5 py-5 pb-safe">
               <a
                 href={appointmentLink()}
                 target="_blank"
@@ -132,15 +132,15 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                 <Icon name="whatsapp" size={17} />
                 Book a viewing
               </a>
-              <p className="meta mt-4 text-center normal-case tracking-[0.1em]">
+              <p className="label-sm text-ink-3 mt-4 text-center normal-case tracking-[0.1em]">
                 {LOCATION.label}, {LOCATION.city}
               </p>
-              <p className="mt-1 text-center font-sans text-[0.625rem] uppercase tracking-[0.22em] text-ink-faint">
+              <p className="mt-1 text-center font-sans text-[0.625rem] uppercase tracking-[0.22em] text-ink-4">
                 {SITE_TAGLINE}
               </p>
               <a
                 href={`tel:${CONTACT.phoneHref}`}
-                className="mt-3 block text-center font-sans text-[0.6875rem] tracking-[0.1em] text-ink-muted"
+                className="mt-3 block text-center font-sans text-[0.6875rem] tracking-[0.1em] text-ink-3"
               >
                 {CONTACT.phoneDisplay}
               </a>

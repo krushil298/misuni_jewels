@@ -3,57 +3,56 @@ import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  eyebrow?: string;
+  /** Two-digit register index, e.g. "02". */
+  index: string;
   title: string;
-  description?: string;
-  /** Optional "see everything" link shown on the right / below. */
+  /** Short line set beside the title, in the right-hand columns. */
+  note?: string;
   action?: { href: string; label: string };
-  align?: "start" | "center";
   className?: string;
 }
 
-/** Shared heading block, so every section keeps the same vertical rhythm. */
+/**
+ * Section masthead.
+ *
+ * A heavy rule with the index and label sitting on it, then the title
+ * hanging beneath in the left columns and an optional note in the right.
+ * This replaces five visually identical eyebrow / title / "view all"
+ * blocks — the repetition was a large part of why the page read as
+ * generated rather than composed.
+ */
 export function SectionHeader({
-  eyebrow,
+  index,
   title,
-  description,
+  note,
   action,
-  align = "start",
   className,
 }: SectionHeaderProps) {
-  const centred = align === "center";
-
   return (
-    <div
-      className={cn(
-        "mb-8 flex flex-col gap-4 md:mb-12",
-        centred
-          ? "items-center text-center"
-          : "sm:flex-row sm:items-end sm:justify-between",
-        className
-      )}
-    >
-      <div className={cn(centred ? "max-w-xl" : "max-w-lg")}>
-        {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-        <h2 className="font-serif text-3xl leading-[1.15] text-ink text-balance md:text-4xl lg:text-[2.75rem]">
-          {title}
-        </h2>
-        {description && (
-          <p className="mt-3 font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty">
-            {description}
-          </p>
+    <header className={cn("border-t border-ink pt-3", className)}>
+      <div className="flex items-baseline justify-between gap-4">
+        <span className="index-num text-ink">{index}</span>
+        {action && (
+          <Link
+            href={action.href}
+            className="link-rule border-b-0 text-ink-3 transition-colors duration-150 hover:text-ink"
+          >
+            {action.label}
+            <Icon name="arrow-right" size={13} />
+          </Link>
         )}
       </div>
 
-      {action && (
-        <Link
-          href={action.href}
-          className="link-rule inline-flex shrink-0 items-center gap-2 self-start text-ink transition-colors duration-150 hover:text-brand sm:self-auto"
-        >
-          {action.label}
-          <Icon name="arrow-right" size={14} />
-        </Link>
-      )}
-    </div>
+      <div className="mt-5 grid gap-4 md:grid-cols-12 md:gap-10">
+        <h2 className="optical-flush font-display text-4xl leading-[0.98] text-ink text-balance md:col-span-7 md:text-5xl lg:text-6xl">
+          {title}
+        </h2>
+        {note && (
+          <p className="max-w-sm self-end text-[0.875rem] leading-relaxed text-ink-2 text-pretty md:col-span-4 md:col-start-9">
+            {note}
+          </p>
+        )}
+      </div>
+    </header>
   );
 }
