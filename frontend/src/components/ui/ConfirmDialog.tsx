@@ -105,18 +105,18 @@ export function ConfirmDialog({
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="relative w-full max-w-sm border border-rule bg-paper p-6 pb-safe shadow-xl"
+            className="relative w-full max-w-sm border border-hairline bg-canvas p-6 pb-safe shadow-xl"
           >
             <h2
               id="confirm-title"
-              className="font-display text-xl text-ink text-balance"
+              className="font-serif text-xl text-ink text-balance"
             >
               {title}
             </h2>
             {description && (
               <p
                 id="confirm-description"
-                className="mt-2 font-sans text-[0.8125rem] leading-relaxed text-ink-2 text-pretty"
+                className="mt-2 font-sans text-[0.8125rem] font-light leading-relaxed text-ink-soft text-pretty"
               >
                 {description}
               </p>
@@ -127,7 +127,7 @@ export function ConfirmDialog({
                 ref={confirmRef}
                 type="button"
                 onClick={onCancel}
-                className="btn btn-line flex-1 sm:flex-none"
+                className="btn btn-outline flex-1 sm:flex-none"
               >
                 {cancelLabel}
               </button>
@@ -137,7 +137,7 @@ export function ConfirmDialog({
                 className={
                   destructive
                     ? "btn flex-1 bg-danger text-white hover:opacity-90 sm:flex-none"
-                    : "btn btn-ink flex-1 sm:flex-none"
+                    : "btn btn-primary flex-1 sm:flex-none"
                 }
               >
                 {confirmLabel}

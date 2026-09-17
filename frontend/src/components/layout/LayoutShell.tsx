@@ -18,10 +18,12 @@ export function LayoutShell({ children }: { children: React.ReactNode }) {
 
   return (
     <SelectionProvider>
-      <span id="top" />
       <Navbar />
-      {/* Bottom padding clears the fixed mobile action bar. */}
-      <main className="flex-1 pb-14 md:pb-0">{children}</main>
+      {/*
+        Bottom padding clears the fixed mobile action bar so the last
+        element on a page is never trapped underneath it.
+      */}
+      <main className="flex-1 pb-20 md:pb-0">{children}</main>
       <Footer />
       <MobileActionBar />
     </SelectionProvider>

@@ -1,70 +1,59 @@
+import Link from "next/link";
+import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
 
 interface SectionHeaderProps {
-  eyebrow: string;
-  /** First line, set roman. */
+  eyebrow?: string;
   title: string;
-  /** Second line, set italic — the signature of this style. */
-  titleItalic?: string;
   description?: string;
-  /** Switches the palette for a forest-ground section. */
-  onDark?: boolean;
-  align?: "center" | "start";
+  /** Optional "see everything" link shown on the right / below. */
+  action?: { href: string; label: string };
+  align?: "start" | "center";
   className?: string;
 }
 
-/** Section masthead: gold eyebrow, roman line, italic line. */
+/** Shared heading block, so every section keeps the same vertical rhythm. */
 export function SectionHeader({
   eyebrow,
   title,
-  titleItalic,
   description,
-  onDark = false,
-  align = "center",
+  action,
+  align = "start",
   className,
 }: SectionHeaderProps) {
+  const centred = align === "center";
+
   return (
-    <header
+    <div
       className={cn(
-        align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-xl",
+        "mb-8 flex flex-col gap-4 md:mb-12",
+        centred
+          ? "items-center text-center"
+          : "sm:flex-row sm:items-end sm:justify-between",
         className
       )}
     >
-      <span className="eyebrow">{eyebrow}</span>
-
-      <h2
-        className={cn(
-          "mt-5 font-display text-4xl leading-[1.1] text-balance md:text-5xl",
-          onDark ? "text-cream" : "text-forest"
+      <div className={cn(centred ? "max-w-xl" : "max-w-lg")}>
+        {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
+        <h2 className="font-serif text-3xl leading-[1.15] text-ink text-balance md:text-4xl lg:text-[2.75rem]">
+          {title}
+        </h2>
+        {description && (
+          <p className="mt-3 font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty">
+            {description}
+          </p>
         )}
-      >
-        {title}
-        {titleItalic && (
-          <>
-            {" "}
-            <em
-              className={cn(
-                "font-normal italic",
-                onDark ? "text-gold" : "text-forest/75"
-              )}
-            >
-              {titleItalic}
-            </em>
-          </>
-        )}
-      </h2>
+      </div>
 
-      {description && (
-        <p
-          className={cn(
-            "mt-5 text-sm leading-relaxed text-pretty",
-            onDark ? "text-cream/60" : "text-ink-2",
-            align === "center" && "mx-auto max-w-lg"
-          )}
+      {action && (
+        <Link
+          href={action.href}
+          className="link-rule inline-flex shrink-0 items-center gap-2 self-start text-ink transition-colors duration-150 hover:text-brand sm:self-auto"
         >
-          {description}
-        </p>
+          {action.label}
+          <Icon name="arrow-right" size={14} />
+        </Link>
       )}
-    </header>
+    </div>
   );
 }

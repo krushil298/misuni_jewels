@@ -1,77 +1,72 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Icon } from "@/components/ui/Icon";
 import { appointmentLink } from "@/lib/whatsapp";
 
 /**
- * Hero.
+ * Homepage hero.
  *
- * Forest ground, type in the left columns, and the photograph set in a plate
- * with a gold outline offset behind it plus a badge overlapping its lower
- * corner. On phones the plate leads and the outline frame is dropped — at
- * 390px it crowds the image rather than framing it.
+ * Uses the local brand photograph rather than the previous hotlinked
+ * Unsplash URL — that was an uncached third-party request in the critical
+ * path, and the stock image had nothing to do with the collection.
+ *
+ * Sized in dvh so mobile browser chrome collapsing doesn't clip the CTAs.
  */
 export function HeroSection() {
   return (
-    <section className="bg-forest text-cream">
-      <div className="shell grid gap-14 py-12 md:grid-cols-12 md:items-center md:gap-14 md:py-20 lg:py-24">
-        {/* Type */}
-        <div className="order-2 md:order-1 md:col-span-6 lg:col-span-5">
-          <span className="eyebrow eyebrow-ruled">Fine diamonds · Mumbai</span>
+    <section className="relative flex min-h-[88dvh] w-full items-end overflow-hidden md:min-h-[92dvh] md:items-center">
+      <div className="absolute inset-0">
+        <Image
+          src="/images/hero_image.png"
+          alt="A Misuni diamond necklace worn with an emerald silk gown"
+          fill
+          priority
+          sizes="100vw"
+          /*
+           * Biased upward on phones so the necklace sits above the headline
+           * rather than behind it — the piece is the point of the photograph.
+           */
+          className="object-cover object-[58%_22%] md:object-center"
+        />
+        {/*
+          Two stacked scrims: a strong one at the foot for text legibility on
+          phones, and a gentle side wash so the desktop copy column reads
+          without dulling the jewellery itself.
+        */}
+        <div className="absolute inset-0 bg-linear-to-t from-ink/85 via-ink/30 to-ink/10 md:from-ink/70 md:via-ink/20 md:to-transparent" />
+        <div className="absolute inset-0 hidden bg-linear-to-r from-ink/60 via-transparent to-transparent md:block" />
+      </div>
 
-          <h1 className="mt-7 font-display text-5xl leading-[1.04] text-cream sm:text-6xl lg:text-7xl">
-            Timeless beauty.
-            <br />
-            <em className="font-normal italic text-gold">Made for you.</em>
+      <div className="relative z-raised mx-auto w-full max-w-[1600px] px-5 pb-16 pt-28 md:px-8 md:py-24 lg:px-12">
+        <div className="max-w-xl">
+          <p className="font-sans text-[0.625rem] font-medium uppercase tracking-[0.32em] text-white/80">
+            Bandra Kurla Complex · Mumbai
+          </p>
+
+          <h1 className="mt-5 font-serif text-[2.75rem] leading-[1.05] text-white text-balance sm:text-6xl lg:text-7xl">
+            Diamonds worth
+            <span className="block italic text-sage-200">keeping</span>
           </h1>
 
-          <p className="mt-6 max-w-md font-display text-xl italic leading-snug text-cream/70">
-            Crafted for those who intend to keep them.
+          <p className="mt-5 max-w-md font-sans text-sm font-light leading-relaxed text-white/85 text-pretty md:text-base">
+            Natural, certified stones set in 14k and 18k gold. Every piece is
+            made to order and shown to you in person — or over WhatsApp,
+            wherever you are.
           </p>
 
-          <p className="mt-6 max-w-md text-sm leading-relaxed text-cream/60">
-            We hold no stock and keep no shop floor. Every piece is made to
-            order — your stone, your metal, your size — and shown to you in
-            person at Bandra Kurla Complex.
-          </p>
-
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-            <a href="#pieces" className="btn btn-gold">
-              Explore the collection
-            </a>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link href="/collections" className="btn btn-sage w-full sm:w-auto">
+              View the collection
+            </Link>
             <a
               href={appointmentLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="link-arrow px-2 py-3 text-cream/75 transition-colors duration-150 hover:text-gold"
+              className="btn w-full border border-white/40 text-white transition-colors duration-150 hover:bg-white hover:text-ink sm:w-auto"
             >
+              <Icon name="whatsapp" size={16} />
               Book a viewing
-              <Icon name="arrow-right" size={14} />
             </a>
-          </div>
-        </div>
-
-        {/* Plate */}
-        <div className="order-1 md:order-2 md:col-span-6 md:col-start-7">
-          <div className="plate-frame">
-            <div className="relative aspect-4/5 w-full overflow-hidden bg-forest-2 md:aspect-square">
-              <Image
-                src="/images/hero_image.png"
-                alt="A Misuni diamond collar necklace worn with a sage silk gown"
-                fill
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover object-[58%_16%] md:object-center"
-              />
-            </div>
-
-            <div className="absolute -bottom-6 left-4 border border-gold/45 bg-forest px-6 py-4 md:-bottom-8 md:-left-8 md:px-8 md:py-5">
-              <p className="font-display text-4xl leading-none text-gold">
-                100%
-              </p>
-              <p className="label-sm mt-2 text-cream/65">
-                Natural certified stones
-              </p>
-            </div>
           </div>
         </div>
       </div>

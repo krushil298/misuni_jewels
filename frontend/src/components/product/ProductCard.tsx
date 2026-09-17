@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 import { Icon } from "@/components/ui/Icon";
 import { useSelection } from "@/context/SelectionContext";
@@ -8,83 +9,93 @@ import type { Product } from "@/types";
 
 interface ProductCardProps {
   product: Product;
-  onOpen: (product: Product) => void;
+  /** Priority-load the image for above-the-fold cards. */
   priority?: boolean;
+  /** Sizes hint matching the grid this card sits in. */
   sizes?: string;
+  className?: string;
 }
 
 /**
- * A piece in the grid.
+ * A single catalogue tile.
  *
- * The card is a button that opens the detail modal — on a single-page site
- * there is no detail route to navigate to. The save control sits above it as
- * a separate button, so it stays keyboard-reachable and the markup contains
- * no nested interactive elements.
+ * One card, used everywhere — the previous version had two near-identical
+ * variants that had drifted apart in typography and badge styling.
+ *
+ * The save control is a real button layered above the card link rather than
+ * nested inside it, so it is reachable by keyboard and does not produce
+ * invalid nested-interactive markup.
  */
 export function ProductCard({
   product,
-  onOpen,
   priority = false,
-  sizes = "(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 25vw",
+  sizes = "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw",
+  className,
 }: ProductCardProps) {
   const { isSaved, toggle, isHydrated } = useSelection();
   const saved = isHydrated && isSaved(product.id);
 
+  const badge = product.isNew
+    ? "New"
+    : product.isBestseller
+      ? "Bestseller"
+      : null;
+
   return (
-    <article className="group relative h-full">
-      <button
-        type="button"
-        onClick={() => onOpen(product)}
-        className="flex h-full w-full flex-col border border-rule bg-cream text-left transition-colors duration-200 hover:border-gold"
-      >
-        <div className="relative aspect-square w-full overflow-hidden bg-forest-2">
+    <article className={cn("group relative", className)}>
+      <div className="relative mb-3 aspect-4/5 overflow-hidden bg-surface">
+        <Link href={`/product/${product.slug}`} className="block size-full">
           <Image
             src={product.images[0] ?? "/brand/mark.png"}
             alt={product.name}
             fill
             sizes={sizes}
             priority={priority}
-            className="object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+            className="size-full object-cover transition-opacity duration-200 ease-out group-hover:opacity-90"
           />
+          <span className="sr-only">View {product.name}</span>
+        </Link>
 
-          {(product.isNew || product.isBestseller) && (
-            <span className="label-sm absolute left-0 top-0 bg-gold px-2.5 py-1.5 text-forest">
-              {product.isNew ? "New" : "Most loved"}
-            </span>
-          )}
-        </div>
-
-        <div className="flex flex-1 flex-col p-4">
-          <span className="label-sm text-gold">
-            {titleCase(product.category)}
+        {badge && (
+          <span
+            className={cn(
+              "pointer-events-none absolute left-0 top-0 px-2.5 py-1 font-sans text-[0.5625rem] font-semibold uppercase tracking-[0.16em] text-white",
+              product.isNew ? "bg-brand" : "bg-ink"
+            )}
+          >
+            {badge}
           </span>
-          <h3 className="mt-2 font-display text-xl leading-tight text-forest text-pretty">
-            {product.name}
-          </h3>
-          <p className="mt-1 text-[0.8125rem] text-ink-3">{product.metal}</p>
-          <p className="mt-auto pt-3 text-[0.8125rem] text-ink-2">
-            Starting from{" "}
-            <span className="text-forest">{formatPrice(product.price)}</span>
-          </p>
-        </div>
-      </button>
-
-      <button
-        type="button"
-        onClick={() => toggle(product)}
-        aria-pressed={saved}
-        aria-label={
-          saved
-            ? `Remove ${product.name} from your selection`
-            : `Save ${product.name} to your selection`
-        }
-        className={cn(
-          "absolute right-0 top-0 flex size-10 items-center justify-center bg-cream/90 backdrop-blur-sm transition-colors duration-150",
-          saved ? "text-gold" : "text-ink-3 hover:text-forest"
         )}
-      >
-        <Icon name={saved ? "heart-filled" : "heart"} size={16} />
-      </button>
+
+        <button
+          type="button"
+          onClick={() => toggle(product)}
+          aria-pressed={saved}
+          aria-label={
+            saved
+              ? `Remove ${product.name} from your selection`
+              : `Save ${product.name} to your selection`
+          }
+          className={cn(
+            "absolute right-2 top-2 flex size-9 items-center justify-center bg-surface/85 backdrop-blur-sm transition-colors duration-150",
+            saved ? "text-brand" : "text-ink-muted hover:text-ink"
+          )}
+        >
+          <Icon name={saved ? "heart-filled" : "heart"} size={17} />
+        </button>
+      </div>
+
+      <Link href={`/product/${product.slug}`} className="block" tabIndex={-1}>
+        <p className="meta mb-1 text-[0.5625rem]">
+          {titleCase(product.category)}
+        </p>
+        <h3 className="mb-1 font-serif text-base leading-snug text-ink text-balance">
+          {product.name}
+        </h3>
+        <p className="font-sans text-[0.8125rem] tabular-nums text-ink-soft">
+          {formatPrice(product.price)}
+        </p>
+      </Link>
     </article>
   );
 }

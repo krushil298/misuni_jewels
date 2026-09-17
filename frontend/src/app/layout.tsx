@@ -1,26 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
-/** Cormorant Garamond for display — its italic carries the second line of
- *  every heading, which is the signature move of this style. */
-const cormorant = Cormorant_Garamond({
+const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  variable: "--font-montserrat",
   display: "swap",
 });
 
-/** Jost for tracked caps and UI — a geometric sans whose proportions echo
- *  the Misuni wordmark. */
-const jost = Jost({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-jost",
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-cormorant",
   display: "swap",
 });
 
@@ -61,9 +56,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/** Forest ground, so mobile browser chrome matches the header. */
+/** Ivory ground, so the browser chrome on mobile matches the page. */
 export const viewport: Viewport = {
-  themeColor: "#0e2a22",
+  themeColor: "#fbfaf8",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -75,9 +70,9 @@ export default function RootLayout({
   return (
     <html
       lang="en-IN"
-      className={`${cormorant.variable} ${jost.variable}`}
+      className={`${montserrat.variable} ${cormorant.variable}`}
     >
-      <body className="flex min-h-dvh flex-col bg-cream text-ink antialiased">
+      <body className="flex min-h-dvh flex-col bg-canvas text-ink antialiased">
         <LayoutShell>{children}</LayoutShell>
         <script
           type="application/ld+json"
