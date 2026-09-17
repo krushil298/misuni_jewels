@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Logo } from "@/components/ui/Logo";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AdminLoginPage() {
@@ -33,15 +33,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="relative h-[65px] w-[180px] mx-auto mb-6">
-            <Image
-              src="/logo-white.png"
-              alt="Misuni Jewels"
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
+          <Logo variant="lockup" tone="white" height={64} priority className="mx-auto mb-6" />
           <p className="text-[0.6rem] tracking-[0.35rem] uppercase text-white/40 font-sans">
             Admin Panel
           </p>

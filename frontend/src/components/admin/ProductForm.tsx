@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import type { Product } from "@/types";
 
 type ProductFormData = Omit<Product, "id">;
@@ -25,7 +25,6 @@ const METALS = [
   "22k Yellow Gold",
   "Platinum",
 ];
-const COLLECTIONS = ["celestial", "eternal", "heritage", "modern", "signature", ""];
 
 /** Auto-generate a slug from a product name */
 function generateSlug(name: string): string {
@@ -41,8 +40,13 @@ export function ProductForm({ initialData, onSubmit, submitting }: ProductFormPr
   const isEdit = !!initialData;
 
   const [name, setName] = useState(initialData?.name ?? "");
-  const [slug, setSlug] = useState(initialData?.slug ?? "");
-  const [slugTouched, setSlugTouched] = useState(false);
+  /*
+   * The slug is derived from the name until the user edits it, at which
+   * point their value takes over. Deriving during render replaces a
+   * `useEffect` that wrote state on every keystroke in the name field.
+   */
+  const [slugOverride, setSlugOverride] = useState(initialData?.slug ?? "");
+  const [slugTouched, setSlugTouched] = useState(Boolean(initialData?.slug));
   const [price, setPrice] = useState(initialData?.price?.toString() ?? "");
   const [category, setCategory] = useState(initialData?.category ?? CATEGORIES[0]);
   const [metal, setMetal] = useState(initialData?.metal ?? METALS[0]);
@@ -52,15 +56,9 @@ export function ProductForm({ initialData, onSubmit, submitting }: ProductFormPr
   const [images, setImages] = useState(initialData?.images?.join("\n") ?? "");
   const [isBestseller, setIsBestseller] = useState(initialData?.isBestseller ?? false);
   const [isNew, setIsNew] = useState(initialData?.isNew ?? false);
-  const [collection, setCollection] = useState(initialData?.collection ?? "");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // Auto-generate slug from name (unless user has manually edited it)
-  useEffect(() => {
-    if (!slugTouched && !isEdit) {
-      setSlug(generateSlug(name));
-    }
-  }, [name, slugTouched, isEdit]);
+  const slug = slugTouched ? slugOverride : generateSlug(name);
 
   const validate = useCallback((): boolean => {
     const newErrors: Record<string, string> = {};
@@ -112,7 +110,6 @@ export function ProductForm({ initialData, onSubmit, submitting }: ProductFormPr
       images: imageUrls,
       isBestseller,
       isNew,
-      collection: collection || "",
     };
 
     await onSubmit(formData);
@@ -148,7 +145,7 @@ export function ProductForm({ initialData, onSubmit, submitting }: ProductFormPr
             type="text"
             value={slug}
             onChange={(e) => {
-              setSlug(e.target.value);
+              setSlugOverride(e.target.value);
               setSlugTouched(true);
             }}
             className={`admin-input ${errors.slug ? "!border-red-500/50" : ""}`}
@@ -210,22 +207,6 @@ export function ProductForm({ initialData, onSubmit, submitting }: ProductFormPr
           </div>
         </div>
 
-        {/* Collection */}
-        <div>
-          <label htmlFor="collection" className="admin-label">Collection</label>
-          <select
-            id="collection"
-            value={collection}
-            onChange={(e) => setCollection(e.target.value)}
-            className="admin-input capitalize"
-          >
-            {COLLECTIONS.map((col) => (
-              <option key={col} value={col} className="bg-[#1a2421] capitalize">
-                {col || "— None —"}
-              </option>
-            ))}
-          </select>
-        </div>
       </section>
 
       {/* ── Description & Details ───────────────────────────── */}

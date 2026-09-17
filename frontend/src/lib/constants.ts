@@ -1,17 +1,40 @@
-/** Site-wide constants & configuration */
+/**
+ * Site-wide constants.
+ *
+ * This is the single source of truth for brand copy and contact details.
+ * Anything user-facing that appears in more than one place belongs here —
+ * the phone number in particular was previously duplicated across four files.
+ */
 
 export const SITE_NAME = "MISUNI JEWELS";
 export const SITE_TAGLINE = "Purity. Integrity. Brilliance.";
 export const SITE_DESCRIPTION =
-  "Real diamond jewellery crafted in gold, white gold & rose gold. Purity. Integrity. Brilliance. Shop necklaces, rings, earrings, bracelets & bangles.";
+  "Natural diamond jewellery in 14k & 18k gold, white gold, rose gold and platinum. A private catalogue from Bandra Kurla Complex, Mumbai. Enquire on WhatsApp.";
 export const SITE_URL = "https://misunijewels.com";
 
+/**
+ * TODO(owner): replace the placeholder number and email before launch.
+ * `whatsapp` must be digits only, including country code and no leading +.
+ */
 export const CONTACT = {
-  email: "hello@misunijewels.com",
-  phone: "+91 99999 99999",
+  phoneDisplay: "+91 99999 99999",
+  phoneHref: "+919999999999",
   whatsapp: "919999999999",
+  email: "hello@misunijewels.com",
   instagram: "https://instagram.com/misunijewels",
   facebook: "https://facebook.com/misunijewels",
+} as const;
+
+export const LOCATION = {
+  label: "Bandra Kurla Complex",
+  city: "Mumbai",
+  lines: ["Bandra Kurla Complex", "Bandra East, Mumbai 400051", "Maharashtra, India"],
+  /** No retail store — pieces are shown by appointment. */
+  byAppointmentOnly: true,
+  hours: [
+    { days: "Monday — Saturday", time: "11:00 AM — 7:00 PM" },
+    { days: "Sunday", time: "By appointment" },
+  ],
 } as const;
 
 export const CATEGORIES = [
@@ -25,27 +48,24 @@ export const CATEGORIES = [
 
 export type Category = (typeof CATEGORIES)[number];
 
-export const METALS = [
-  "14k Yellow Gold",
-  "14k Rose Gold",
-  "14k White Gold",
-  "18k Yellow Gold",
-  "18k Rose Gold",
-  "18k White Gold",
-  "Platinum & 18k Gold",
+/** Metal families used by the filter UI — matched loosely against product.metal. */
+export const METAL_FILTERS = [
+  "Yellow Gold",
+  "White Gold",
+  "Rose Gold",
+  "Platinum",
 ] as const;
-
-export type Metal = (typeof METALS)[number];
 
 export const NAV_LINKS = [
   { href: "/collections", label: "Collections" },
+  { href: "/about", label: "Atelier" },
   { href: "/contact", label: "Contact" },
 ] as const;
 
-export const BREAKPOINTS = {
-  sm: 640,
-  md: 768,
-  lg: 1024,
-  xl: 1280,
-  "2xl": 1536,
-} as const;
+/** Trust marks shown under the enquiry CTA and in the footer. */
+export const ASSURANCES = [
+  { title: "Natural Diamonds", detail: "IGI / GIA certified stones" },
+  { title: "BIS Hallmarked", detail: "Certified 14k & 18k gold" },
+  { title: "Made to Order", detail: "Bespoke sizing & metal" },
+  { title: "Mumbai Atelier", detail: "Viewing by appointment, BKC" },
+] as const;

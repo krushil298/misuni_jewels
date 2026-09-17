@@ -1,84 +1,89 @@
 import { supabase } from "@/lib/supabase";
-import { Product } from "@/types";
+import type { Product } from "@/types";
+
+/** Columns the storefront needs. Selecting explicitly keeps payloads small. */
+const PRODUCT_FIELDS =
+  "id,name,slug,price,category,metal,images,description,details,sizes,is_bestseller,is_new";
 
 /**
- * Fetches all products from Supabase.
- * Returns an empty array on error to prevent page crashes.
+ * Fetch every product, newest first.
+ * Returns an empty array on error so a page renders its empty state
+ * rather than crashing.
  */
 export async function getProducts(): Promise<Product[]> {
   try {
     const { data, error } = await supabase
       .from("products")
-      .select("*")
-      .order("id", { ascending: true });
+      .select(PRODUCT_FIELDS)
+      .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("[API] Error fetching products:", error.message);
+      console.error("[api] getProducts:", error.message);
       return [];
     }
 
-    if (!data || data.length === 0) {
-      console.warn("[API] No products found in database");
-      return [];
-    }
-
-    return data.map(mapDbProductToTypescript);
+    return (data ?? []).map(mapProduct);
   } catch (err) {
-    console.error("[API] Unexpected error fetching products:", err);
+    console.error("[api] getProducts (unexpected):", err);
+    return [];
+  }
+}
+
+/** Fetch a single product by slug. Returns null when not found. */
+export async function getProductBySlug(slug: string): Promise<Product | null> {
+  if (!slug?.trim()) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from("products")
+      .select(PRODUCT_FIELDS)
+      .eq("slug", slug.trim())
+      .maybeSingle();
+
+    if (error) {
+      console.error("[api] getProductBySlug:", error.message);
+      return null;
+    }
+
+    return data ? mapProduct(data) : null;
+  } catch (err) {
+    console.error("[api] getProductBySlug (unexpected):", err);
+    return null;
+  }
+}
+
+/** Distinct slugs, for `generateStaticParams`. */
+export async function getProductSlugs(): Promise<string[]> {
+  try {
+    const { data, error } = await supabase.from("products").select("slug");
+    if (error || !data) return [];
+    return data.map((row) => String(row.slug)).filter(Boolean);
+  } catch {
     return [];
   }
 }
 
 /**
- * Fetches a single product by its slug.
- * Returns null if not found or on error.
+ * Map a database row to the `Product` shape.
+ *
+ * The columns are snake_case (`is_bestseller`, `is_new`). A previous version
+ * read `isbestseller` / `isnew` without the underscore, so every product came
+ * back with `isBestseller: false` — which silently emptied the homepage
+ * Bestsellers section and both product badges.
  */
-export async function getProductBySlug(slug: string): Promise<Product | null> {
-  if (!slug || typeof slug !== "string") {
-    console.error("[API] Invalid slug provided:", slug);
-    return null;
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("products")
-      .select("*")
-      .eq("slug", slug.trim())
-      .single();
-
-    if (error || !data) {
-      if (error?.code !== "PGRST116") {
-        // PGRST116 = "not found" — expected for invalid slugs
-        console.error("[API] Error fetching product by slug:", error?.message);
-      }
-      return null;
-    }
-
-    return mapDbProductToTypescript(data);
-  } catch (err) {
-    console.error("[API] Unexpected error fetching product:", err);
-    return null;
-  }
-}
-
-/**
- * Maps Supabase snake_case/lowercase columns to our TypeScript interface.
- * Handles potential missing fields gracefully.
- */
-function mapDbProductToTypescript(dbProduct: Record<string, unknown>): Product {
+function mapProduct(row: Record<string, unknown>): Product {
   return {
-    id: String(dbProduct.id ?? ""),
-    name: String(dbProduct.name ?? ""),
-    slug: String(dbProduct.slug ?? ""),
-    price: Number(dbProduct.price ?? 0),
-    category: String(dbProduct.category ?? ""),
-    metal: String(dbProduct.metal ?? ""),
-    images: Array.isArray(dbProduct.images) ? dbProduct.images : [],
-    description: String(dbProduct.description ?? ""),
-    details: Array.isArray(dbProduct.details) ? dbProduct.details : [],
-    sizes: Array.isArray(dbProduct.sizes) ? dbProduct.sizes : undefined,
-    isBestseller: Boolean(dbProduct.isbestseller ?? false),
-    isNew: Boolean(dbProduct.isnew ?? false),
-    collection: String(dbProduct.collection ?? ""),
+    id: String(row.id ?? ""),
+    name: String(row.name ?? ""),
+    slug: String(row.slug ?? ""),
+    price: Number(row.price ?? 0),
+    category: String(row.category ?? ""),
+    metal: String(row.metal ?? ""),
+    images: Array.isArray(row.images) ? (row.images as string[]) : [],
+    description: String(row.description ?? ""),
+    details: Array.isArray(row.details) ? (row.details as string[]) : [],
+    sizes: Array.isArray(row.sizes) ? (row.sizes as string[]) : undefined,
+    isBestseller: Boolean(row.is_bestseller),
+    isNew: Boolean(row.is_new),
   };
 }

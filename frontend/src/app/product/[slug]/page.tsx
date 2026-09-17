@@ -1,74 +1,87 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getProductBySlug, getProducts } from "@/data/api";
 import { ImageGallery } from "@/components/product/ImageGallery";
 import { ProductInfo } from "@/components/product/ProductInfo";
-import { StyledWith } from "@/components/product/StyledWith";
-import Link from "next/link";
+import { RelatedProducts } from "@/components/product/RelatedProducts";
+import { Icon } from "@/components/ui/Icon";
+import { getProductSchema } from "@/lib/schema";
+import { titleCase } from "@/lib/utils";
 
-type Props = {
-  params: Promise<{ slug: string }>;
-};
+type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  if (!product) {
-    return {
-      title: "Product Not Found — MISUNI JEWELS",
-    };
-  }
+  if (!product) return { title: "Piece not found" };
 
   return {
-    title: `${product.name} — MISUNI JEWELS`,
+    title: product.name,
     description: product.description,
+    alternates: { canonical: `/product/${product.slug}` },
     openGraph: {
-      title: `${product.name} — MISUNI JEWELS`,
+      title: `${product.name} | MISUNI JEWELS`,
       description: product.description,
-      images: product.images.length > 0 ? [product.images[0]] : [],
+      images: product.images.slice(0, 1),
     },
   };
 }
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
 
-  if (!product) {
-    return (
-      <main className="max-w-[1440px] mx-auto px-8 py-32 text-center">
-        <h1 className="text-4xl font-bold uppercase tracking-[0.3rem] text-[#2d3435] mb-8">
-          Product Not Found
-        </h1>
-        <Link
-          href="/collections"
-          className="inline-block bg-[#2d3435] text-[#faf7f6] px-12 py-5 uppercase tracking-[0.3rem] text-sm hover:bg-[#535252] transition-all"
-        >
-          Browse Collections
-        </Link>
-      </main>
-    );
-  }
+  // A bad slug is a 404, not a styled dead end that still renders chrome.
+  if (!product) notFound();
 
-  const allProducts = await getProducts();
-  const relatedProducts = allProducts
+  const all = await getProducts();
+  const related = all
     .filter((p) => p.id !== product.id && p.category === product.category)
-    .slice(0, 3);
+    .slice(0, 4);
 
   return (
-    <main className="max-w-[1440px] mx-auto px-8 py-12 md:py-20">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
-        <ImageGallery images={product.images} name={product.name} />
-        <ProductInfo product={product} />
-      </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getProductSchema(product)),
+        }}
+      />
 
-      {relatedProducts.length > 0 && (
-        <StyledWith products={relatedProducts} />
-      )}
-    </main>
+      <main className="mx-auto w-full max-w-[1600px] px-5 py-6 md:px-8 md:py-10 lg:px-12">
+        <nav aria-label="Breadcrumb" className="mb-6 md:mb-10">
+          <ol className="flex items-center gap-2">
+            <li>
+              <Link
+                href="/collections"
+                className="meta transition-colors duration-150 hover:text-brand"
+              >
+                Collection
+              </Link>
+            </li>
+            <li aria-hidden className="text-ink-faint">
+              <Icon name="chevron-right" size={12} />
+            </li>
+            <li>
+              <Link
+                href={`/collections?category=${product.category}`}
+                className="meta transition-colors duration-150 hover:text-brand"
+              >
+                {titleCase(product.category)}
+              </Link>
+            </li>
+          </ol>
+        </nav>
+
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-14">
+          <ImageGallery images={product.images} name={product.name} />
+          <ProductInfo product={product} />
+        </div>
+
+        <RelatedProducts products={related} />
+      </main>
+    </>
   );
 }

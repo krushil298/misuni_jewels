@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import { Logo } from "@/components/ui/Logo";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
@@ -62,14 +62,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
       >
         {/* Logo */}
         <div className="px-6 py-6 border-b border-white/5">
-          <div className="relative h-[50px] w-[140px]">
-            <Image
-              src="/logo-white.png"
-              alt="Misuni Jewels"
-              fill
-              className="object-contain object-left"
-            />
-          </div>
+          <Logo variant="lockup" tone="white" height={46} />
           <p className="text-[0.5rem] tracking-[0.3rem] uppercase text-white/30 font-sans mt-2">
             Admin Panel
           </p>

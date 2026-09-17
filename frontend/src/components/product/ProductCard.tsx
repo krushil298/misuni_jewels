@@ -2,124 +2,100 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { useCart } from "@/context/CartContext";
-import { useWishlist } from "@/context/WishlistContext";
-import { formatPrice, cn } from "@/lib/utils";
+import { Icon } from "@/components/ui/Icon";
+import { useSelection } from "@/context/SelectionContext";
+import { cn, formatPrice, titleCase } from "@/lib/utils";
 import type { Product } from "@/types";
 
 interface ProductCardProps {
   product: Product;
-  variant?: "default" | "collection";
-  index?: number;
+  /** Priority-load the image for above-the-fold cards. */
+  priority?: boolean;
+  /** Sizes hint matching the grid this card sits in. */
+  sizes?: string;
+  className?: string;
 }
 
+/**
+ * A single catalogue tile.
+ *
+ * One card, used everywhere — the previous version had two near-identical
+ * variants that had drifted apart in typography and badge styling.
+ *
+ * The save control is a real button layered above the card link rather than
+ * nested inside it, so it is reachable by keyboard and does not produce
+ * invalid nested-interactive markup.
+ */
 export function ProductCard({
   product,
-  variant = "default",
-  index = 0,
+  priority = false,
+  sizes = "(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw",
+  className,
 }: ProductCardProps) {
-  const { addItem } = useCart();
-  const { isWishlisted, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlist();
-  const wishlisted = isWishlisted(product.id);
+  const { isSaved, toggle, isHydrated } = useSelection();
+  const saved = isHydrated && isSaved(product.id);
 
-  const handleQuickAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    addItem(product);
-  };
-
-  const handleWishlistToggle = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (wishlisted) {
-      removeFromWishlist(product.id);
-    } else {
-      addToWishlist(product);
-    }
-  };
-
-  if (variant === "collection") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
-      >
-        <Link href={`/product/${product.slug}`}>
-          <article className="group cursor-pointer">
-            <div className="relative aspect-[4/5] bg-surface-container-low overflow-hidden mb-6">
-              <Image
-                src={product.images[0]}
-                alt={product.name}
-                fill
-                className="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-              {product.isBestseller && (
-                <div className="absolute top-4 left-4 bg-[#2d3435] px-3 py-1">
-                  <span className="font-['Inter'] text-[0.6rem] tracking-[0.15rem] uppercase text-[#f9f9f9] font-bold">
-                    Best Seller
-                  </span>
-                </div>
-              )}
-              {product.isNew && (
-                <div className="absolute top-4 left-4 bg-[#2d3435] px-3 py-1">
-                  <span className="font-['Inter'] text-[0.6rem] tracking-[0.15rem] uppercase text-[#f9f9f9] font-bold">
-                    New
-                  </span>
-                </div>
-              )}
-              <div className="absolute inset-0 bg-[#2d3435]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <button
-                onClick={handleWishlistToggle}
-                className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill={wishlisted ? "#1a2421" : "none"} stroke="#1a2421" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                </svg>
-              </button>
-            </div>
-            <div className="flex flex-col items-center text-center px-4">
-              <h2 className="font-['Inter'] text-[0.75rem] tracking-[0.2rem] uppercase font-bold text-[#2d3435] mb-2">
-                {product.name}
-              </h2>
-              <span className="font-['Inter'] text-[0.6875rem] tracking-widest text-[#5f5e5e]">
-                {formatPrice(product.price)}
-              </span>
-            </div>
-          </article>
-        </Link>
-      </motion.div>
-    );
-  }
+  const badge = product.isNew
+    ? "New"
+    : product.isBestseller
+      ? "Bestseller"
+      : null;
 
   return (
-    <Link href={`/product/${product.slug}`}>
-      <div className="group">
-        <div className="relative aspect-[4/5] bg-surface-container-lowest overflow-hidden mb-6 transition-all duration-700">
+    <article className={cn("group relative", className)}>
+      <div className="relative mb-3 aspect-4/5 overflow-hidden bg-surface">
+        <Link href={`/product/${product.slug}`} className="block size-full">
           <Image
-            src={product.images[0]}
+            src={product.images[0] ?? "/brand/mark.png"}
             alt={product.name}
             fill
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            sizes="(max-width: 768px) 100vw, 25vw"
+            sizes={sizes}
+            priority={priority}
+            className="size-full object-cover transition-opacity duration-200 ease-out group-hover:opacity-90"
           />
-          <button
-            onClick={handleQuickAdd}
-            className="absolute bottom-4 left-4 right-4 bg-[#2d3435]/90 backdrop-blur-md text-white py-4 uppercase text-[0.65rem] tracking-[0.2rem] opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+          <span className="sr-only">View {product.name}</span>
+        </Link>
+
+        {badge && (
+          <span
+            className={cn(
+              "pointer-events-none absolute left-0 top-0 px-2.5 py-1 font-sans text-[0.5625rem] font-semibold uppercase tracking-[0.16em] text-white",
+              product.isNew ? "bg-brand" : "bg-ink"
+            )}
           >
-            Quick Add
-          </button>
-        </div>
-        <h3 className="text-[0.75rem] uppercase tracking-[0.15rem] font-bold text-[#2d3435] mb-2">
+            {badge}
+          </span>
+        )}
+
+        <button
+          type="button"
+          onClick={() => toggle(product)}
+          aria-pressed={saved}
+          aria-label={
+            saved
+              ? `Remove ${product.name} from your selection`
+              : `Save ${product.name} to your selection`
+          }
+          className={cn(
+            "absolute right-2 top-2 flex size-9 items-center justify-center bg-surface/85 backdrop-blur-sm transition-colors duration-150",
+            saved ? "text-brand" : "text-ink-muted hover:text-ink"
+          )}
+        >
+          <Icon name={saved ? "heart-filled" : "heart"} size={17} />
+        </button>
+      </div>
+
+      <Link href={`/product/${product.slug}`} className="block" tabIndex={-1}>
+        <p className="meta mb-1 text-[0.5625rem]">
+          {titleCase(product.category)}
+        </p>
+        <h3 className="mb-1 font-serif text-base leading-snug text-ink text-balance">
           {product.name}
         </h3>
-        <p className="text-[0.875rem] font-light tracking-widest text-[#5f5e5e]">
+        <p className="font-sans text-[0.8125rem] tabular-nums text-ink-soft">
           {formatPrice(product.price)}
         </p>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 }

@@ -1,41 +1,31 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { CartProvider } from "@/context/CartContext";
-import { WishlistProvider } from "@/context/WishlistContext";
+import { SelectionProvider } from "@/context/SelectionContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
-import { BackToTop } from "@/components/ui/BackToTop";
-import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { MobileActionBar } from "@/components/layout/MobileActionBar";
 
 /**
- * Conditionally renders the customer storefront chrome (Navbar, Footer, etc.)
- * vs. a bare shell for admin routes.
+ * Storefront chrome. Admin routes render bare — they bring their own shell.
  */
 export function LayoutShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
 
-  // Admin routes get a bare shell — the admin layout handles its own chrome
-  if (isAdmin) {
+  if (pathname.startsWith("/admin")) {
     return <>{children}</>;
   }
 
-  // Customer routes get full storefront chrome
   return (
-    <CartProvider>
-      <WishlistProvider>
-        <AnnouncementBar
-          message="Complimentary shipping on all orders"
-          link={{ href: "/collections", label: "Shop Now" }}
-        />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <WhatsAppButton />
-        <BackToTop />
-      </WishlistProvider>
-    </CartProvider>
+    <SelectionProvider>
+      <Navbar />
+      {/*
+        Bottom padding clears the fixed mobile action bar so the last
+        element on a page is never trapped underneath it.
+      */}
+      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <Footer />
+      <MobileActionBar />
+    </SelectionProvider>
   );
 }

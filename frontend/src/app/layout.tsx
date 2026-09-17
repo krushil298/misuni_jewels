@@ -1,63 +1,79 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { LayoutShell } from "@/components/layout/LayoutShell";
 import { getOrganizationSchema, getWebsiteSchema } from "@/lib/schema";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/constants";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-montserrat",
+  display: "swap",
 });
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-cormorant",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "MISUNI JEWELS — Real Diamond Jewellery in Gold",
+    default: "MISUNI JEWELS — Natural Diamond Jewellery, Mumbai",
     template: "%s | MISUNI JEWELS",
   },
-  description:
-    "Real diamond jewellery crafted in gold, white gold & rose gold. Purity. Integrity. Brilliance. Shop necklaces, rings, earrings, bracelets & bangles.",
+  description: SITE_DESCRIPTION,
   keywords: [
-    "diamond jewellery",
+    "diamond jewellery Mumbai",
+    "BKC jewellery",
+    "natural diamonds",
     "gold jewellery",
     "rose gold",
     "white gold",
-    "necklaces",
-    "rings",
-    "earrings",
-    "bracelets",
-    "bangles",
+    "solitaire rings",
     "BIS hallmarked",
     "IGI certified",
-    "Indian jewellery",
+    "bespoke jewellery India",
   ],
   openGraph: {
     type: "website",
     locale: "en_IN",
-    siteName: "MISUNI JEWELS",
-    title: "MISUNI JEWELS — Real Diamond Jewellery in Gold",
-    description:
-      "Real diamond jewellery crafted in gold, white gold & rose gold. Purity. Integrity. Brilliance.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: "MISUNI JEWELS — Natural Diamond Jewellery, Mumbai",
+    description: SITE_DESCRIPTION,
+    images: [{ url: "/brand/full.png", width: 887, height: 789, alt: SITE_NAME }],
   },
-  robots: {
-    index: true,
-    follow: true,
+  twitter: {
+    card: "summary_large_image",
+    title: "MISUNI JEWELS — Natural Diamond Jewellery, Mumbai",
+    description: SITE_DESCRIPTION,
   },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "/" },
+};
+
+/** Ivory ground, so the browser chrome on mobile matches the page. */
+export const viewport: Viewport = {
+  themeColor: "#fbfaf8",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${cormorant.variable} antialiased`}>
-      <head>
+    <html
+      lang="en-IN"
+      className={`${montserrat.variable} ${cormorant.variable}`}
+    >
+      <body className="flex min-h-dvh flex-col bg-canvas text-ink antialiased">
+        <LayoutShell>{children}</LayoutShell>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -70,9 +86,6 @@ export default function RootLayout({
             __html: JSON.stringify(getWebsiteSchema()),
           }}
         />
-      </head>
-      <body className="min-h-screen flex flex-col">
-        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );

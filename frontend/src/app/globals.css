@@ -1,69 +1,57 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   MISUNI JEWELS — design tokens
+   Ivory canvas, sage accent. Sage is sampled from the logo artwork (#639284).
+   Diamonds read truest against near-white, so colour is spent on structure
+   (rules, CTAs, active states) and never on the ground behind a product photo.
+   ========================================================================== */
+
 @theme inline {
-  --font-sans: var(--font-montserrat), sans-serif;
-  --font-serif: var(--font-cormorant), serif;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), ui-serif, Georgia, serif;
 
-  /* Brand sage green palette derived from the Misuni logo */
-  --color-surface-tint: #798d8c;
-  --color-surface-bright: #d2dddc;
-  --color-surface: #d2dddc;
-  --color-surface-dim: #b8c8c7;
-  --color-surface-container-lowest: #ffffff;
-  --color-surface-container-low: #e8f0ef;
-  --color-surface-container: #dce7e6;
-  --color-surface-container-high: #c8d4d3;
-  --color-surface-container-highest: #bac6c5;
-  --color-surface-variant: #bac6c5;
+  /* ── Sage — the logo green and its scale ────────────────────────────── */
+  --color-sage-50: #f3f8f6;
+  --color-sage-100: #e3efeb;
+  --color-sage-200: #c6ded6;
+  --color-sage-300: #a1c7bb;
+  --color-sage-400: #81ad9f;
+  --color-sage-500: #639284; /* brand */
+  --color-sage-600: #4f786c;
+  --color-sage-700: #3f6057;
+  --color-sage-800: #334c45;
+  --color-sage-900: #22332e;
 
-  --color-on-surface: #1a2421;
-  --color-on-surface-variant: #4a5553;
-  --color-on-background: #1a2421;
-  --color-background: #d2dddc;
+  /* ── Ground & ink ───────────────────────────────────────────────────── */
+  --color-canvas: #fbfaf8; /* page ground, warm ivory */
+  --color-canvas-sunk: #f4f2ee; /* alternating bands, inset wells */
+  --color-surface: #ffffff; /* cards, product tiles, sheets */
 
-  --color-primary: #798d8c;
-  --color-primary-dim: #667a79;
-  --color-primary-container: #dce8e7;
-  --color-primary-fixed: #dce8e7;
-  --color-primary-fixed-dim: #c8d6d5;
-  --color-on-primary: #ffffff;
-  --color-on-primary-container: #4a5e5d;
-  --color-on-primary-fixed: #3a4e4d;
-  --color-on-primary-fixed-variant: #5e7271;
+  --color-ink: #16211d; /* headings, primary text */
+  --color-ink-soft: #46524e; /* body copy */
+  --color-ink-muted: #6b7572; /* meta, captions, labels */
+  --color-ink-faint: #9aa3a0; /* placeholders, disabled */
 
-  --color-secondary: #8b7355;
-  --color-secondary-dim: #7a6449;
-  --color-secondary-container: #f0e4d4;
-  --color-secondary-fixed: #f0e4d4;
-  --color-secondary-fixed-dim: #e2d4c2;
-  --color-on-secondary: #ffffff;
-  --color-on-secondary-container: #6d5a40;
-  --color-on-secondary-fixed: #5a4832;
-  --color-on-secondary-fixed-variant: #7e6a50;
+  --color-hairline: #e7e4df; /* default 1px rule */
+  --color-hairline-strong: #d4d0c9;
 
-  --color-tertiary: #b8956a;
-  --color-tertiary-dim: #a68358;
-  --color-tertiary-container: #f5ead8;
-  --color-tertiary-fixed: #f5ead8;
-  --color-tertiary-fixed-dim: #e8dcc8;
-  --color-on-tertiary: #ffffff;
-  --color-on-tertiary-container: #9a7d58;
-  --color-on-tertiary-fixed: #7a6040;
-  --color-on-tertiary-fixed-variant: #a8885e;
+  /* ── Accent aliases — semantic names used across components ─────────── */
+  --color-brand: #639284;
+  --color-brand-deep: #4f786c;
+  --color-brand-tint: #f3f8f6;
 
-  --color-error: #9f403d;
-  --color-error-dim: #4e0309;
-  --color-error-container: #fe8983;
-  --color-on-error: #fff7f6;
-  --color-on-error-container: #752121;
+  /* Warm metal, used sparingly for certification / gold cues */
+  --color-gold: #a98650;
+  --color-gold-tint: #f6efe3;
 
-  --color-outline: #6e7b79;
-  --color-outline-variant: #a8b3b1;
+  --color-whatsapp: #25d366;
+  --color-whatsapp-deep: #1da851;
 
-  --color-inverse-surface: #0e1412;
-  --color-inverse-primary: #ffffff;
-  --color-inverse-on-surface: #9c9d9d;
+  --color-danger: #9f403d;
+  --color-danger-tint: #fdf1f0;
 
+  /* ── Radius — the brand is editorial and square-cornered ───────────── */
   --radius-sm: 0px;
   --radius-md: 0px;
   --radius-lg: 0px;
@@ -73,23 +61,46 @@
   --radius-4xl: 0px;
 }
 
+/* ── Fixed z-index scale — never use an arbitrary z-* ────────────────── */
+@theme {
+  --z-index-base: 0;
+  --z-index-raised: 10;
+  --z-index-sticky: 20;
+  --z-index-header: 40;
+  --z-index-overlay: 50;
+  --z-index-drawer: 60;
+  --z-index-modal: 70;
+  --z-index-toast: 80;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    font-family: "Inter", sans-serif;
-    background-color: #d2dddc;
-    color: #1a2421;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Keyboard accessibility — only show outline for keyboard navigation */
+  /* Display face for editorial headings */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    color: var(--color-ink);
+  }
+
+  /* Keyboard-only focus ring */
   :focus-visible {
-    outline: 2px solid #798d8c;
+    outline: 2px solid var(--color-brand);
     outline-offset: 2px;
   }
 
@@ -98,29 +109,132 @@
   }
 
   ::selection {
-    background-color: #798d8c;
+    background-color: var(--color-brand);
     color: #ffffff;
   }
 
+  /* Native form controls inherit the brand */
+  input,
+  textarea,
+  select,
+  button {
+    font-family: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    accent-color: var(--color-brand);
+  }
+
   ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
   }
 
   ::-webkit-scrollbar-track {
-    background: #d2dddc;
+    background: var(--color-canvas-sunk);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #a8b3b1;
+    background: var(--color-hairline-strong);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-ink-faint);
+  }
+}
+
+@layer components {
+  /* ── Eyebrow: the small tracked label above a section heading ──────── */
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+
+  /* ── Meta: product category, spec labels, nav items ────────────────── */
+  .meta {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+
+  /* ── Buttons ───────────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding: 0.875rem 1.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    transition:
+      background-color 150ms ease-out,
+      color 150ms ease-out,
+      border-color 150ms ease-out,
+      opacity 150ms ease-out;
+  }
+
+  .btn-primary {
+    background-color: var(--color-ink);
+    color: #ffffff;
+  }
+  .btn-primary:hover {
+    background-color: var(--color-brand-deep);
+  }
+
+  .btn-sage {
+    background-color: var(--color-brand);
+    color: #ffffff;
+  }
+  .btn-sage:hover {
+    background-color: var(--color-brand-deep);
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-hairline-strong);
+  }
+  .btn-outline:hover {
+    border-color: var(--color-ink);
+  }
+
+  .btn-whatsapp {
+    background-color: var(--color-whatsapp);
+    color: #ffffff;
+  }
+  .btn-whatsapp:hover {
+    background-color: var(--color-whatsapp-deep);
+  }
+
+  /* Underlined text link, editorial style */
+  .link-rule {
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid currentColor;
+    transition: color 150ms ease-out;
   }
 }
 
 @layer utilities {
-  .editorial-spacing {
-    letter-spacing: 0.15rem;
-  }
-
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
   }
@@ -130,12 +244,44 @@
     scrollbar-width: none;
   }
 
-  .animate-marquee {
-    animation: marquee linear infinite;
+  /* Horizontal snap rail — the primary mobile browse pattern */
+  .snap-rail {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  .snap-item {
+    scroll-snap-align: start;
+  }
+
+  /* Respect the notch / home indicator on fixed chrome */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .inset-x-safe {
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
   }
 }
 
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-33.333%); }
+/* Motion is opt-in: anything that moves must still be usable when disabled. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -20,16 +20,27 @@ export default function AdminProductsPage() {
   } | null>(null);
   const [deleting, setDeleting] = useState(false);
 
+  /*
+   * Initial load. Deliberately does not flip `loading` on before awaiting —
+   * it already starts true, and setting state synchronously from an effect
+   * body costs an extra render pass on mount. Deletes update the list in
+   * place, so there is no separate refetch path.
+   */
   useEffect(() => {
-    loadProducts();
-  }, []);
+    let cancelled = false;
 
-  async function loadProducts() {
-    setLoading(true);
-    const data = await getProducts();
-    setProducts(data);
-    setLoading(false);
-  }
+    getProducts()
+      .then((data) => {
+        if (!cancelled) setProducts(data);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Unique categories from current products
   const categories = useMemo(() => {

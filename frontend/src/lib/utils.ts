@@ -1,3 +1,18 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+/**
+ * Merge class names, resolving conflicting Tailwind utilities so that a
+ * caller-supplied `className` reliably overrides a component default.
+ */
+export function cn(...inputs: ClassValue[]): string {
+  return twMerge(clsx(inputs));
+}
+
+/**
+ * Format a rupee amount for display, e.g. 148500 → "₹1,48,500".
+ * Uses the Indian digit grouping (lakh/crore), not thousands.
+ */
 export function formatPrice(price: number): string {
   return `₹${price.toLocaleString("en-IN", {
     minimumFractionDigits: 0,
@@ -5,14 +20,7 @@ export function formatPrice(price: number): string {
   })}`;
 }
 
-export function cn(...classes: (string | boolean | undefined | null)[]): string {
-  return classes.filter(Boolean).join(" ");
-}
-
-/**
- * Format a date string for display.
- * @example formatDate("2024-01-15") → "January 15, 2024"
- */
+/** Format a date for display, e.g. "15 January 2026". */
 export function formatDate(date: string | Date): string {
   return new Date(date).toLocaleDateString("en-IN", {
     year: "numeric",
@@ -21,23 +29,23 @@ export function formatDate(date: string | Date): string {
   });
 }
 
-/**
- * Truncate a string to a maximum length with ellipsis.
- */
+/** Truncate to a maximum length, appending an ellipsis. */
 export function truncate(str: string, maxLength: number): string {
   if (str.length <= maxLength) return str;
   return str.slice(0, maxLength).trimEnd() + "…";
 }
 
-/**
- * Convert a string to a URL-safe slug.
- * @example slugify("Rose Gold Diamond Ring") → "rose-gold-diamond-ring"
- */
+/** Convert a string to a URL-safe slug. */
 export function slugify(str: string): string {
   return str
     .toLowerCase()
+    .trim()
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
+    .replace(/-+/g, "-");
+}
+
+/** Sentence-case a lowercase taxonomy value for display, e.g. "necklaces" → "Necklaces". */
+export function titleCase(str: string): string {
+  return str.replace(/\b\w/g, (c) => c.toUpperCase());
 }

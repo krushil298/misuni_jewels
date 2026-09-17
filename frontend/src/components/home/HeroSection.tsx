@@ -1,57 +1,75 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { Icon } from "@/components/ui/Icon";
+import { appointmentLink } from "@/lib/whatsapp";
 
-const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=2400&q=90&fit=crop";
-
+/**
+ * Homepage hero.
+ *
+ * Uses the local brand photograph rather than the previous hotlinked
+ * Unsplash URL — that was an uncached third-party request in the critical
+ * path, and the stock image had nothing to do with the collection.
+ *
+ * Sized in dvh so mobile browser chrome collapsing doesn't clip the CTAs.
+ */
 export function HeroSection() {
   return (
-    <section className="relative h-[85vh] w-full flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative flex min-h-[88dvh] w-full items-end overflow-hidden md:min-h-[92dvh] md:items-center">
+      <div className="absolute inset-0">
         <Image
-          src={HERO_IMAGE}
-          alt="Luxury diamond jewellery in gold"
+          src="/images/hero_image.png"
+          alt="A Misuni diamond necklace worn with an emerald silk gown"
           fill
-          className="object-cover object-center scale-[1.02]"
           priority
+          sizes="100vw"
+          /*
+           * Biased upward on phones so the necklace sits above the headline
+           * rather than behind it — the piece is the point of the photograph.
+           */
+          className="object-cover object-[58%_22%] md:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface/90 via-inverse-surface/40 to-inverse-surface/70" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/10 mix-blend-overlay" />
+        {/*
+          Two stacked scrims: a strong one at the foot for text legibility on
+          phones, and a gentle side wash so the desktop copy column reads
+          without dulling the jewellery itself.
+        */}
+        <div className="absolute inset-0 bg-linear-to-t from-ink/85 via-ink/30 to-ink/10 md:from-ink/70 md:via-ink/20 md:to-transparent" />
+        <div className="absolute inset-0 hidden bg-linear-to-r from-ink/60 via-transparent to-transparent md:block" />
       </div>
 
-      {/* Centered content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 max-w-4xl mx-auto w-full mt-10">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="text-surface/90 drop-shadow-lg text-base sm:text-lg tracking-wider sm:tracking-widest font-sans font-light leading-relaxed mb-10 sm:mb-14 max-w-sm sm:max-w-xl mx-auto"
-        >
-          Real diamond jewellery crafted in gold, white gold &amp; rose gold. <br className="hidden sm:block" />
-          Where every stone tells a story of <span className="text-primary-container font-medium">purity, integrity &amp; brilliance</span>.
-        </motion.p>
+      <div className="relative z-raised mx-auto w-full max-w-[1600px] px-5 pb-16 pt-28 md:px-8 md:py-24 lg:px-12">
+        <div className="max-w-xl">
+          <p className="font-sans text-[0.625rem] font-medium uppercase tracking-[0.32em] text-white/80">
+            Bandra Kurla Complex · Mumbai
+          </p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center"
-        >
-          <Link
-            href="/collections"
-            className="group relative overflow-hidden bg-primary text-white px-8 sm:px-10 py-3.5 sm:py-4 uppercase tracking-[0.25rem] sm:tracking-[0.3rem] text-[0.65rem] sm:text-[0.7rem] font-sans font-medium transition-all duration-500 w-[240px] sm:min-w-[240px] text-center shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5"
-          >
-            <span className="relative z-10">Explore Collection</span>
-            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out" />
-          </Link>
-        </motion.div>
+          <h1 className="mt-5 font-serif text-[2.75rem] leading-[1.05] text-white text-balance sm:text-6xl lg:text-7xl">
+            Diamonds worth
+            <span className="block italic text-sage-200">keeping</span>
+          </h1>
+
+          <p className="mt-5 max-w-md font-sans text-sm font-light leading-relaxed text-white/85 text-pretty md:text-base">
+            Natural, certified stones set in 14k and 18k gold. Every piece is
+            made to order and shown to you in person — or over WhatsApp,
+            wherever you are.
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link href="/collections" className="btn btn-sage w-full sm:w-auto">
+              View the collection
+            </Link>
+            <a
+              href={appointmentLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn w-full border border-white/40 text-white transition-colors duration-150 hover:bg-white hover:text-ink sm:w-auto"
+            >
+              <Icon name="whatsapp" size={16} />
+              Book a viewing
+            </a>
+          </div>
+        </div>
       </div>
-
-
     </section>
   );
 }

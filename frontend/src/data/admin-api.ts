@@ -137,7 +137,13 @@ export async function getDashboardStats(): Promise<
 
 // ── Mapping helpers ──────────────────────────────────────────────
 
-/** Map Supabase row → frontend Product type */
+/**
+ * Map a Supabase row → the frontend `Product` type.
+ *
+ * The flag columns are `is_bestseller` / `is_new`. This previously read
+ * `isbestseller` / `isnew` without the underscore, so the admin table always
+ * showed both flags as off regardless of their stored value.
+ */
 function mapDbProduct(row: Record<string, unknown>): Product {
   return {
     id: String(row.id ?? ""),
@@ -146,32 +152,36 @@ function mapDbProduct(row: Record<string, unknown>): Product {
     price: Number(row.price ?? 0),
     category: String(row.category ?? ""),
     metal: String(row.metal ?? ""),
-    images: Array.isArray(row.images) ? row.images : [],
+    images: Array.isArray(row.images) ? (row.images as string[]) : [],
     description: String(row.description ?? ""),
-    details: Array.isArray(row.details) ? row.details : [],
-    sizes: Array.isArray(row.sizes) ? row.sizes : undefined,
-    isBestseller: Boolean(row.isbestseller ?? false),
-    isNew: Boolean(row.isnew ?? false),
-    collection: String(row.collection ?? ""),
+    details: Array.isArray(row.details) ? (row.details as string[]) : [],
+    sizes: Array.isArray(row.sizes) ? (row.sizes as string[]) : undefined,
+    isBestseller: Boolean(row.is_bestseller),
+    isNew: Boolean(row.is_new),
   };
 }
 
-/** Map frontend Product → Supabase row (snake_case) */
+/**
+ * Map the frontend `Product` → a Supabase row.
+ *
+ * Writing `isbestseller` / `isnew` (and a `collection` column that does not
+ * exist on the table) made PostgREST reject every insert and update, so
+ * saving a product from the admin never worked.
+ */
 function mapToDbProduct(product: Partial<Product>): Record<string, unknown> {
-  const dbProduct: Record<string, unknown> = {};
+  const row: Record<string, unknown> = {};
 
-  if (product.name !== undefined) dbProduct.name = product.name;
-  if (product.slug !== undefined) dbProduct.slug = product.slug;
-  if (product.price !== undefined) dbProduct.price = product.price;
-  if (product.category !== undefined) dbProduct.category = product.category;
-  if (product.metal !== undefined) dbProduct.metal = product.metal;
-  if (product.images !== undefined) dbProduct.images = product.images;
-  if (product.description !== undefined) dbProduct.description = product.description;
-  if (product.details !== undefined) dbProduct.details = product.details;
-  if (product.sizes !== undefined) dbProduct.sizes = product.sizes;
-  if (product.isBestseller !== undefined) dbProduct.isbestseller = product.isBestseller;
-  if (product.isNew !== undefined) dbProduct.isnew = product.isNew;
-  if (product.collection !== undefined) dbProduct.collection = product.collection;
+  if (product.name !== undefined) row.name = product.name;
+  if (product.slug !== undefined) row.slug = product.slug;
+  if (product.price !== undefined) row.price = product.price;
+  if (product.category !== undefined) row.category = product.category;
+  if (product.metal !== undefined) row.metal = product.metal;
+  if (product.images !== undefined) row.images = product.images;
+  if (product.description !== undefined) row.description = product.description;
+  if (product.details !== undefined) row.details = product.details;
+  if (product.sizes !== undefined) row.sizes = product.sizes;
+  if (product.isBestseller !== undefined) row.is_bestseller = product.isBestseller;
+  if (product.isNew !== undefined) row.is_new = product.isNew;
 
-  return dbProduct;
+  return row;
 }

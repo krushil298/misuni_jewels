@@ -1,201 +1,155 @@
-"use client";
+import type { Metadata } from "next";
+import { Icon } from "@/components/ui/Icon";
+import { CONTACT, LOCATION } from "@/lib/constants";
+import { appointmentLink, generalEnquiryLink } from "@/lib/whatsapp";
 
-import { useState } from "react";
-import { AnimatedSection } from "@/components/ui/AnimatedSection";
+export const metadata: Metadata = {
+  title: "Contact & Visit",
+  description:
+    "Speak to Misuni Jewels on WhatsApp, or arrange a private viewing at our Bandra Kurla Complex atelier in Mumbai.",
+  alternates: { canonical: "/contact" },
+};
 
+/**
+ * Contact page.
+ *
+ * Deliberately has no contact form. The previous one collected five fields
+ * and then discarded them — `handleSubmit` only flipped a "Message Sent!"
+ * label, with no endpoint behind it, so every enquiry was silently lost.
+ * WhatsApp, phone and email are real channels that reach the owner.
+ */
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   return (
-    <main className="max-w-[1440px] mx-auto px-8 py-12 md:py-20">
-      <AnimatedSection>
-        <div className="text-center mb-20">
-          <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-[0.3rem] text-[#2d3435] mb-4">
-            Get in Touch
-          </h1>
-          <p className="text-lg font-light tracking-widest text-[#5f5e5e] max-w-md mx-auto">
-            We&apos;d love to hear from you
-          </p>
-        </div>
-      </AnimatedSection>
+    <main className="mx-auto w-full max-w-4xl px-5 py-10 md:px-8 md:py-16">
+      <header className="mb-10 md:mb-14">
+        <p className="eyebrow mb-3">Get in touch</p>
+        <h1 className="font-serif text-4xl leading-tight text-ink text-balance md:text-5xl">
+          Let&apos;s find your piece
+        </h1>
+        <p className="mt-4 max-w-lg font-sans text-sm font-light leading-relaxed text-ink-soft text-pretty">
+          We don&apos;t run a retail counter — pieces are shown privately, by
+          appointment, at our {LOCATION.label} studio. WhatsApp is the quickest
+          way to reach us.
+        </p>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
-        {/* Form */}
-        <AnimatedSection>
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div>
-              <label className="text-[0.6875rem] tracking-widest uppercase font-bold text-[#2d3435] block mb-3">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full bg-transparent border-0 border-b border-[#2d3435]/20 py-3 text-[0.875rem] tracking-wide focus:outline-none focus:border-[#2d3435] transition-colors placeholder:text-[#adb3b4]"
-                placeholder="Your full name"
-              />
-            </div>
-            <div>
-              <label className="text-[0.6875rem] tracking-widest uppercase font-bold text-[#2d3435] block mb-3">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full bg-transparent border-0 border-b border-[#2d3435]/20 py-3 text-[0.875rem] tracking-wide focus:outline-none focus:border-[#2d3435] transition-colors placeholder:text-[#adb3b4]"
-                placeholder="your@email.com"
-              />
-            </div>
-            <div>
-              <label className="text-[0.6875rem] tracking-widest uppercase font-bold text-[#2d3435] block mb-3">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full bg-transparent border-0 border-b border-[#2d3435]/20 py-3 text-[0.875rem] tracking-wide focus:outline-none focus:border-[#2d3435] transition-colors placeholder:text-[#adb3b4]"
-                placeholder="+1 (555) 000-0000"
-              />
-            </div>
-            <div>
-              <label className="text-[0.6875rem] tracking-widest uppercase font-bold text-[#2d3435] block mb-3">
-                Subject
-              </label>
-              <select
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                required
-                className="w-full bg-transparent border-0 border-b border-[#2d3435]/20 py-3 text-[0.875rem] tracking-wide focus:outline-none focus:border-[#2d3435] transition-colors text-[#2d3435]"
-              >
-                <option value="">Select a subject</option>
-                <option value="general">General Inquiry</option>
-                <option value="custom">Custom Order</option>
-                <option value="returns">Returns &amp; Exchanges</option>
-                <option value="appointment">Book an Appointment</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-[0.6875rem] tracking-widest uppercase font-bold text-[#2d3435] block mb-3">
-                Message
-              </label>
-              <textarea
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={4}
-                className="w-full bg-transparent border-0 border-b border-[#2d3435]/20 py-3 text-[0.875rem] tracking-wide focus:outline-none focus:border-[#2d3435] transition-colors placeholder:text-[#adb3b4] resize-none"
-                placeholder="How can we help?"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-[#2d3435] text-[#faf7f6] py-5 text-[0.75rem] font-bold tracking-[0.25rem] uppercase hover:bg-[#535252] transition-all active:scale-[0.98]"
-            >
-              {submitted ? "Message Sent!" : "Send Message"}
-            </button>
-          </form>
-        </AnimatedSection>
-
-        {/* Contact Info */}
-        <AnimatedSection delay={0.2}>
-          <div className="space-y-12">
-            <div>
-              <h3 className="text-[0.75rem] tracking-[0.2rem] uppercase font-bold text-[#2d3435] mb-6">
-                Visit Our Boutique
-              </h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <span className="material-symbols-outlined text-[#5f5e5e] mt-0.5">
-                    location_on
-                  </span>
-                  <p className="text-sm font-light tracking-wide text-[#5a6061] leading-relaxed">
-                    523 Madison Avenue
-                    <br />
-                    New York, NY 10022
-                  </p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-[#5f5e5e]">
-                    phone
-                  </span>
-                  <p className="text-sm font-light tracking-wide text-[#5a6061]">
-                    +1 (212) 555-0189
-                  </p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span className="material-symbols-outlined text-[#5f5e5e]">
-                    mail
-                  </span>
-                  <p className="text-sm font-light tracking-wide text-[#5a6061]">
-                    concierge@misuni.com
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-[0.75rem] tracking-[0.2rem] uppercase font-bold text-[#2d3435] mb-6">
-                Business Hours
-              </h3>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm font-light tracking-wide text-[#5a6061]">
-                  <span>Monday — Friday</span>
-                  <span>10:00 AM — 8:00 PM</span>
-                </div>
-                <div className="flex justify-between text-sm font-light tracking-wide text-[#5a6061]">
-                  <span>Saturday</span>
-                  <span>10:00 AM — 6:00 PM</span>
-                </div>
-                <div className="flex justify-between text-sm font-light tracking-wide text-[#5a6061]">
-                  <span>Sunday</span>
-                  <span>12:00 PM — 5:00 PM</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Map Placeholder */}
-            <div className="aspect-[4/3] bg-surface-container-high flex items-center justify-center">
-              <div className="text-center">
-                <span className="material-symbols-outlined text-4xl text-[#adb3b4] mb-2 block">
-                  map
-                </span>
-                <p className="text-[0.6875rem] tracking-widest uppercase text-[#757c7d]">
-                  523 Madison Avenue, NYC
-                </p>
-              </div>
-            </div>
+      {/* Primary channels */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        <a
+          href={generalEnquiryLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex flex-col justify-between border border-hairline bg-surface p-6 transition-colors duration-150 hover:border-whatsapp"
+        >
+          <Icon name="whatsapp" size={26} className="text-whatsapp" />
+          <div className="mt-8">
+            <p className="font-serif text-xl text-ink">Message us</p>
+            <p className="mt-1 font-sans text-[0.8125rem] font-light text-ink-muted text-pretty">
+              Questions, photos, availability — usually answered same day.
+            </p>
           </div>
-        </AnimatedSection>
+        </a>
+
+        <a
+          href={appointmentLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex flex-col justify-between border border-hairline bg-surface p-6 transition-colors duration-150 hover:border-brand"
+        >
+          <Icon name="calendar" size={26} className="text-brand" />
+          <div className="mt-8">
+            <p className="font-serif text-xl text-ink">Book a viewing</p>
+            <p className="mt-1 font-sans text-[0.8125rem] font-light text-ink-muted text-pretty">
+              See pieces in person at our BKC studio, by appointment.
+            </p>
+          </div>
+        </a>
+      </div>
+
+      {/* Details */}
+      <div className="mt-12 grid gap-10 border-t border-hairline pt-10 sm:grid-cols-2">
+        <section>
+          <h2 className="mb-5 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-ink">
+            Studio
+          </h2>
+          <address className="space-y-4 not-italic">
+            <div className="flex gap-3">
+              <Icon name="pin" size={17} className="mt-0.5 text-brand" />
+              <p className="font-sans text-[0.8125rem] font-light leading-relaxed text-ink-soft">
+                {LOCATION.lines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+                <span className="mt-1 block text-ink-muted">
+                  By appointment only
+                </span>
+              </p>
+            </div>
+
+            <div className="flex gap-3">
+              <Icon name="phone" size={17} className="text-brand" />
+              <a
+                href={`tel:${CONTACT.phoneHref}`}
+                className="font-sans text-[0.8125rem] font-light text-ink-soft transition-colors duration-150 hover:text-brand"
+              >
+                {CONTACT.phoneDisplay}
+              </a>
+            </div>
+
+            <div className="flex gap-3">
+              <Icon name="mail" size={17} className="text-brand" />
+              <a
+                href={`mailto:${CONTACT.email}`}
+                className="font-sans text-[0.8125rem] font-light text-ink-soft transition-colors duration-150 hover:text-brand"
+              >
+                {CONTACT.email}
+              </a>
+            </div>
+          </address>
+        </section>
+
+        <section>
+          <h2 className="mb-5 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-ink">
+            Hours
+          </h2>
+          <dl className="space-y-3">
+            {LOCATION.hours.map((entry) => (
+              <div
+                key={entry.days}
+                className="flex justify-between gap-4 border-b border-hairline pb-3"
+              >
+                <dt className="font-sans text-[0.8125rem] font-light text-ink-soft">
+                  {entry.days}
+                </dt>
+                <dd className="font-sans text-[0.8125rem] font-light tabular-nums text-ink">
+                  {entry.time}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-6 flex gap-2">
+            <a
+              href={CONTACT.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Misuni Jewels on Instagram"
+              className="flex size-11 items-center justify-center border border-hairline-strong text-ink-muted transition-colors duration-150 hover:border-brand hover:text-brand"
+            >
+              <Icon name="instagram" size={18} />
+            </a>
+            <a
+              href={CONTACT.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Misuni Jewels on Facebook"
+              className="flex size-11 items-center justify-center border border-hairline-strong text-ink-muted transition-colors duration-150 hover:border-brand hover:text-brand"
+            >
+              <Icon name="facebook" size={18} />
+            </a>
+          </div>
+        </section>
       </div>
     </main>
   );

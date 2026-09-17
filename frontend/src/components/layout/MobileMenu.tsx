@@ -1,79 +1,149 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-
-const menuLinks = [
-  { href: "/", label: "Home" },
-  { href: "/collections", label: "Collections" },
-  { href: "/contact", label: "Contact" },
-  { href: "/cart", label: "Cart" },
-  { href: "/wishlist", label: "Wishlist" },
-];
+import { AnimatePresence, motion } from "framer-motion";
+import { Logo } from "@/components/ui/Logo";
+import { Icon } from "@/components/ui/Icon";
+import { CATEGORIES, CONTACT, LOCATION, SITE_TAGLINE } from "@/lib/constants";
+import { appointmentLink } from "@/lib/whatsapp";
+import { titleCase } from "@/lib/utils";
 
 interface MobileMenuProps {
-  isOpen: boolean;
+  open: boolean;
   onClose: () => void;
 }
 
-export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+/**
+ * Slide-in navigation drawer.
+ *
+ * Categories are listed flat rather than nested — with six of them, a
+ * visitor on a phone should reach any of them in one tap, not two.
+ */
+export function MobileMenu({ open, onClose }: MobileMenuProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // Lock the page behind the drawer and close on Escape.
+  useEffect(() => {
+    if (!open) return;
+
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+
+    panelRef.current?.focus();
+
+    return () => {
+      document.body.style.overflow = overflow;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open, onClose]);
+
   return (
     <AnimatePresence>
-      {isOpen && (
+      {open && (
         <>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-[60] backdrop-blur-sm"
+            transition={{ duration: 0.15, ease: "easeOut" }}
             onClick={onClose}
+            className="fixed inset-0 z-drawer bg-ink/40 backdrop-blur-[2px] md:hidden"
           />
+
           <motion.div
-            initial={{ x: "100%" }}
+            ref={panelRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-[320px] bg-[#0e0e0e] z-[70] flex flex-col"
+            exit={{ x: "-100%" }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-y-0 left-0 z-modal flex w-[86%] max-w-sm flex-col bg-canvas pt-safe outline-none md:hidden"
           >
-            {/* Header */}
-            <div className="flex justify-between items-center px-6 py-5 border-b border-white/10">
-              <div className="relative h-[60px] w-[150px] -ml-2">
-                <Image src="/logo-white.png" alt="Misuni Jewels" fill className="object-contain" />
-              </div>
+            <div className="flex items-center justify-between border-b border-hairline px-5 py-4">
+              <Logo variant="lockup" height={34} />
               <button
+                type="button"
                 onClick={onClose}
-                className="text-white/70 hover:text-white transition-colors"
+                aria-label="Close menu"
+                className="-mr-2 p-2 text-ink-muted"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                <Icon name="close" size={22} />
               </button>
             </div>
 
-            {/* Nav links */}
-            <nav className="flex flex-col px-6 py-8 gap-1 flex-1">
-              {menuLinks.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04, duration: 0.3 }}
-                >
-                  <Link
-                    href={link.href}
-                    onClick={onClose}
-                    className="font-['Inter'] uppercase tracking-[0.2rem] text-[0.8rem] font-medium text-white/70 hover:text-white transition-colors block py-3.5 border-b border-white/5"
-                  >
-                    {link.label}
-                  </Link>
-                </motion.div>
-              ))}
-            </nav>
+            <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-6">
+              <p className="eyebrow mb-4">Collection</p>
+              <ul className="mb-8 space-y-0.5">
+                {CATEGORIES.map((category) => (
+                  <li key={category}>
+                    <Link
+                      href={`/collections?category=${category}`}
+                      onClick={onClose}
+                      className="flex items-center justify-between border-b border-hairline py-3.5 font-serif text-xl text-ink"
+                    >
+                      {titleCase(category)}
+                      <Icon
+                        name="arrow-right"
+                        size={16}
+                        className="text-ink-faint"
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
 
-            {/* Footer */}
-            <div className="px-6 py-8 border-t border-white/10">
-              <p className="text-white/30 text-[0.55rem] uppercase tracking-[0.25rem]">
-                Purity · Integrity · Brilliance
+              <p className="eyebrow mb-4">Atelier</p>
+              <ul className="space-y-0.5">
+                {[
+                  { href: "/collections", label: "All Pieces" },
+                  { href: "/selection", label: "My Selection" },
+                  { href: "/about", label: "About Misuni" },
+                  { href: "/contact", label: "Contact & Visit" },
+                ].map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      onClick={onClose}
+                      className="block border-b border-hairline py-3 font-sans text-[0.75rem] uppercase tracking-[0.16em] text-ink-soft"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="border-t border-hairline px-5 py-5 pb-safe">
+              <a
+                href={appointmentLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-whatsapp w-full"
+              >
+                <Icon name="whatsapp" size={17} />
+                Book a viewing
+              </a>
+              <p className="meta mt-4 text-center normal-case tracking-[0.1em]">
+                {LOCATION.label}, {LOCATION.city}
               </p>
+              <p className="mt-1 text-center font-sans text-[0.625rem] uppercase tracking-[0.22em] text-ink-faint">
+                {SITE_TAGLINE}
+              </p>
+              <a
+                href={`tel:${CONTACT.phoneHref}`}
+                className="mt-3 block text-center font-sans text-[0.6875rem] tracking-[0.1em] text-ink-muted"
+              >
+                {CONTACT.phoneDisplay}
+              </a>
             </div>
           </motion.div>
         </>

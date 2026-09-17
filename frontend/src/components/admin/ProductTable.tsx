@@ -8,6 +8,45 @@ import type { Product } from "@/types";
 type SortField = "name" | "price" | "category" | "metal";
 type SortDir = "asc" | "desc";
 
+/** Maps the current sort state to the `aria-sort` value for a column. */
+function ariaSort(
+  active: SortField,
+  dir: SortDir,
+  field: SortField
+): "ascending" | "descending" | "none" {
+  if (active !== field) return "none";
+  return dir === "asc" ? "ascending" : "descending";
+}
+
+/**
+ * Sort indicator. Declared at module scope — defining a component inside
+ * another component's body creates a new type on every render, which
+ * remounts the subtree and discards its state.
+ */
+function SortIcon({
+  field,
+  sortField,
+  sortDir,
+}: {
+  field: SortField;
+  sortField: SortField;
+  sortDir: SortDir;
+}) {
+  if (sortField !== field) {
+    return (
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="ml-1 inline opacity-30" aria-hidden>
+        <path d="M8 15l4 4 4-4M8 9l4-4 4 4" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="ml-1 inline" aria-hidden>
+      {sortDir === "asc" ? <path d="M8 15l4-4 4 4" /> : <path d="M8 9l4 4 4-4" />}
+    </svg>
+  );
+}
+
+
 interface ProductTableProps {
   products: Product[];
   onDelete: (id: string, name: string) => void;
@@ -45,21 +84,6 @@ export function ProductTable({ products, onDelete }: ProductTableProps) {
     return 0;
   });
 
-  const SortIcon = ({ field }: { field: SortField }) => {
-    if (sortField !== field) {
-      return (
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-30 ml-1 inline">
-          <path d="M8 15l4 4 4-4M8 9l4-4 4 4" />
-        </svg>
-      );
-    }
-    return (
-      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="ml-1 inline">
-        {sortDir === "asc" ? <path d="M8 15l4-4 4 4" /> : <path d="M8 9l4 4 4-4" />}
-      </svg>
-    );
-  };
-
   if (products.length === 0) {
     return (
       <div className="admin-empty">
@@ -81,17 +105,25 @@ export function ProductTable({ products, onDelete }: ProductTableProps) {
       <table className="admin-table">
         <thead>
           <tr>
-            <th onClick={() => handleSort("name")} className={sortField === "name" ? "sorted" : ""}>
-              Product <SortIcon field="name" />
+            <th aria-sort={ariaSort(sortField, sortDir, "name")} className={sortField === "name" ? "sorted" : ""}>
+              <button type="button" onClick={() => handleSort("name")} className="admin-th-button">
+                Product <SortIcon field="name" sortField={sortField} sortDir={sortDir} />
+              </button>
             </th>
-            <th onClick={() => handleSort("category")} className={sortField === "category" ? "sorted" : ""}>
-              Category <SortIcon field="category" />
+            <th aria-sort={ariaSort(sortField, sortDir, "category")} className={sortField === "category" ? "sorted" : ""}>
+              <button type="button" onClick={() => handleSort("category")} className="admin-th-button">
+                Category <SortIcon field="category" sortField={sortField} sortDir={sortDir} />
+              </button>
             </th>
-            <th onClick={() => handleSort("metal")} className={sortField === "metal" ? "sorted" : ""}>
-              Metal <SortIcon field="metal" />
+            <th aria-sort={ariaSort(sortField, sortDir, "metal")} className={sortField === "metal" ? "sorted" : ""}>
+              <button type="button" onClick={() => handleSort("metal")} className="admin-th-button">
+                Metal <SortIcon field="metal" sortField={sortField} sortDir={sortDir} />
+              </button>
             </th>
-            <th onClick={() => handleSort("price")} className={sortField === "price" ? "sorted" : ""}>
-              Price <SortIcon field="price" />
+            <th aria-sort={ariaSort(sortField, sortDir, "price")} className={sortField === "price" ? "sorted" : ""}>
+              <button type="button" onClick={() => handleSort("price")} className="admin-th-button">
+                Price <SortIcon field="price" sortField={sortField} sortDir={sortDir} />
+              </button>
             </th>
             <th>Status</th>
             <th>Actions</th>
